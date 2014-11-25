@@ -1,0 +1,25 @@
+{
+  "camelcase": true,
+  "eqeqeq":true,
+  "forin": false,
+  "immed": true,
+  "latedef": false,
+  "newcap": false,
+  "noarg": true,
+  "noempty": true,
+  "nonew": true,
+  "undef": true,
+  "unused": false,
+  "validthis": true,
+  "esnext": true,
+
+  "strict": true,
+  "globalstrict": true,
+  "trailing": true,
+  "eqnull": true,
+
+  "browser": true,
+  "devel": true,
+  "jquery": true,
+  "node": true
+}

@@ -1,0 +1,46 @@
+{
+  "name": "toa",
+  "description": "A web app framework rely on thunks.",
+  "authors": [
+    "Yan Qing <admin@zensh.com>"
+  ],
+  "version": "0.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:thunks/toa.git"
+  },
+  "homepage": "https://github.com/thunks/toa",
+  "keywords": [
+    "web",
+    "app",
+    "http",
+    "application",
+    "framework",
+    "middleware",
+    "thunk",
+    "thunks",
+    "yield",
+    "generator"
+  ],
+  "dependencies": {
+    "thunks": "^2.2.1",
+    "thunk-stream": "^0.1.6"
+  },
+  "devDependencies": {
+    "gulp": ">=3.8.0",
+    "gulp-jshint": ">=1.8.4",
+    "gulp-sequence": ">=0.3.1"
+  },
+  "scripts": {
+    "test": "node --harmony `which gulp`"
+  },
+  "ignore": [
+    "**/.*",
+    "benchmark",
+    "test",
+    "examples",
+    "docs",
+    "gulpfile.js"
+  ]
+}
