@@ -5,7 +5,7 @@
 
 var Toa = require('../index');
 var app = Toa(function (Thunk) {
-  this.body = 'Hello World!\n-- toa';
+  this.body = this.toJSON();
 });
 
 app.listen(3000);
