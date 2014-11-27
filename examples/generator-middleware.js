@@ -4,8 +4,10 @@
 // **License:** MIT
 
 var Toa = require('../index');
-var app = Toa(function (Thunk) {
-  this.body = 'Hello World!\n-- toa';
+var app = Toa();
+
+app.use(function* () {
+  this.body = yield 'Hello World!\n-- toa';
 });
 
 app.listen(3000);
