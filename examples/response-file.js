@@ -1,7 +1,8 @@
 'use strict';
-// **Github:** https://github.com/thunks/toa
+// **Github:** https://github.com/toajs/toa
 //
 // **License:** MIT
+
 var fs = require('fs');
 var Toa = require('../index');
 var app = Toa(function (Thunk) {

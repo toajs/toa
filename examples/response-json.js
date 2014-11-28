@@ -1,5 +1,5 @@
 'use strict';
-// **Github:** https://github.com/thunks/toa
+// **Github:** https://github.com/toajs/toa
 //
 // **License:** MIT
 
