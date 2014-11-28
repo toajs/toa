@@ -1,12 +1,10 @@
 Toa v0.1.1 [![Build Status](https://travis-ci.org/thunks/toa.svg)](https://travis-ci.org/thunks/toa)
 ====
-A web app framework rely on thunks.
-
-## [thunks](https://github.com/thunks/thunks)
+基于 Thunks 打造的网页服务框架，修改自 [Koa](https://github.com/koajs/koa) 框架。[Thunks](https://github.com/thunks/thunks) 是一个异步编程框架。
 
 ## 说明（感谢 koa）
 
-Toa 修改自 [koa](https://github.com/koajs/koa)，`context`、`request`、`response` 几乎一样，主要有以下区别：
+Toa 继承了 Koa 的 `context`、`request`、`response` ，但有以下区别：
 
 1. Toa 基于 `thunks` 组织业务逻辑，支持 `node.js v0.10.x`;
 2. Toa 弱化中间件，也可以使用类似 koa 的中间件，但不支持**级联**( `yield* next` )，因为我认为级联与回调地狱类似，容易导致逻辑混乱；
