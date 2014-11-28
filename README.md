@@ -1,4 +1,4 @@
-Toa v0.1.1 [![Build Status](https://travis-ci.org/thunks/toa.svg)](https://travis-ci.org/thunks/toa)
+Toa v0.1.1 [![Build Status](https://travis-ci.org/toajs/toa.svg)](https://travis-ci.org/toajs/toa)
 ====
 基于 Thunks 打造的网页服务框架，修改自 [Koa](https://github.com/koajs/koa) 框架。[Thunks](https://github.com/thunks/thunks) 是一个异步编程框架。
 
@@ -106,13 +106,29 @@ var Toa = require('toa');
 
 ### Class: Toa([server], [appBody])
 
-`server` 可以是 http server 或 https server。`appBody` 有唯一参数 `Thunk`，它的作用域带有 `onerror` 监听，能捕获任何异常。`appBody` 应该返回 `thunk`（纯同步业务则可无返回值）。
+`server` 可以是 http server 或 https server。`appBody` 有唯一参数 `Thunk`，它的作用域带有 `onerror` 监听，能捕获任何异常。`appBody` 应该返回 `thunk` 函数、 `generator` 函数、`generator` 对象、`promise` 对象等 thunks 能处理的值。
 
 ```js
 var app = new Toa(server, function (Thunk) {
   // body...
 });
 ```
+### context, request, response
+
+中文文档可参考 http://koajs.cn/ ，或者直接阅读 toa 源码。中间件函数、appBody 函数和 appBody 的 `Thunk` 派生的 `thunk` 函数，其 `this` 值均为 `context`。如：
+
+```js
+this.req // node.js 原生 request stream
+this.request // toa 封装后的 request stream
+this.res // node.js 原生 response stream
+this.response // toa 封装后的 request stream
+this.cookies
+this.throw
+this.on
+this.emit
+// ...
+```
+
 ### app.keys = ['key1', 'key2']
 
 用于 cookie 加密的 [Keygrip](https://github.com/expressjs/keygrip) 对象或数组。
