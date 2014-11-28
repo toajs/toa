@@ -1,14 +1,14 @@
 'use strict';
-// **Github:** https://github.com/thunks/toa
+// **Github:** https://github.com/toajs/toa
 //
 // **License:** MIT
 
 var Toa = require('../index');
 var app = Toa();
 
-app.use(function (next) {
+app.use(function (callback) {
   this.body = 'Hello World!\n-- toa';
-  next();
+  callback();
 });
 
 app.listen(3000);

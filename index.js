@@ -1,5 +1,5 @@
 'use strict';
-// **Github:** https://github.com/thunks/toa
+// **Github:** https://github.com/toajs/toa
 //
 // **License:** MIT
 
@@ -29,11 +29,9 @@ function Toa(server, body) {
   this.server = server && isFunction(server.listen) ? server : http.createServer();
 
   if (this.server !== server) body = server;
-  if (!isFunction(body)) body = noOp;
-  this.body = body;
+  this.body = isFunction(body) ? body : noOp;
 
   var config = {
-    keys: ['toa'],
     proxy: false,
     env: process.env.NODE_ENV || 'development',
     subdomainOffset: 2,
@@ -60,6 +58,8 @@ function Toa(server, body) {
 */
 
 var proto = Toa.prototype;
+
+proto.keys = ['toa'];
 
 /**
 * Use the given middleware `fn`.
@@ -164,7 +164,7 @@ function createContext(ctx, req, res) {
   request.response = response;
   response.request = request;
   context.originalUrl = request.originalUrl = req.url;
-  context.cookies = new Cookies(req, res, context.config.keys);
+  context.cookies = new Cookies(req, res, ctx.keys);
   context.accept = request.accept = accepts(req);
   context.state = {};
   return context;
