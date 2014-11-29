@@ -59,6 +59,11 @@ function Toa(server, body) {
 
 var proto = Toa.prototype;
 
+/**
+* A [Keygrip](https://github.com/expressjs/keygrip) object or an array of keys,
+* will be passed to Cookies to enable cryptographic signing.
+*/
+
 proto.keys = ['toa'];
 
 /**
@@ -100,6 +105,7 @@ proto.listen = function () {
         } catch (err) {
           self.onerror(err);
         }
+        ctx.emit('end');
       }
 
       var ctx = createContext(self, req, res);
@@ -115,6 +121,7 @@ proto.listen = function () {
       })(respond)(function () {
         this.emit('end');
       });
+
     });
 
     self.server.listen.apply(self.server, args);
@@ -140,12 +147,6 @@ proto.onerror = function (err) {
   var msg = err.stack || err.toString();
   console.error(msg.replace(/^/gm, '  '));
 };
-
-function noOp() {}
-
-function isFunction(fn) {
-  return typeof fn === 'function';
-}
 
 /**
 * Initialize a new context.
@@ -226,7 +227,7 @@ function onResError(err) {
   // nothing we can do here other
   // than delegate to the app-level
   // handler and log.
-  if (this.headerSent || !this.writable) return;
+  if (this.headerSent || !this.writable) throw err;
 
   // unset all headers
   this.res._headers = {};
@@ -247,4 +248,10 @@ function onResError(err) {
   this.body = err.toString();
   respond.call(this);
   throw err;
+}
+
+function noOp() {}
+
+function isFunction(fn) {
+  return typeof fn === 'function';
 }

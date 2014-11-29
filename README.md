@@ -1,4 +1,4 @@
-Toa v0.1.1 [![Build Status](https://travis-ci.org/toajs/toa.svg)](https://travis-ci.org/toajs/toa)
+Toa v0.2.0 [![Build Status](https://travis-ci.org/toajs/toa.svg)](https://travis-ci.org/toajs/toa)
 ====
 基于 Thunks 打造的网页服务框架，修改自 [Koa](https://github.com/koajs/koa) 框架。[Thunks](https://github.com/thunks/thunks) 是一个异步编程框架。
 
@@ -151,9 +151,10 @@ app.config = config;
 }
 ```
 
-### app.use(fn)
+### app.use(function (callback) {})
+### app.use(function* () {})
 
-返回 `this`，`fn` 必须是 `thunk` 函数或 `generator` 函数，函数中的 `this` 值为 `context`。
+返回 `app`，`fn` 必须是 `thunk` 函数或 `generator` 函数，函数中的 `this` 值为 `context`。
 
 ```js
 app.use(function (callback) {
@@ -179,7 +180,9 @@ app.onerror = function (error) {
 })
 ```
 
-### app.listen(port)
+### app.listen(port, [hostname], [backlog], [callback])
+### app.listen(path, [callback])
+### app.listen(handle, [callback])
 
 返回 `server`，用法与 `httpServer.listen` 一致。
 
