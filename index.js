@@ -18,9 +18,14 @@ var Context = require('./lib/context');
 var request = require('./lib/request');
 var response = require('./lib/response');
 
+var pwdReg = new RegExp(process.cwd().replace(/([\^\$\.\*\+\?\=\!\:\|\\\/\(\)\[\]\{\}])/g, '\\$1'), 'g');
+
 module.exports = Toa;
 
-function Toa(server, body) {
+Toa.NAME = 'toa';
+Toa.VERSION = 'v0.3.0';
+
+function Toa(server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body);
 
   this.middleware = [];
@@ -28,8 +33,26 @@ function Toa(server, body) {
   this.response = Object.create(response);
   this.server = server && isFunction(server.listen) ? server : http.createServer();
 
-  if (this.server !== server) body = server;
-  this.body = isFunction(body) ? body : noOp;
+  if (this.server !== server) {
+    options = body;
+    body = server;
+  }
+
+  if (!isFunction(body)) {
+    options = body;
+    body = noOp;
+  }
+
+  options = options || {};
+  this.body = body;
+
+  if (isFunction(options)) {
+    this.errorHandler = options;
+    this.debug = null;
+  } else {
+    this.debug = isFunction(options.debug) ? options.debug : null;
+    this.errorHandler = isFunction(options.onerror) ? options.onerror : null;
+  }
 
   var config = {
     proxy: false,
@@ -93,6 +116,8 @@ proto.listen = function () {
   var args = arguments;
   var body = this.body;
   var middleware = this.middleware.slice();
+  var debug = this.debug;
+  var errorHandler = this.errorHandler;
 
   setImmediate(function () {
 
@@ -100,16 +125,30 @@ proto.listen = function () {
       res.statusCode = 404;
 
       function onerror(err) {
+        if (errorHandler) {
+          try {
+            err = errorHandler.call(ctx, err) || err;
+          } catch (error) {
+            err = error;
+          }
+        }
+
+        if (err === true) return err;
+
         try {
           onResError.call(ctx, err);
-        } catch (err) {
-          self.onerror(err);
+        } catch (error) {
+          self.onerror.call(ctx, error);
         }
+
         ctx.emit('end');
       }
 
       var ctx = createContext(self, req, res);
-      var Thunk = thunks(onerror);
+      var Thunk = thunks({
+        debug: debug,
+        onerror: onerror
+      });
 
       ctx.emit('start');
       ctx.on('error', onerror);
@@ -245,7 +284,8 @@ function onResError(err) {
   if (typeof err.status !== 'number' || !statuses[err.status]) err.status = 500;
 
   this.status = err.status;
-  this.body = err.toString();
+  // hide server directory for error response
+  this.body = err.toString().replace(pwdReg, '[Server Directory]');
   respond.call(this);
   throw err;
 }
