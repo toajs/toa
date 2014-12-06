@@ -23,10 +23,10 @@ var pwdReg = new RegExp(process.cwd().replace(/([\^\$\.\*\+\?\=\!\:\|\\\/\(\)\[\
 module.exports = Toa;
 
 Toa.NAME = 'toa';
-Toa.VERSION = 'v0.3.0';
+Toa.VERSION = 'v0.3.1';
 
 function Toa(server, body, options) {
-  if (!(this instanceof Toa)) return new Toa(server, body);
+  if (!(this instanceof Toa)) return new Toa(server, body, options);
 
   this.middleware = [];
   this.request = Object.create(request);
@@ -67,9 +67,7 @@ function Toa(server, body, options) {
     },
     set: function(obj) {
       assert(obj && obj.constructor === Object, 'require a object');
-      for (var key in obj) {
-        if (obj.hasOwnProperty(key)) config[key] = obj[key];
-      }
+      for (var key in obj) config[key] = obj[key];
     },
     enumerable: true,
     configurable: false
@@ -115,13 +113,13 @@ proto.listen = function () {
   var self = this;
   var args = arguments;
   var body = this.body;
-  var middleware = this.middleware.slice();
   var debug = this.debug;
+  var server = this.server;
   var errorHandler = this.errorHandler;
+  var middleware = this.middleware.slice();
 
   setImmediate(function () {
-
-    self.server.addListener('request', function (req, res) {
+    server.addListener('request', function (req, res) {
       res.statusCode = 404;
 
       function onerror(err) {
@@ -150,24 +148,20 @@ proto.listen = function () {
         onerror: onerror
       });
 
-      ctx.emit('start');
       ctx.on('error', onerror);
+      ctx.emit('start');
 
       if (ctx.config.poweredBy) ctx.set('X-Powered-By', ctx.config.poweredBy);
-
       Thunk.seq.call(ctx, middleware)(function () {
         return body.call(this, Thunk);
-      })(respond)(function () {
-        this.emit('end');
-      });
-
+      })(respond);
     });
 
-    self.server.listen.apply(self.server, args);
+    server.listen.apply(server, args);
     console.log(self.config.poweredBy + ' listen: ', args[0].toString());
   });
 
-  return this.server;
+  return server;
 };
 
 /**
@@ -186,29 +180,6 @@ proto.onerror = function (err) {
   var msg = err.stack || err.toString();
   console.error(msg.replace(/^/gm, '  '));
 };
-
-/**
-* Initialize a new context.
-*
-* @api private
-*/
-
-function createContext(ctx, req, res) {
-  var context = new Context(Object.create(ctx.config));
-  var request = context.request = Object.create(ctx.request);
-  var response = context.response = Object.create(ctx.response);
-
-  context.req = request.req = response.req = req;
-  context.res = request.res = response.res = res;
-  request.ctx = response.ctx = context;
-  request.response = response;
-  response.request = request;
-  context.originalUrl = request.originalUrl = req.url;
-  context.cookies = new Cookies(req, res, ctx.keys);
-  context.accept = request.accept = accepts(req);
-  context.state = {};
-  return context;
-}
 
 /**
 * Response middleware.
@@ -251,6 +222,7 @@ function respond() {
   body = JSON.stringify(body);
   this.length = Buffer.byteLength(body);
   res.end(body);
+  this.emit('end');
 }
 
 /**
@@ -288,6 +260,29 @@ function onResError(err) {
   this.body = err.toString().replace(pwdReg, '[Server Directory]');
   respond.call(this);
   throw err;
+}
+
+/**
+* Initialize a new context.
+*
+* @api private
+*/
+
+function createContext(ctx, req, res) {
+  var context = new Context(Object.create(ctx.config));
+  var request = context.request = Object.create(ctx.request);
+  var response = context.response = Object.create(ctx.response);
+
+  context.req = request.req = response.req = req;
+  context.res = request.res = response.res = res;
+  request.ctx = response.ctx = context;
+  request.response = response;
+  response.request = request;
+  context.originalUrl = request.originalUrl = req.url;
+  context.cookies = new Cookies(req, res, ctx.keys);
+  context.accept = request.accept = accepts(req);
+  context.state = {};
+  return context;
 }
 
 function noOp() {}
