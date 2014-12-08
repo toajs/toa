@@ -1,4 +1,4 @@
-Toa v0.3.1 [![Build Status](https://travis-ci.org/toajs/toa.svg)](https://travis-ci.org/toajs/toa)
+Toa v0.3.2 [![Build Status](https://travis-ci.org/toajs/toa.svg)](https://travis-ci.org/toajs/toa)
 ====
 基于 Thunks 打造的网页服务框架，修改自 [Koa](https://github.com/koajs/koa) 框架。[Thunks](https://github.com/thunks/thunks) 是一个异步编程框架。
 
@@ -107,7 +107,7 @@ var Toa = require('toa');
 ### Class: Toa([server], [appBody], [options])
 
 - `server` 可以是 http server 或 https server。
-- `appBody` 有唯一参数 `Thunk`，它的作用域带有 `onerror` 监听，能捕获任何异常。`appBody` 应该返回 `thunk` 函数、 `generator` 函数、`generator` 对象、`promise` 对象等 thunks 能处理的值。
+- `appBody` 有唯一参数 `Thunk`，它的作用域带有 `onerror` 监听，能捕获任何异常。`appBody` 中如果有异步逻辑，则应该封装在 `thunk` 函数、 `generator` 函数、`generator` 对象或`promise` 对象等中并 `return` 返回（与 `thunks` 或 `Promise` 类似）。
 - `options` 同 thunks 的 options，可以定义 `appBody` 中 `Thunk` 作用域的 `debug` 方法和 `onerror` 方法。其中 `onerror` 方法可用于对捕获异常进行初步加工处理，再 `return` 或 `throw` 给 Toa 内置的 `onResError` 处理。如果 `onerror` 返回 `true`，则忽略该异常，继续执行后续业务逻辑。
 
 ```js

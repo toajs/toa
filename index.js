@@ -23,7 +23,7 @@ var pwdReg = new RegExp(process.cwd().replace(/([\^\$\.\*\+\?\=\!\:\|\\\/\(\)\[\
 module.exports = Toa;
 
 Toa.NAME = 'toa';
-Toa.VERSION = 'v0.3.1';
+Toa.VERSION = 'v0.3.2';
 
 function Toa(server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options);
@@ -148,10 +148,11 @@ proto.listen = function () {
         onerror: onerror
       });
 
+      Object.freeze(Thunk);
       ctx.on('error', onerror);
       ctx.emit('start');
-
       if (ctx.config.poweredBy) ctx.set('X-Powered-By', ctx.config.poweredBy);
+
       Thunk.seq.call(ctx, middleware)(function () {
         return body.call(this, Thunk);
       })(respond);
@@ -268,10 +269,10 @@ function onResError(err) {
 * @api private
 */
 
-function createContext(ctx, req, res) {
-  var context = new Context(Object.create(ctx.config));
-  var request = context.request = Object.create(ctx.request);
-  var response = context.response = Object.create(ctx.response);
+function createContext(app, req, res) {
+  var context = new Context(Object.create(app.config));
+  var request = context.request = Object.create(app.request);
+  var response = context.response = Object.create(app.response);
 
   context.req = request.req = response.req = req;
   context.res = request.res = response.res = res;
@@ -279,7 +280,7 @@ function createContext(ctx, req, res) {
   request.response = response;
   response.request = request;
   context.originalUrl = request.originalUrl = req.url;
-  context.cookies = new Cookies(req, res, ctx.keys);
+  context.cookies = new Cookies(req, res, app.keys);
   context.accept = request.accept = accepts(req);
   context.state = {};
   return context;
