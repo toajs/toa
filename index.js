@@ -23,7 +23,7 @@ var pwdReg = new RegExp(process.cwd().replace(/([\^\$\.\*\+\?\=\!\:\|\\\/\(\)\[\
 module.exports = Toa;
 
 Toa.NAME = 'toa';
-Toa.VERSION = 'v0.3.2';
+Toa.VERSION = 'v0.4.0';
 
 function Toa(server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options);
@@ -110,7 +110,7 @@ proto.use = function (fn) {
 */
 
 proto.listen = function () {
-  var self = this;
+  var app = this;
   var args = arguments;
   var body = this.body;
   var debug = this.debug;
@@ -130,19 +130,17 @@ proto.listen = function () {
             err = error;
           }
         }
-
+        // ignore err
         if (err === true) return err;
 
         try {
           onResError.call(ctx, err);
         } catch (error) {
-          self.onerror.call(ctx, error);
+          app.onerror.call(ctx, error);
         }
-
-        ctx.emit('end');
       }
 
-      var ctx = createContext(self, req, res);
+      var ctx = createContext(app, req, res);
       var Thunk = thunks({
         debug: debug,
         onerror: onerror
@@ -150,7 +148,7 @@ proto.listen = function () {
 
       Object.freeze(Thunk);
       ctx.on('error', onerror);
-      ctx.emit('start');
+
       if (ctx.config.poweredBy) ctx.set('X-Powered-By', ctx.config.poweredBy);
 
       Thunk.seq.call(ctx, middleware)(function () {
@@ -159,7 +157,6 @@ proto.listen = function () {
     });
 
     server.listen.apply(server, args);
-    console.log(self.config.poweredBy + ' listen: ', args[0].toString());
   });
 
   return server;
@@ -174,7 +171,7 @@ proto.listen = function () {
 
 proto.onerror = function (err) {
   // ignore null and response error
-  if (null == err || err.status < 500) return;
+  if (err == null || (err.status && err.status !== 500)) return;
   assert(util.isError(err), 'non-error thrown: ' + err);
 
   // catch system error
@@ -234,7 +231,7 @@ function respond() {
 */
 
 function onResError(err) {
-  if (null == err) return;
+  if (err == null) return;
 
   // nothing we can do here other
   // than delegate to the app-level

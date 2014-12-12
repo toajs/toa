@@ -4,13 +4,13 @@
   "authors": [
     "Yan Qing <admin@zensh.com>"
   ],
-  "version": "0.3.2",
+  "version": "0.4.0",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:thunks/toa.git"
+    "url": "git@github.com:toajs/toa.git"
   },
-  "homepage": "https://github.com/thunks/toa",
+  "homepage": "https://github.com/toajs/toa",
   "engines": {
     "node": ">=0.10.0"
   },
