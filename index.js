@@ -23,7 +23,7 @@ var pwdReg = new RegExp(process.cwd().replace(/([\^\$\.\*\+\?\=\!\:\|\\\/\(\)\[\
 module.exports = Toa;
 
 Toa.NAME = 'toa';
-Toa.VERSION = 'v0.4.0';
+Toa.VERSION = 'v0.4.2';
 
 function Toa(server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options);
@@ -153,6 +153,8 @@ proto.listen = function () {
 
       Thunk.seq.call(ctx, middleware)(function () {
         return body.call(this, Thunk);
+      })(function () {
+        return Thunk.seq.call(this, this.onPreEnd);
       })(respond);
     });
 
@@ -270,6 +272,7 @@ function createContext(app, req, res) {
   var context = new Context(Object.create(app.config));
   var request = context.request = Object.create(app.request);
   var response = context.response = Object.create(app.response);
+  var preEndListeners = [];
 
   context.req = request.req = response.req = req;
   context.res = request.res = response.res = res;
@@ -280,6 +283,17 @@ function createContext(app, req, res) {
   context.cookies = new Cookies(req, res, app.keys);
   context.accept = request.accept = accepts(req);
   context.state = {};
+
+  Object.defineProperty(context, 'onPreEnd', {
+    get: function () {
+      return preEndListeners;
+    },
+    set: function(listener) {
+      preEndListeners.push(listener);
+    },
+    enumerable: true,
+    configurable: false
+  });
   return context;
 }
 
