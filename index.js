@@ -23,7 +23,7 @@ var pwdReg = new RegExp(process.cwd().replace(/([\^\$\.\*\+\?\=\!\:\|\\\/\(\)\[\
 module.exports = Toa;
 
 Toa.NAME = 'toa';
-Toa.VERSION = 'v0.4.2';
+Toa.VERSION = 'v0.5.0';
 
 function Toa(server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options);
@@ -148,6 +148,7 @@ proto.listen = function () {
 
       Object.freeze(Thunk);
       ctx.on('error', onerror);
+      ctx.catchStream(res);
 
       if (ctx.config.poweredBy) ctx.set('X-Powered-By', ctx.config.poweredBy);
 
@@ -272,7 +273,7 @@ function createContext(app, req, res) {
   var context = new Context(Object.create(app.config));
   var request = context.request = Object.create(app.request);
   var response = context.response = Object.create(app.response);
-  var preEndListeners = [];
+  var preEndHandlers = [];
 
   context.req = request.req = response.req = req;
   context.res = request.res = response.res = res;
@@ -286,10 +287,10 @@ function createContext(app, req, res) {
 
   Object.defineProperty(context, 'onPreEnd', {
     get: function () {
-      return preEndListeners;
+      return preEndHandlers.slice();
     },
-    set: function(listener) {
-      preEndListeners.push(listener);
+    set: function(handler) {
+      preEndHandlers.push(handler);
     },
     enumerable: true,
     configurable: false
