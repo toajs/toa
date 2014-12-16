@@ -13,8 +13,9 @@ var statuses = require('statuses');
 var Cookies = require('cookies');
 var accepts = require('accepts');
 var isJSON = require('koa-is-json');
+var EventEmitter = require('events').EventEmitter;
 
-var Context = require('./lib/context');
+var context = require('./lib/context');
 var request = require('./lib/request');
 var response = require('./lib/response');
 
@@ -23,12 +24,13 @@ var pwdReg = new RegExp(process.cwd().replace(/([\^\$\.\*\+\?\=\!\:\|\\\/\(\)\[\
 module.exports = Toa;
 
 Toa.NAME = 'toa';
-Toa.VERSION = 'v0.5.0';
+Toa.VERSION = 'v0.5.1';
 
 function Toa(server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options);
 
   this.middleware = [];
+  this.context = Object.create(context);
   this.request = Object.create(request);
   this.response = Object.create(response);
   this.server = server && isFunction(server.listen) ? server : http.createServer();
@@ -270,19 +272,20 @@ function onResError(err) {
 */
 
 function createContext(app, req, res) {
-  var context = new Context(Object.create(app.config));
+  var context = Object.create(app.context);
   var request = context.request = Object.create(app.request);
   var response = context.response = Object.create(app.response);
   var preEndHandlers = [];
 
+  response.request = request;
+  request.response = response;
+  request.ctx = response.ctx = context;
   context.req = request.req = response.req = req;
   context.res = request.res = response.res = res;
-  request.ctx = response.ctx = context;
-  request.response = response;
-  response.request = request;
   context.originalUrl = request.originalUrl = req.url;
   context.cookies = new Cookies(req, res, app.keys);
   context.accept = request.accept = accepts(req);
+  context.config = Object.create(app.config);
   context.state = {};
 
   Object.defineProperty(context, 'onPreEnd', {
@@ -295,6 +298,8 @@ function createContext(app, req, res) {
     enumerable: true,
     configurable: false
   });
+
+  EventEmitter.call(context);
   return context;
 }
 
