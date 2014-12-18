@@ -24,7 +24,9 @@ var pwdReg = new RegExp(process.cwd().replace(/([\^\$\.\*\+\?\=\!\:\|\\\/\(\)\[\
 module.exports = Toa;
 
 Toa.NAME = 'toa';
-Toa.VERSION = 'v0.5.1';
+Toa.VERSION = 'v0.5.2';
+Toa.mime = require('mime-types');
+Toa.typer = require('media-typer');
 
 function Toa(server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options);
