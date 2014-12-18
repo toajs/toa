@@ -66,7 +66,7 @@ function Toa(server, body, options) {
   };
 
   Object.defineProperty(this, 'config', {
-    get: function () {
+    get: function() {
       return config;
     },
     set: function(obj) {
@@ -79,41 +79,41 @@ function Toa(server, body, options) {
 }
 
 /**
-* Toa prototype.
-*/
+ * Toa prototype.
+ */
 
 var proto = Toa.prototype;
 
 /**
-* A [Keygrip](https://github.com/expressjs/keygrip) object or an array of keys,
-* will be passed to Cookies to enable cryptographic signing.
-*/
+ * A [Keygrip](https://github.com/expressjs/keygrip) object or an array of keys,
+ * will be passed to Cookies to enable cryptographic signing.
+ */
 
 proto.keys = ['toa'];
 
 /**
-* Use the given middleware `fn`.
-*
-* @param {Function} fn
-* @return {this}
-* @api public
-*/
+ * Use the given middleware `fn`.
+ *
+ * @param {Function} fn
+ * @return {this}
+ * @api public
+ */
 
-proto.use = function (fn) {
+proto.use = function(fn) {
   assert(isFunction(fn), 'require a function');
   this.middleware.push(fn);
   return this;
 };
 
 /**
-* start server
-*
-* @param {Mixed} ...
-* @return {this}
-* @api public
-*/
+ * start server
+ *
+ * @param {Mixed} ...
+ * @return {this}
+ * @api public
+ */
 
-proto.listen = function () {
+proto.listen = function() {
   var app = this;
   var args = arguments;
   var body = this.body;
@@ -122,8 +122,8 @@ proto.listen = function () {
   var errorHandler = this.errorHandler;
   var middleware = this.middleware.slice();
 
-  setImmediate(function () {
-    server.addListener('request', function (req, res) {
+  setImmediate(function() {
+    server.addListener('request', function(req, res) {
       res.statusCode = 404;
 
       function onerror(err) {
@@ -156,9 +156,9 @@ proto.listen = function () {
 
       if (ctx.config.poweredBy) ctx.set('X-Powered-By', ctx.config.poweredBy);
 
-      Thunk.seq.call(ctx, middleware)(function () {
+      Thunk.seq.call(ctx, middleware)(function() {
         return body.call(this, Thunk);
-      })(function () {
+      })(function() {
         return Thunk.seq.call(this, this.onPreEnd);
       })(respond);
     });
@@ -170,13 +170,13 @@ proto.listen = function () {
 };
 
 /**
-* Default system error handler.
-*
-* @param {Error} err
-* @api private
-*/
+ * Default system error handler.
+ *
+ * @param {Error} err
+ * @api private
+ */
 
-proto.onerror = function (err) {
+proto.onerror = function(err) {
   // ignore null and response error
   if (err == null || (err.status && err.status !== 500)) return;
   assert(util.isError(err), 'non-error thrown: ' + err);
@@ -187,8 +187,8 @@ proto.onerror = function (err) {
 };
 
 /**
-* Response middleware.
-*/
+ * Response middleware.
+ */
 
 function respond() {
   if (this.respond === false) return;
@@ -231,11 +231,11 @@ function respond() {
 }
 
 /**
-* Default response error handler.
-*
-* @param {Error} err
-* @api private
-*/
+ * Default response error handler.
+ *
+ * @param {Error} err
+ * @api private
+ */
 
 function onResError(err) {
   if (err == null) return;
@@ -268,10 +268,10 @@ function onResError(err) {
 }
 
 /**
-* Initialize a new context.
-*
-* @api private
-*/
+ * Initialize a new context.
+ *
+ * @api private
+ */
 
 function createContext(app, req, res) {
   var context = Object.create(app.context);
@@ -291,7 +291,7 @@ function createContext(app, req, res) {
   context.state = {};
 
   Object.defineProperty(context, 'onPreEnd', {
-    get: function () {
+    get: function() {
       return preEndHandlers.slice();
     },
     set: function(handler) {
