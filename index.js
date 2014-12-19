@@ -24,9 +24,12 @@ var pwdReg = new RegExp(process.cwd().replace(/([\^\$\.\*\+\?\=\!\:\|\\\/\(\)\[\
 module.exports = Toa;
 
 Toa.NAME = 'toa';
-Toa.VERSION = 'v0.5.2';
+Toa.VERSION = 'v0.5.3';
 Toa.mime = require('mime-types');
 Toa.typer = require('media-typer');
+
+// for test
+Toa.createContext = createContext;
 
 function Toa(server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options);
@@ -152,7 +155,7 @@ proto.listen = function() {
 
       Object.freeze(Thunk);
       ctx.on('error', onerror);
-      ctx.catchStream(res);
+      ctx.catchStream(ctx.socket);
 
       if (ctx.config.poweredBy) ctx.set('X-Powered-By', ctx.config.poweredBy);
 

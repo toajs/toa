@@ -1,8 +1,8 @@
-Toa v0.5.2 [![Build Status](https://travis-ci.org/toajs/toa.svg)](https://travis-ci.org/toajs/toa)
+Toa v0.5.3 [![Build Status](https://travis-ci.org/toajs/toa.svg)](https://travis-ci.org/toajs/toa)
 ====
 基于 Thunks 打造的网页服务框架，修改自 [Koa](https://github.com/koajs/koa) 框架。[Thunks](https://github.com/thunks/thunks) 是一个异步编程框架。
 
-## 说明（感谢 koa）
+## 说明（感谢 koa 的贡献者）
 
 Toa 继承了 Koa 的 `context`、`request`、`response` ，但有以下区别：
 
