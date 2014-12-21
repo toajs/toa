@@ -24,12 +24,9 @@ var pwdReg = new RegExp(process.cwd().replace(/([\^\$\.\*\+\?\=\!\:\|\\\/\(\)\[\
 module.exports = Toa;
 
 Toa.NAME = 'toa';
-Toa.VERSION = 'v0.5.3';
+Toa.VERSION = 'v0.5.4';
 Toa.mime = require('mime-types');
 Toa.typer = require('media-typer');
-
-// for test
-Toa.createContext = createContext;
 
 function Toa(server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options);
@@ -263,9 +260,12 @@ function onResError(err) {
   // default to 500
   if (typeof err.status !== 'number' || !statuses[err.status]) err.status = 500;
 
+  var code = statuses[err.status];
+  var msg = err.expose ? err.message : code;
+
   this.status = err.status;
   // hide server directory for error response
-  this.body = err.toString().replace(pwdReg, '[Server Directory]');
+  this.body = msg.replace(pwdReg, '[Server Directory]');
   respond.call(this);
   throw err;
 }
@@ -313,3 +313,8 @@ function noOp() {}
 function isFunction(fn) {
   return typeof fn === 'function';
 }
+
+Toa.createContext = function () {
+  console.log('It is exported for test, don\'t use it in application!');
+  return createContext.apply(null, arguments);
+};

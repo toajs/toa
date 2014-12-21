@@ -4,7 +4,7 @@
   "authors": [
     "Yan Qing <admin@zensh.com>"
   ],
-  "version": "0.5.3",
+  "version": "0.5.4",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -52,9 +52,8 @@
     "gulp-jshint": ">=1.8.4",
     "gulp-mocha": "^2.0.0",
     "gulp-sequence": ">=0.3.1",
-    "should": "^4.4.1",
-    "supertest": "^0.15.0",
-    "test-console": "^0.7.1"
+    "supertest": ">=0.15.0",
+    "test-console": ">=0.7.1"
   },
   "scripts": {
     "test": "node --harmony `which gulp`"
