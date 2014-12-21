@@ -12,8 +12,8 @@ gulp.task('jshint', function () {
 });
 
 gulp.task('mocha', function () {
-  return gulp.src(['test/index.js', 'test/context/*'], {read: false})
-  .pipe(mocha());
+  return gulp.src(['test/index.js', 'test/context/*', 'test/request/*', 'test/response/*'], {read: false})
+    .pipe(mocha());
 });
 
 gulp.task('default', ['test']);
