@@ -24,7 +24,7 @@ var pwdReg = new RegExp(process.cwd().replace(/([\^\$\.\*\+\?\=\!\:\|\\\/\(\)\[\
 module.exports = Toa;
 
 Toa.NAME = 'toa';
-Toa.VERSION = 'v0.5.4';
+Toa.VERSION = 'v0.5.5';
 Toa.mime = require('mime-types');
 Toa.typer = require('media-typer');
 
@@ -203,30 +203,32 @@ function respond() {
   if (statuses.empty[code]) {
     // strip headers
     this.body = null;
-    return res.end();
-  }
+    res.end();
 
-  if (this.method === 'HEAD') {
+  } else if (this.method === 'HEAD') {
     if (isJSON(body)) this.length = Buffer.byteLength(JSON.stringify(body));
-    return res.end();
-  }
+    res.end();
 
-  // status body
-  if (body == null) {
+  } else if (body == null) {
+    // status body
     this.type = 'text';
     body = this.message || String(code);
     if (body) this.length = Buffer.byteLength(body);
-    return res.end(body);
+    res.end(body);
+
+  } else if (typeof body === 'string' || Buffer.isBuffer(body)) {
+    res.end(body);
+
+  } else if (body instanceof Stream) {
+    body.pipe(res);
+
+  } else {
+    // body: json
+    body = JSON.stringify(body);
+    this.length = Buffer.byteLength(body);
+    res.end(body);
   }
 
-  // responses
-  if (typeof body === 'string' || Buffer.isBuffer(body)) return res.end(body);
-  if (body instanceof Stream) return body.pipe(res);
-
-  // body: json
-  body = JSON.stringify(body);
-  this.length = Buffer.byteLength(body);
-  res.end(body);
   this.emit('end');
 }
 
