@@ -1,5 +1,11 @@
-Toa v0.5.5 [![Build Status](https://travis-ci.org/toajs/toa.svg)](https://travis-ci.org/toajs/toa)
+Toa v0.5.5
 ====
+[![NPM version][npm-image]][npm-url]
+[![Build Status][travis-image]][travis-url]
+[![Talk topic][talk-image]][talk-url]
+
+
+
 基于 Thunks 打造的网页服务框架，修改自 [Koa](https://github.com/koajs/koa) 框架。[Thunks](https://github.com/thunks/thunks) 是一个异步编程框架。
 
 ## 说明（感谢 koa 的贡献者）
@@ -195,3 +201,12 @@ app.onerror = function (error) {
 // 与 httpServer.listen 一致
 app.listen(3000);
 ```
+
+[npm-url]: https://npmjs.org/package/toa
+[npm-image]: http://img.shields.io/npm/v/toa.svg
+
+[travis-url]: https://travis-ci.org/toajs/toa
+[travis-image]: http://img.shields.io/travis/toajs/toa.svg
+
+[talk-url]: https://guest.talk.ai/rooms/960ada603o
+[talk-image]: https://img.shields.io/talk/t/960ada603o.svg
