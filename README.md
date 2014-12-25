@@ -1,5 +1,7 @@
-Toa v0.5.5
+Toa
 ====
+A web app framework rely on thunks.
+
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Talk topic][talk-image]][talk-url]
@@ -208,5 +210,5 @@ app.listen(3000);
 [travis-url]: https://travis-ci.org/toajs/toa
 [travis-image]: http://img.shields.io/travis/toajs/toa.svg
 
-[talk-url]: https://guest.talk.ai/rooms/960ada603o
-[talk-image]: https://img.shields.io/talk/t/960ada603o.svg
+[talk-url]: https://guest.talk.ai/rooms/a6a9331024
+[talk-image]: https://img.shields.io/talk/t/a6a9331024.svg
