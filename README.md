@@ -6,18 +6,20 @@ Toa
 [![Build Status][travis-image]][travis-url]
 [![Talk topic][talk-image]][talk-url]
 
+### Thanks to [Koa](https://github.com/koajs/koa) and it's authors
+
 ### Toa 简介
 
-Toa 修改自 [Koa](https://github.com/koajs/koa)，基本架构原理与 Koa 相似，`context`、`request`、`response` 三大基础对象几乎一样。但 Toa 是基于 [thunks](https://github.com/thunks/thunks) 组合业务逻辑，实现了完美的异步编程控制和异常处理。
+**Toa** 修改自 **Koa**，基本架构原理与 **Koa** 相似，`context`、`request`、`response` 三大基础对象几乎一样。但 **Toa** 是基于 [thunks](https://github.com/thunks/thunks) 组合业务逻辑，来实现异步流程控制和异常处理。`thunks` 是一个比 `co` 更强大，性能更好的异步流程控制工具。
 
-Toa 的异步核心是 `thunk` 函数，故而支持 `node.js v0.10.x`，但在支持 generator 的 node 环境中（io.js, node.js >= v0.11.9）将会有更好地编程体验：**用同步逻辑编写非阻塞的异步程序**。
+**Toa** 的异步核心是 `thunk` 函数，故而支持 `node.js v0.10.x`，但在支持 generator 的 node 环境中（io.js, node.js >= v0.11.9）将会有更好地编程体验：**用同步逻辑编写非阻塞的异步程序**。
 
-Toa 与 Koa 学习成本和编程体验是一致的，两者之间几乎是无缝切换。但 Toa 去掉了 Koa 的 `级联（Cascading）` 逻辑，弱化中间件，强化模块化组件，加强了对 `流（stream）` 的异步支持，使得编写大型应用的结构逻辑更简洁明了，也更安全。
+**Toa** 与 **Koa** 学习成本和编程体验是一致的，两者之间几乎是无缝切换。但 **Toa** 去掉了 **Koa** 的 `级联（Cascading）` 逻辑，弱化中间件，强化模块化组件，尽量削弱第三方组件访问应用的能力，使得编写大型应用的结构逻辑更简洁明了，也更安全。
 
 ### 功能模块
 与 Koa 一样， Toa 也没有绑定过多的功能，而仅仅提供了一个轻量优雅的函数库，和强大的扩展能力。
 
-使用者可以根据自己的需求选择独立的功能模块或中间件，或自己实现相关功能模块。以下是 Toa 社区已提供的基础性的功能模块。它们已能满足大多数的应用需求。
+使用者可以根据自己的需求选择独立的功能模块或中间件，或自己实现相关功能模块。以下是 Toajs 提供的基础性的功能模块。它们已能满足大多数的应用需求。
 
 - [toa-ejs](https://github.com/toajs/toa-ejs) Ejs render module for toa.
 - [toa-ejs](https://github.com/toajs/toa-mejs) Mejs render module for toa.
@@ -46,8 +48,7 @@ var app = Toa(function() {
 
 app.listen(3000);
 ```
-
----
+------
 
 ## API
 
@@ -55,43 +56,33 @@ app.listen(3000);
 var Toa = require('toa');
 ```
 
-### Class: Toa([server], [appBody], [options])
+### Class: Toa([server][, appBody][, options])
 
-- `server` 可以是 http server 或 https server。
-- `appBody` 有唯一参数 `Thunk`，它的作用域带有 `onerror` 监听，能捕获任何异常。`appBody` 中如果有异步逻辑，则应该封装在 `thunk` 函数、 `generator` 函数、`generator` 对象或`promise` 对象等中并 `return` 返回（与 `thunks` 或 `Promise` 类似）。
-- `options` 同 thunks 的 options，可以定义 `appBody` 中 `Thunk` 作用域的 `debug` 方法和 `onerror` 方法。其中 `onerror` 方法可用于对捕获异常进行初步加工处理，再 `return` 或 `throw` 给 Toa 内置的 `onResError` 处理。如果 `onerror` 返回 `true`，则忽略该异常，继续执行后续业务逻辑。
+- `server`: {Object}, 可以是 http server 或 https server。
+- `appBody`: {Function} 有唯一参数 `Thunk`，它的作用域带有 `onerror` 监听，能捕获任何异常。`appBody` 中如果有异步逻辑，则应该封装在 `thunk` 函数、 `generator` 函数、`generator` 对象或`promise` 对象等中并 `return` 返回（与 `thunks` 或 `Promise` 类似）。
+- `options`: {Object} 同 `thunks` 的 options，可以定义 `appBody` 中 `Thunk` 作用域的 `debug` 方法和 `onerror` 方法。其中 `onerror` 方法可用于对捕获异常进行初步加工处理，再 `return` 或 `throw` 给 Toa 内置的 `onResError` 处理。如果 `onerror` 返回 `true`，则忽略该异常，继续执行后续业务逻辑。
 
 ```js
-var app = new Toa(server, function (Thunk) {
+// with full arguments
+var app = new Toa(server, function(Thunk) {
   // body...
 }, {
-  debug: function () {}
-  onerror: function (error) {}
+  debug: function() {}
+  onerror: function(error) {}
 });
 ```
-### context, request, response
 
-中文文档可参考 http://koajs.cn/ ，或者直接阅读 toa 源码。中间件函数、appBody 函数和 appBody 的 `Thunk` 派生的 `thunk` 函数，其 `this` 值均为 `context`。如：
+### [Context](https://github.com/toajs/toa/blob/master/docs/api/context.md)
+### [Request](https://github.com/toajs/toa/blob/master/docs/api/request.md)
+### [Response](https://github.com/toajs/toa/blob/master/docs/api/response.md)
 
-```js
-this.req // node.js 原生 request stream
-this.request // toa 封装后的 request stream
-this.res // node.js 原生 response stream
-this.response // toa 封装后的 request stream
-this.cookies
-this.throw
-this.on
-this.emit
-// ...
-```
+#### app.keys = ['key1', 'key2']
 
-### app.keys = ['key1', 'key2']
+设置 cookie 加密密钥，参考 [Keygrip](https://github.com/expressjs/keygrip)。
 
-用于 cookie 加密的 [Keygrip](https://github.com/expressjs/keygrip) 对象或数组。
+#### app.config = config
 
-### app.config = config
-
-config 会被 `context` 继承，但 `context` 不能修改 `app.config`。
+config 会被 `context.config` 继承，但 `context.config` 不会修改 `app.config`。
 
 ```js
 app.config = config;
@@ -107,10 +98,10 @@ app.config = config;
 }
 ```
 
-### app.use(function (callback) {})
-### app.use(function* () {})
+#### app.use(function(callback) {})
+#### app.use(function*() {})
 
-返回 `app`，`fn` 必须是 `thunk` 函数或 `generator` 函数，函数中的 `this` 值为 `context`。
+加载中间件，返回 `app`，`fn` 必须是 `thunk` 函数或 `generator` 函数，函数中的 `this` 值为 `context`。
 
 ```js
 app.use(function (callback) {
@@ -128,12 +119,36 @@ app.use(function* () {
 })
 ```
 
-### app.onerror = function (error) {}
+#### app.onerror = function(error) {}
+
+设置 `onerror` 函数，当 app 捕捉到程序运行期间的错误时，会先使用 `options.onerror`（若提供）处理，再使用内置的 `onResError` 函数处理响应给客户端，最后抛出给 `app.onerror` 处理，应用通常可以在这里判断错误类型，根据情况将错误写入日志系统。
 
 ```js
-app.onerror = function (error) {
-  // task
-})
+// default
+app.onerror = function(err) {
+  // ignore null and response error
+  if (err == null || (err.status && err.status < 500)) return;
+  if (!util.isError(err)) err = new Error('non-error thrown: ' + err);
+
+  // catch system error
+  var msg = err.stack || err.toString();
+  console.error(msg.replace(/^/gm, '  '));
+};
+```
+
+#### app.onmessage = function(message) {}
+
+设置 `onmessage` 函数，该函数接受 `process` 的 `message` 通知，主要目的是用来处理 `pm2 gracefulReload`，也可以自己定义其行为。
+
+```js
+// default
+app.onmessage = function(msg) {
+  if (msg === 'shutdown') {
+    this.server.close(function() {
+      process.exit(0);
+    });
+  }
+};
 ```
 
 ### app.listen(port, [hostname], [backlog], [callback])
@@ -146,24 +161,6 @@ app.onerror = function (error) {
 // 与 httpServer.listen 一致
 app.listen(3000);
 ```
-
-Toa 相对于 Koa，主要有以下区别：
-
-1. Toa 基于 `thunks` 组织业务逻辑，支持 `node.js v0.10.x`;
-2. Toa 弱化中间件，也可以使用类似 koa 的中间件，但不支持**级联**( `yield* next` )，因为我认为级联与回调地狱类似，容易导致逻辑混乱；
-3. Toa 提倡使用 `thunks` 进行模块化开发，即一个模块接受输入，返回 `thunk`；
-4. 为安全起见，`context`、`request`、`response` 不包含 `app` 属性，即业务逻辑或模块无法访问顶层 `app` 对象；
-5. `app` 不是 `Event` 对象，`context` 变成了 `Event` 对象，方便业务逻辑内部用事件通信；
-6. `app` 和 `context` 增加 `config` 属性，`app` 可设置 config，业务逻辑可访问 config；
-7. Toa 已嵌入异常处理逻辑，只需像 `thunks` 一样处理或抛出异常即可（请参考 [thunks 的作用域和异常处理设计](https://github.com/thunks/thunks/blob/master/docs/scope-and-error-catch.md)），无需再使用 node.js 的 `domain` 系统。异常分两个层次：
-    1. 第一层是用户请求异常，业务逻辑可生成对应的错误信息，用 `this.throw(error)` 抛出或直接 `throw` 抛出即可，Toa会自动将其响应给用户；
-    2. 第二层是系统异常，如业务逻辑抛出错误等，Toa也能自动捕获，对用户响应 `500` 错误，并把异常交给 `app.onerror` 处理。
-
-对于异步业务，应尽量用 `thunks` 封装才能捕获异常，如果确实不能用 `thunks` 封装，也可使用 `context.emit('error', error)`抛给应用处理。
-
-## Who's using
-
-+ Teambition community: https://bbs.teambition.com/
 
 [npm-url]: https://npmjs.org/package/toa
 [npm-image]: http://img.shields.io/npm/v/toa.svg
