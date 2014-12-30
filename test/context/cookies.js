@@ -22,7 +22,7 @@ describe('ctx.cookies.set()', function() {
       return next();
     });
 
-    request(app.listen(3000))
+    request(app.listen())
       .get('/')
       .expect(204)
       .end(function(err, res) {

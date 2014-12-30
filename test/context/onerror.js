@@ -23,7 +23,7 @@ describe('catch error', function() {
       return next();
     });
 
-    request(app.listen(3000))
+    request(app.listen())
       .get('/')
       .expect(418)
       .expect('Content-Type', 'text/plain; charset=utf-8')
@@ -43,7 +43,7 @@ describe('catch error', function() {
       return next();
     });
 
-    request(app.listen(3000))
+    request(app.listen())
       .get('/')
       .expect(418)
       .expect('Content-Type', 'text/plain; charset=utf-8')
@@ -71,7 +71,7 @@ describe('catch error', function() {
 
         app.onerror = function() {};
 
-        request(app.listen(3000))
+        request(app.listen())
           .get('/')
           .expect(500)
           .expect('Content-Type', 'text/plain; charset=utf-8')
@@ -92,7 +92,7 @@ describe('catch error', function() {
 
         app.onerror = function() {};
 
-        request(app.listen(3000))
+        request(app.listen())
           .get('/')
           .expect(500)
           .expect('Content-Type', 'text/plain; charset=utf-8')

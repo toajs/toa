@@ -20,7 +20,7 @@ describe('context event', function() {
       });
     });
 
-    request(app.listen(3000))
+    request(app.listen())
       .get('/')
       .expect(200)
       .end(function(err) {
@@ -39,7 +39,7 @@ describe('context event', function() {
       this.throw(404);
     });
 
-    request(app.listen(3000))
+    request(app.listen())
       .get('/')
       .expect(404)
       .end(function(err) {
@@ -60,7 +60,7 @@ describe('context event', function() {
 
     app.onerror = function(err) {};
 
-    request(app.listen(3000))
+    request(app.listen())
       .get('/')
       .expect(500)
       .end(function(err) {

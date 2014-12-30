@@ -20,7 +20,7 @@ describe('catch stream error', function() {
       }));
     });
 
-    request(app.listen(3000))
+    request(app.listen())
       .get('/')
       .expect(200)
       .end(done);
@@ -34,7 +34,7 @@ describe('catch stream error', function() {
       }));
     });
 
-    request(app.listen(3000))
+    request(app.listen())
       .get('/')
       .expect(404)
       .end(function(err, res) {

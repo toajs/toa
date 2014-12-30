@@ -83,7 +83,7 @@ describe('res.status=', function() {
         return next();
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect(status)
         .end(function(err, res) {
@@ -109,7 +109,7 @@ describe('res.status=', function() {
         return next();
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect(status)
         .end(function(err, res) {

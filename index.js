@@ -24,7 +24,7 @@ var pwdReg = new RegExp(process.cwd().replace(/([\^\$\.\*\+\?\=\!\:\|\\\/\(\)\[\
 module.exports = Toa;
 
 Toa.NAME = 'toa';
-Toa.VERSION = 'v0.5.6';
+Toa.VERSION = 'v0.6.0';
 
 function Toa(server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options);
@@ -176,7 +176,7 @@ proto.listen = function() {
 
 proto.onerror = function(err) {
   // ignore null and response error
-  if (err == null || (err.status && err.status !== 500)) return;
+  if (err == null || (err.status && err.status < 500)) return;
   assert(util.isError(err), 'non-error thrown: ' + err);
 
   // catch system error
@@ -315,6 +315,6 @@ function isFunction(fn) {
 }
 
 Toa.createContext = function () {
-  console.log('It is exported for test, don\'t use it in application!');
+  // 'It is exported for test, don\'t use it in application!';
   return createContext.apply(null, arguments);
 };

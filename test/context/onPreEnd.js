@@ -32,7 +32,7 @@ describe('context onPreEnd', function() {
       return next();
     });
 
-    request(app.listen(3000))
+    request(app.listen())
       .get('/')
       .expect(200)
       .end(function(err) {
@@ -70,7 +70,7 @@ describe('context onPreEnd', function() {
       return next();
     });
 
-    request(app.listen(3000))
+    request(app.listen())
       .get('/')
       .expect(200)
       .end(function(err) {

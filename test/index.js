@@ -28,27 +28,7 @@ describe('app', function() {
       app.server.close(done);
     };
 
-    request(app.listen(3000))
-      .get('/')
-      .end(function() {});
-  });
-
-  it.skip('should not .writeHead when !socket.writable', function(done) {
-    var app = toa(function () {
-      // set .writable to false, response should not be called.
-      this.socket.writable = false;
-      this.status = 204;
-      // throw if .writeHead or .end is called
-      this.res.writeHead =
-      this.res.end = function() {
-        throw new Error('response sent');
-      };
-      setImmediate(function() {
-        app.server.close(done);
-      });
-    });
-
-    request(app.listen(3000))
+    request(app.listen())
       .get('/')
       .end(function() {});
   });
@@ -74,7 +54,7 @@ describe('app.use(fn)', function() {
       return next();
     });
 
-    request(app.listen(3000))
+    request(app.listen())
       .get('/')
       .end(function(err) {
         if (err) return done(err);
@@ -129,7 +109,7 @@ describe('app.respond', function() {
         });
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect(200)
         .expect('lol')
@@ -143,7 +123,7 @@ describe('app.respond', function() {
         this.body = 'Hello';
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .head('/')
         .expect(200)
         .end(function(err, res) {
@@ -162,7 +142,7 @@ describe('app.respond', function() {
         };
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .head('/')
         .expect(200)
         .end(function(err, res) {
@@ -198,7 +178,7 @@ describe('app.respond', function() {
         this.body = new Buffer('hello world');
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .head('/')
         .expect(200)
         .end(function(err, res) {
@@ -213,7 +193,7 @@ describe('app.respond', function() {
     it('should respond with a 404 if no body was set', function(done) {
       var app = toa(function() {});
 
-      request(app.listen(3000))
+      request(app.listen())
         .head('/')
         .expect(404, done);
     });
@@ -223,7 +203,7 @@ describe('app.respond', function() {
         this.body = '';
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .head('/')
         .expect(200, done);
     });
@@ -234,7 +214,7 @@ describe('app.respond', function() {
         this.type = 'application/javascript';
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .head('/')
         .expect('content-type', /application\/javascript/)
         .expect(200, done);
@@ -245,7 +225,7 @@ describe('app.respond', function() {
     it('should 404', function(done) {
       var app = toa();
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect(404, done);
     });
@@ -269,7 +249,7 @@ describe('app.respond', function() {
         errorCaught = err;
       };
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect(200)
         .end(function(err, res) {
@@ -290,7 +270,7 @@ describe('app.respond', function() {
         }, 0);
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect(200)
         .expect('HelloGoodbye', done);
@@ -304,7 +284,7 @@ describe('app.respond', function() {
           this.status = 400;
         });
 
-        request(app.listen(3000))
+        request(app.listen())
           .get('/')
           .expect(400)
           .expect('content-length', 11)
@@ -318,7 +298,7 @@ describe('app.respond', function() {
           this.status = 204;
         });
 
-        request(app.listen(3000))
+        request(app.listen())
           .get('/')
           .expect(204)
           .expect('')
@@ -337,7 +317,7 @@ describe('app.respond', function() {
           this.status = 205;
         });
 
-        request(app.listen(3000))
+        request(app.listen())
           .get('/')
           .expect(205)
           .expect('')
@@ -356,7 +336,7 @@ describe('app.respond', function() {
           this.status = 304;
         });
 
-        request(app.listen(3000))
+        request(app.listen())
           .get('/')
           .expect(304)
           .expect('')
@@ -379,7 +359,7 @@ describe('app.respond', function() {
           return next();
         });
 
-        request(app.listen(3000))
+        request(app.listen())
           .get('/')
           .expect(700)
           .expect('custom status')
@@ -401,7 +381,7 @@ describe('app.respond', function() {
           return next();
         });
 
-        request(app.listen(3000))
+        request(app.listen())
           .get('/')
           .expect(200)
           .expect('ok')
@@ -422,7 +402,7 @@ describe('app.respond', function() {
           return next();
         });
 
-        request(app.listen(3000))
+        request(app.listen())
           .get('/')
           .expect(701)
           .expect('701', done);
@@ -436,7 +416,7 @@ describe('app.respond', function() {
         this.body = null;
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect(204)
         .expect('')
@@ -454,7 +434,7 @@ describe('app.respond', function() {
         this.body = null;
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect(204)
         .expect('')
@@ -472,7 +452,7 @@ describe('app.respond', function() {
         this.body = null;
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect(205)
         .expect('')
@@ -490,7 +470,7 @@ describe('app.respond', function() {
         this.body = null;
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect(304)
         .expect('')
@@ -509,7 +489,7 @@ describe('app.respond', function() {
         this.body = 'Hello';
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect('Hello', done);
     });
@@ -521,7 +501,7 @@ describe('app.respond', function() {
         this.body = new Buffer('Hello');
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect('Hello', done);
     });
@@ -534,7 +514,7 @@ describe('app.respond', function() {
         this.set('content-type', 'application/json; charset=utf-8');
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect('content-type', 'application/json; charset=utf-8')
         .end(function(err, res) {
@@ -553,7 +533,7 @@ describe('app.respond', function() {
         this.set('content-type', 'application/json; charset=utf-8');
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect('content-type', 'application/json; charset=utf-8')
         .end(function(err, res) {
@@ -572,7 +552,7 @@ describe('app.respond', function() {
         this.set('content-type', 'application/json; charset=utf-8');
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect('content-type', 'application/json; charset=utf-8')
         .end(function(err, res) {
@@ -593,7 +573,7 @@ describe('app.respond', function() {
         this.set('content-type', 'application/json; charset=utf-8');
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect('content-type', 'application/json; charset=utf-8')
         .end(function(err, res) {
@@ -611,7 +591,7 @@ describe('app.respond', function() {
         this.body = fs.createReadStream('does not exist');
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect('content-type', 'text/plain; charset=utf-8')
         .expect(404)
@@ -624,7 +604,7 @@ describe('app.respond', function() {
         this.body = fs.createReadStream('does not exist');
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect(204, done);
     });
@@ -637,7 +617,7 @@ describe('app.respond', function() {
         this.body = fs.createReadStream('does not exist');
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect(404, done);
     });
@@ -669,7 +649,7 @@ describe('app.respond', function() {
         done();
       };
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .end(function() {});
     });
@@ -687,7 +667,7 @@ describe('app.respond', function() {
           assert(err.message, 'sorry!');
         };
 
-        request(app.listen(3000))
+        request(app.listen())
           .get('/')
           .expect(403, 'sorry!')
           .end(done);
@@ -702,7 +682,7 @@ describe('app.respond', function() {
           throw err;
         });
 
-        request(app.listen(3000))
+        request(app.listen())
           .get('/')
           .expect(403, 'Forbidden')
           .end(done);
@@ -718,7 +698,7 @@ describe('app.respond', function() {
         assert(err.message === 'boom!');
       };
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect(500, 'Internal Server Error')
         .end(done);
@@ -736,7 +716,7 @@ describe('app.respond', function() {
         throw new Error('boom!');
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect(200, 'Got error')
         .end(done);
@@ -751,7 +731,7 @@ describe('app.respond', function() {
         this.status = 200;
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect(200)
         .expect('hello', done);
@@ -765,7 +745,7 @@ describe('app.respond', function() {
         this.status = 204;
       });
 
-      request(app.listen(3000))
+      request(app.listen())
         .get('/')
         .expect(204)
         .end(function(err, res) {
@@ -820,7 +800,7 @@ describe('app.context', function() {
       poweredBy: 'x'
     };
 
-    request(app.listen(3000))
+    request(app.listen())
     .get('/')
     .expect(204, done);
   });
