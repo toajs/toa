@@ -24,7 +24,7 @@ var pwdReg = new RegExp(process.cwd().replace(/([\^\$\.\*\+\?\=\!\:\|\\\/\(\)\[\
 module.exports = Toa;
 
 Toa.NAME = 'toa';
-Toa.VERSION = 'v0.6.0';
+Toa.VERSION = 'v0.6.1';
 
 function Toa(server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options);
@@ -254,16 +254,13 @@ function onResError(err) {
     return respond.call(this);
   }
 
-  // ENOENT support
-  if (err.code === 'ENOENT') err.status = 404;
+  // support ENOENT to 404, default to 500
+  if (err.code === 'ENOENT') this.status = 404;
+  else if (typeof err.status !== 'number' || !statuses[err.status]) this.status = 500;
+  else this.status = err.status;
 
-  // default to 500
-  if (typeof err.status !== 'number' || !statuses[err.status]) err.status = 500;
+  var msg = err.expose ? err.message : statuses[this.status];
 
-  var code = statuses[err.status];
-  var msg = err.expose ? err.message : code;
-
-  this.status = err.status;
   // hide server directory for error response
   this.body = msg.replace(pwdReg, '[Server Directory]');
   respond.call(this);
@@ -314,7 +311,7 @@ function isFunction(fn) {
   return typeof fn === 'function';
 }
 
-Toa.createContext = function () {
+Toa.createContext = function() {
   // 'It is exported for test, don\'t use it in application!';
   return createContext.apply(null, arguments);
 };
