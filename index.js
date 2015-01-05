@@ -24,7 +24,7 @@ var pwdReg = new RegExp(process.cwd().replace(/([\^\$\.\*\+\?\=\!\:\|\\\/\(\)\[\
 module.exports = Toa;
 
 Toa.NAME = 'toa';
-Toa.VERSION = 'v0.6.1';
+Toa.VERSION = 'v0.6.2';
 
 function Toa(server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options);
@@ -98,7 +98,7 @@ proto.keys = ['toa'];
  */
 
 proto.use = function(fn) {
-  assert(isFunction(fn), 'require a function');
+  assert(isFunction(fn), 'require a thunk function or a generator function');
   this.middleware.push(fn);
   return this;
 };
