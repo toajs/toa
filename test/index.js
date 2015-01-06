@@ -601,25 +601,28 @@ describe('app.respond', function() {
     it('should handle errors when no content status', function(done) {
       var app = toa(function() {
         this.status = 204;
-        this.body = fs.createReadStream('does not exist');
+        this.body = fs.createReadStream('does not exist1');
       });
 
       request(app.listen())
         .get('/')
-        .expect(204, done);
+        .expect(204)
+        .end(done);
     });
 
 
     it('should handle all intermediate stream body errors', function(done) {
       var app = toa(function() {
-        this.body = fs.createReadStream('does not exist');
-        this.body = fs.createReadStream('does not exist');
-        this.body = fs.createReadStream('does not exist');
+        this.body = fs.createReadStream('does not exist2');
+        this.body = fs.createReadStream('does not exist3');
+        this.body = fs.createReadStream('does not exist4');
       });
 
       request(app.listen())
         .get('/')
-        .expect(404, done);
+        .expect('content-type', 'text/plain; charset=utf-8')
+        .expect(404)
+        .end(done);
     });
   });
 

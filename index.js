@@ -189,10 +189,18 @@ proto.onerror = function(err) {
  */
 
 function respond() {
+  var ctx = this;
   if (this.respond === false) return;
 
   var res = this.res;
   if (res.headersSent || !this.writable) return;
+
+  function emitEnd() {
+    ctx.emit('end');
+  }
+
+  res.on('close', emitEnd)
+    .on('finish', emitEnd);
 
   var body = this.body;
   var code = this.status;
@@ -226,8 +234,6 @@ function respond() {
     this.length = Buffer.byteLength(body);
     res.end(body);
   }
-
-  this.emit('end');
 }
 
 /**
