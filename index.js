@@ -210,6 +210,9 @@ function respond() {
     // strip headers
     this.body = null;
     res.end();
+    if (body instanceof Stream) body.on('error', function(err) {
+      ctx.emit('error', err);
+    });
 
   } else if (this.method === 'HEAD') {
     if (isJSON(body)) this.length = Buffer.byteLength(JSON.stringify(body));
