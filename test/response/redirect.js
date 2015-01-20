@@ -16,7 +16,7 @@ describe('ctx.redirect(url)', function() {
     var ctx = context();
     ctx.redirect('http://google.com');
     assert(ctx.response.header.location === 'http://google.com');
-    assert(ctx.status === 302);
+    assert(ctx.status === 307);
   });
 
   describe('with "back"', function() {
@@ -97,7 +97,7 @@ describe('ctx.redirect(url)', function() {
       ctx.status = 304;
       ctx.header.accept = 'text/plain';
       ctx.redirect('http://google.com');
-      assert(ctx.status === 302);
+      assert(ctx.status === 307);
       assert(ctx.body === 'Redirecting to ' + url + '.');
     });
   });
@@ -109,7 +109,7 @@ describe('ctx.redirect(url)', function() {
       var url = 'http://google.com';
       ctx.header.accept = 'text/plain';
       ctx.redirect('http://google.com');
-      assert(ctx.status === 302);
+      assert(ctx.status === 307);
       assert(ctx.body === 'Redirecting to ' + url + '.');
       assert(ctx.type === 'text/plain');
     });
