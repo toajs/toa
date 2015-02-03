@@ -157,8 +157,8 @@ describe('ctx.throw(status, msg, props)', function() {
 
       try {
         ctx.throw(400, 'msg', {
-          prop: true
-          // status: -1
+          prop: true,
+          status: -1
         });
       } catch (err) {
         assert(err.message === 'msg');
