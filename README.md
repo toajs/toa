@@ -1,6 +1,6 @@
 Toa
 ====
-A web app framework rely on thunks.
+A powerful web framework.
 
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
