@@ -709,9 +709,10 @@ describe('app.respond', function() {
 
     it('should be catchable', function(done) {
       var app = toa(function() {
-          this.body = 'Got error';
+          this.body = 'Got something';
       }, function (err) {
         assert(err.message, 'boom!');
+        this.body = 'Got error';
         return true;
       });
 

@@ -132,8 +132,8 @@ proto.listen = function() {
             err = error;
           }
         }
-        // ignore err
-        if (err === true) return err;
+        // ignore err and response to client
+        if (err === true) return Thunk.seq.call(ctx, ctx.onPreEnd)(respond);
 
         try {
           onResError.call(ctx, err);

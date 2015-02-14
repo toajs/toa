@@ -6,9 +6,6 @@
 /*jshint -W103 */
 
 var Stream = require('stream');
-var context = require('../lib/context');
-var request = require('../lib/request');
-var response = require('../lib/response');
 var toa = require('..');
 
 exports = module.exports = function(req, res) {

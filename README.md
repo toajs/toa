@@ -26,6 +26,18 @@ Toa 继承了 Koa 的 `context`、`request`、`response` ，但有以下区别�
 
 对于异步业务，应尽量用 `thunks` 封装才能捕获异常，如果确实不能用 `thunks` 封装，也可使用 `context.emit('error', error)`抛给应用处理。
 
+## 模块
+
+- [toa-ejs](https://github.com/toajs/toa-ejs) Ejs render module for toa.
+- [toa-i18n](https://github.com/toajs/toa-i18n) I18n middleware for toa.
+- [toa-body](https://github.com/toajs/toa-body) Request body parser for toa.
+- [toa-token](https://github.com/toajs/toa-token) Token based authentication for toa.
+- [toa-router](https://github.com/toajs/toa-router) A router for toa.
+- [toa-static](https://github.com/toajs/toa-static) A static server module for toa.
+- [toa-favicon](https://github.com/toajs/toa-favicon) Favicon middleware for toa.
+- [toa-session](https://github.com/toajs/toa-session) Session middleware for toa.
+- [toa-compress](https://github.com/toajs/toa-compress) Compress responses middleware for toa.
+
 ## Demo
 
 不使用 generator ，可兼容 node.js v0.10.x：
