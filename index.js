@@ -19,12 +19,12 @@ var context = require('./lib/context');
 var request = require('./lib/request');
 var response = require('./lib/response');
 
-var pwdReg = new RegExp(process.cwd().replace(/([\^\$\.\*\+\?\=\!\:\|\\\/\(\)\[\]\{\}])/g, '\\$1'), 'g');
+var pwdReg = new RegExp(process.cwd().replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), 'g');
 
 module.exports = Toa;
 
 Toa.NAME = 'toa';
-Toa.VERSION = 'v0.7.0';
+Toa.VERSION = 'v0.7.2';
 
 function Toa(server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options);
