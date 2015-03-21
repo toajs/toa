@@ -24,7 +24,7 @@ var pwdReg = new RegExp(process.cwd().replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), 'g
 module.exports = Toa;
 
 Toa.NAME = 'toa';
-Toa.VERSION = 'v0.7.2';
+Toa.VERSION = 'v0.8.0';
 
 function Toa(server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options);
@@ -321,6 +321,6 @@ function isFunction(fn) {
 }
 
 Toa.createContext = function() {
-  // 'It is exported for test, don\'t use it in application!';
+  // It is exported for test, don't use it in application!;
   return createContext.apply(null, arguments);
 };
