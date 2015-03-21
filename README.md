@@ -1,6 +1,6 @@
 Toa
 ====
-A powerful web framework.
+A pithy and powerful web framework.
 
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
@@ -215,6 +215,10 @@ app.onerror = function (error) {
 // 与 httpServer.listen 一致
 app.listen(3000);
 ```
+
+## Who's using
+
++ Teambition community: https://bbs.teambition.com/
 
 [npm-url]: https://npmjs.org/package/toa
 [npm-image]: http://img.shields.io/npm/v/toa.svg
