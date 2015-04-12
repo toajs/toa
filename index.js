@@ -164,6 +164,17 @@ proto.listen = function() {
     server.listen.apply(server, args);
   });
 
+  // Accept a 'shutdown' message to stop from accepting new connections and keeps existing connections.
+  // The server is finally closed and exit gracefully when all connections are ended.
+  // For example: `pm2 gracefulReload app`
+  process.on('message', function(msg) {
+    if (msg === 'shutdown') {
+      server.close(function() {
+        process.exit(0);
+      });
+    }
+  });
+
   return server;
 };
 
