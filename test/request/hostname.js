@@ -21,7 +21,7 @@ describe('req.hostname', function() {
   describe('with no host present', function() {
     it('should return null', function() {
       var req = request();
-      assert(req.hostname == null);
+      assert(req.hostname === '');
     });
   });
 

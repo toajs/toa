@@ -233,7 +233,7 @@ function respond() {
     // status body
     this.type = 'text';
     body = this.message || String(code);
-    if (body) this.length = Buffer.byteLength(body);
+    this.length = Buffer.byteLength(body);
     res.end(body);
 
   } else if (typeof body === 'string' || Buffer.isBuffer(body)) {
