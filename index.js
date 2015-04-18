@@ -6,7 +6,6 @@
 var util = require('util');
 var http = require('http');
 var Stream = require('stream');
-var assert = require('assert');
 
 var thunks = require('thunks');
 var statuses = require('statuses');
@@ -68,7 +67,7 @@ function Toa(server, body, options) {
       return config;
     },
     set: function(obj) {
-      assert(obj && obj.constructor === Object, 'require a object');
+      if (!obj || obj.constructor !== Object) throw new Error('config require a object');
       for (var key in obj) config[key] = obj[key];
     },
     enumerable: true,
@@ -98,7 +97,7 @@ proto.keys = ['toa'];
  */
 
 proto.use = function(fn) {
-  assert(isFunction(fn), 'require a thunk function or a generator function');
+  if (!isFunction(fn)) throw new Error('require a thunk function or a generator function');
   this.middleware.push(fn);
   return this;
 };
@@ -188,7 +187,7 @@ proto.listen = function() {
 proto.onerror = function(err) {
   // ignore null and response error
   if (err == null || (err.status && err.status < 500)) return;
-  assert(util.isError(err), 'non-error thrown: ' + err);
+  if (!util.isError(err)) err = new Error('non-error thrown: ' + err);
 
   // catch system error
   var msg = err.stack || err.toString();
