@@ -1,34 +1,26 @@
 Toa
 ====
-A pithy and powerful web framework.
+简洁而强大的 web 框架。
 
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Talk topic][talk-image]][talk-url]
 
+### Toa 简介
 
+Toa 修改自 [Koa](https://github.com/koajs/koa)，基本架构原理与 Koa 相似，`context`、`request`、`response` 三大基础对象几乎一样。但 Toa 是基于 [thunks](https://github.com/thunks/thunks) 组合业务逻辑，实现了完美的异步编程控制和异常处理。
 
-基于 Thunks 打造的网页服务框架，修改自 [Koa](https://github.com/koajs/koa) 框架。[Thunks](https://github.com/thunks/thunks) 是一个异步编程框架。
+Toa 的异步核心是 `thunk` 函数，故而支持 `node.js v0.10.x`，但在支持 generator 的 node 环境中（io.js, node.js >= v0.11.9）将会有更好地编程体验：**用同步逻辑编写非阻塞的异步程序**。
 
-## 说明（感谢 koa 的贡献者）
+Toa 与 Koa 学习成本和编程体验是一致的，两者之间几乎是无缝切换。但 Toa 去掉了 Koa 的 `级联（Cascading）` 逻辑，弱化中间件，强化模块化组件，加强了对 `流（stream）` 的异步支持，使得编写大型应用的结构逻辑更简洁明了，也更安全。
 
-Toa 继承了 Koa 的 `context`、`request`、`response` ，但有以下区别：
+### 功能模块
+与 Koa 一样， Toa 也没有绑定过多的功能，而仅仅提供了一个轻量优雅的函数库，和强大的扩展能力。
 
-1. Toa 基于 `thunks` 组织业务逻辑，支持 `node.js v0.10.x`;
-2. Toa 弱化中间件，也可以使用类似 koa 的中间件，但不支持**级联**( `yield* next` )，因为我认为级联与回调地狱类似，容易导致逻辑混乱；
-3. Toa 提倡使用 `thunks` 进行模块化开发，即一个模块接受输入，返回 `thunk`；
-4. 为安全起见，`context`、`request`、`response` 不包含 `app` 属性，即业务逻辑或模块无法访问顶层 `app` 对象；
-5. `app` 不是 `Event` 对象，`context` 变成了 `Event` 对象，方便业务逻辑内部用事件通信；
-6. `app` 和 `context` 增加 `config` 属性，`app` 可设置 config，业务逻辑可访问 config；
-7. Toa 已嵌入异常处理逻辑，只需像 `thunks` 一样处理或抛出异常即可（请参考 [thunks 的作用域和异常处理设计](https://github.com/thunks/thunks/blob/master/docs/scope-and-error-catch.md)），无需再使用 node.js 的 `domain` 系统。异常分两个层次：
-    1. 第一层是用户请求异常，业务逻辑可生成对应的错误信息，用 `this.throw(error)` 抛出或直接 `throw` 抛出即可，Toa会自动将其响应给用户；
-    2. 第二层是系统异常，如业务逻辑抛出错误等，Toa也能自动捕获，对用户响应 `500` 错误，并把异常交给 `app.onerror` 处理。
-
-对于异步业务，应尽量用 `thunks` 封装才能捕获异常，如果确实不能用 `thunks` 封装，也可使用 `context.emit('error', error)`抛给应用处理。
-
-## 模块
+使用者可以根据自己的需求选择独立的功能模块或中间件，或自己实现相关功能模块。以下是 Toa 社区已提供的基础性的功能模块。它们已能满足大多数的应用需求。
 
 - [toa-ejs](https://github.com/toajs/toa-ejs) Ejs render module for toa.
+- [toa-ejs](https://github.com/toajs/toa-mejs) Mejs render module for toa.
 - [toa-i18n](https://github.com/toajs/toa-i18n) I18n middleware for toa.
 - [toa-body](https://github.com/toajs/toa-body) Request body parser for toa.
 - [toa-token](https://github.com/toajs/toa-token) Token based authentication for toa.
@@ -38,85 +30,24 @@ Toa 继承了 Koa 的 `context`、`request`、`response` ，但有以下区别�
 - [toa-session](https://github.com/toajs/toa-session) Session middleware for toa.
 - [toa-compress](https://github.com/toajs/toa-compress) Compress responses middleware for toa.
 
-## Demo
+### 安装 Toa
 
-不使用 generator ，可兼容 node.js v0.10.x：
+````
+npm install toa
+````
+
+### Demo
 
 ```js
 var Toa = require('toa');
-var app = Toa(function (Thunk) {
+var app = Toa(function() {
   this.body = 'Hello World!\n-- toa';
 });
 
 app.listen(3000);
 ```
 
-使用 generator:
-
-```js
-var Toa = require('toa');
-var app = Toa(function* (Thunk) {
-  this.body = yield 'Hello World!\n-- ' + this.config.poweredBy;
-});
-
-app.config = {
-  poweredBy: 'Test'
-};
-
-app.listen(3000);
-```
-
-使用中间件：
-
-```js
-var Toa = require('toa');
-var app = Toa();
-
-app.use(function* () {
-  this.body = yield 'Hello World!\n-- toa';
-});
-
-app.listen(3000);
-```
-
-使用自定义 server：
-
-```js
-var https = require('https');
-var fs = require('fs');
-var Toa = require('toa');
-
-var options = {
-  key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),
-  cert: fs.readFileSync('test/fixtures/keys/agent2-cert.pem')
-};
-
-var server = https.createServer(options);
-
-
-var app = Toa(server, function (Thunk) {
-  this.body = 'Hello World!\n-- toa';
-});
-
-app.listen(3000);
-```
-
-文件服务：
-
-```js
-var fs = require('fs');
-var Toa = require('toa');
-var app = Toa(function (Thunk) {
-  this.type = 'text';
-  this.body = fs.createReadStream(__dirname + '/simple.js', {encoding: 'utf8'});
-});
-
-app.listen(3000);
-```
-
-## Installation
-
-`npm install toa`
+---
 
 ## API
 
@@ -215,6 +146,20 @@ app.onerror = function (error) {
 // 与 httpServer.listen 一致
 app.listen(3000);
 ```
+
+Toa 相对于 Koa，主要有以下区别：
+
+1. Toa 基于 `thunks` 组织业务逻辑，支持 `node.js v0.10.x`;
+2. Toa 弱化中间件，也可以使用类似 koa 的中间件，但不支持**级联**( `yield* next` )，因为我认为级联与回调地狱类似，容易导致逻辑混乱；
+3. Toa 提倡使用 `thunks` 进行模块化开发，即一个模块接受输入，返回 `thunk`；
+4. 为安全起见，`context`、`request`、`response` 不包含 `app` 属性，即业务逻辑或模块无法访问顶层 `app` 对象；
+5. `app` 不是 `Event` 对象，`context` 变成了 `Event` 对象，方便业务逻辑内部用事件通信；
+6. `app` 和 `context` 增加 `config` 属性，`app` 可设置 config，业务逻辑可访问 config；
+7. Toa 已嵌入异常处理逻辑，只需像 `thunks` 一样处理或抛出异常即可（请参考 [thunks 的作用域和异常处理设计](https://github.com/thunks/thunks/blob/master/docs/scope-and-error-catch.md)），无需再使用 node.js 的 `domain` 系统。异常分两个层次：
+    1. 第一层是用户请求异常，业务逻辑可生成对应的错误信息，用 `this.throw(error)` 抛出或直接 `throw` 抛出即可，Toa会自动将其响应给用户；
+    2. 第二层是系统异常，如业务逻辑抛出错误等，Toa也能自动捕获，对用户响应 `500` 错误，并把异常交给 `app.onerror` 处理。
+
+对于异步业务，应尽量用 `thunks` 封装才能捕获异常，如果确实不能用 `thunks` 封装，也可使用 `context.emit('error', error)`抛给应用处理。
 
 ## Who's using
 
