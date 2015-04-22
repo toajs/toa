@@ -772,7 +772,7 @@ describe('app.context', function() {
       return next();
     });
 
-    request(app1.listen(3000))
+    request(app1.listen())
       .get('/')
       .expect(204, done);
   });
@@ -784,7 +784,7 @@ describe('app.context', function() {
       return next();
     });
 
-    request(app2.listen(3000))
+    request(app2.listen())
       .get('/')
       .expect(204, done);
   });
@@ -822,7 +822,7 @@ describe('app.request', function() {
       return next();
     });
 
-    request(app1.listen(3000))
+    request(app1.listen())
       .get('/')
       .expect(204, done);
   });
@@ -834,7 +834,7 @@ describe('app.request', function() {
       return next();
     });
 
-    request(app2.listen(3000))
+    request(app2.listen())
       .get('/')
       .expect(204, done);
   });
@@ -852,7 +852,7 @@ describe('app.response', function() {
       return next();
     });
 
-    request(app1.listen(3000))
+    request(app1.listen())
       .get('/')
       .expect(204, done);
   });
@@ -864,7 +864,7 @@ describe('app.response', function() {
       return next();
     });
 
-    request(app2.listen(3000))
+    request(app2.listen())
       .get('/')
       .expect(204, done);
   });

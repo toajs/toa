@@ -12,6 +12,7 @@ var statuses = require('statuses');
 var Cookies = require('cookies');
 var accepts = require('accepts');
 var isJSON = require('koa-is-json');
+var onFinished = require('on-finished');
 var EventEmitter = require('events').EventEmitter;
 
 var context = require('./lib/context');
@@ -22,8 +23,8 @@ var pwdReg = new RegExp(process.cwd().replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), 'g
 
 module.exports = Toa;
 
-Toa.NAME = 'toa';
-Toa.VERSION = 'v0.8.0';
+Toa.NAME = 'Toa';
+Toa.VERSION = 'v0.9.0';
 
 function Toa(server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options);
@@ -103,6 +104,20 @@ proto.use = function(fn) {
 };
 
 /**
+ * Accept a 'shutdown' message to stop from accepting new connections and keeps existing connections.
+ * The server is finally closed and exit gracefully when all connections are ended.
+ * For example: `pm2 gracefulReload app`
+ */
+
+proto.onmessage = function(msg) {
+  if (msg === 'shutdown') {
+    this.server.close(function() {
+      process.exit(0);
+    });
+  }
+};
+
+/**
  * start server
  *
  * @param {Mixed} ...
@@ -119,62 +134,58 @@ proto.listen = function() {
   var errorHandler = this.errorHandler;
   var middleware = this.middleware.slice();
 
-  setImmediate(function() {
-    server.addListener('request', function(req, res) {
-      res.statusCode = 404;
+  var onmessage = this.onmessage.bind(this);
+  process.on('message', onmessage);
+  server.once('close', function() {
+    process.removeListener('message', onmessage);
+  });
 
-      function onerror(err) {
-        if (errorHandler) {
-          try {
-            err = errorHandler.call(ctx, err) || err;
-          } catch (error) {
-            err = error;
-          }
-        }
-        // ignore err and response to client
-        if (err === true) return Thunk.seq.call(ctx, ctx.onPreEnd)(respond);
+  server.addListener('request', function(req, res) {
+    res.statusCode = 404;
 
+    function onerror(err) {
+      if (err == null) return;
+      if (errorHandler) {
         try {
-          onResError.call(ctx, err);
+          err = errorHandler.call(ctx, err) || err;
         } catch (error) {
-          app.onerror.call(ctx, error);
+          err = error;
         }
       }
+      // ignore err and response to client
+      if (err === true) return Thunk.seq.call(ctx, ctx.onPreEnd)(respond);
 
-      var ctx = createContext(app, req, res);
-      var Thunk = thunks({
-        debug: debug,
-        onerror: onerror
-      });
+      try {
+        onResError.call(ctx, err);
+      } catch (error) {
+        app.onerror.call(ctx, error);
+      }
+    }
 
-      Object.freeze(Thunk);
-      ctx.on('error', onerror);
-      ctx.catchStream(ctx.socket);
-
-      if (ctx.config.poweredBy) ctx.set('X-Powered-By', ctx.config.poweredBy);
-
-      Thunk.seq.call(ctx, middleware)(function() {
-        return body.call(this, Thunk);
-      })(function() {
-        return Thunk.seq.call(this, this.onPreEnd);
-      })(respond);
+    var ctx = createContext(app, req, res);
+    var Thunk = thunks({
+      debug: debug,
+      onerror: onerror
     });
 
-    server.listen.apply(server, args);
+    Object.freeze(Thunk);
+    ctx.on('error', onerror);
+    ctx.onerror = onerror;
+    onFinished(res, function(err) {
+      ctx.emit('end');
+      onerror(err);
+    });
+
+    if (ctx.config.poweredBy) ctx.set('X-Powered-By', ctx.config.poweredBy);
+
+    Thunk.seq.call(ctx, middleware)(function() {
+      return body.call(this, Thunk);
+    })(function() {
+      return Thunk.seq.call(this, this.onPreEnd);
+    })(respond);
   });
 
-  // Accept a 'shutdown' message to stop from accepting new connections and keeps existing connections.
-  // The server is finally closed and exit gracefully when all connections are ended.
-  // For example: `pm2 gracefulReload app`
-  process.on('message', function(msg) {
-    if (msg === 'shutdown') {
-      server.close(function() {
-        process.exit(0);
-      });
-    }
-  });
-
-  return server;
+  return server.listen.apply(server, args);
 };
 
 /**
@@ -205,13 +216,6 @@ function respond() {
   var res = this.res;
   if (res.headersSent || !this.writable) return;
 
-  function emitEnd() {
-    ctx.emit('end');
-  }
-
-  res.on('close', emitEnd)
-    .on('finish', emitEnd);
-
   var body = this.body;
   var code = this.status;
 
@@ -220,9 +224,8 @@ function respond() {
     // strip headers
     this.body = null;
     res.end();
-    if (body instanceof Stream) body.on('error', function(err) {
-      ctx.emit('error', err);
-    });
+
+    if (body instanceof Stream) body.once('error', ctx.onerror);
 
   } else if (this.method === 'HEAD') {
     if (isJSON(body)) this.length = Buffer.byteLength(JSON.stringify(body));

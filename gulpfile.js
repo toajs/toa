@@ -13,10 +13,14 @@ gulp.task('jshint', function () {
 
 gulp.task('mocha', function () {
   return gulp.src(['test/index.js', 'test/context/*', 'test/request/*', 'test/response/*'], {read: false})
-  // return gulp.src(['test/index.js'], {read: false})
     .pipe(mocha());
 });
 
 gulp.task('default', ['test']);
 
-gulp.task('test', gulpSequence('jshint', 'mocha'));
+gulp.task('exit', function(callback) {
+  callback();
+  process.exit(0);
+});
+
+gulp.task('test', gulpSequence('jshint', 'mocha', 'exit'));
