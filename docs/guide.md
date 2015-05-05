@@ -168,9 +168,9 @@ app.onmessage = function(msg) {
 };
 ```
 
-### app.listen(port, [hostname], [backlog], [callback])
-### app.listen(path, [callback])
-### app.listen(handle, [callback])
+#### app.listen(port, [hostname], [backlog], [callback])
+#### app.listen(path, [callback])
+#### app.listen(handle, [callback])
 
 返回 `server`，用法与 `httpServer.listen` 一致。
 
@@ -211,11 +211,11 @@ app.use(function*() {
 
 Many of the context's accessors and methods simply delegate to their `ctx.request` or `ctx.response` equivalents for convenience, and are otherwise identical. For example `ctx.type` and `ctx.length` delegate to the `response` object, and `ctx.path` and `ctx.method` delegate to the `request`.
 
-### ctx.req
+#### ctx.req
 
 Node's `request` object.
 
-### ctx.res
+#### ctx.res
 
 Node's `response` object.
 
@@ -226,15 +226,15 @@ Bypassing Toa's response handling is __not supported__. Avoid using the followin
 - `res.write()`
 - `res.end()`
 
-### ctx.request
+#### ctx.request
 
 A Toa `Request` object.
 
-### ctx.response
+#### ctx.response
 
 A Toa `Response` object.
 
-### ctx.state
+#### ctx.state
 
 The recommended namespace for passing information through middleware and to your frontend views.
 
@@ -242,7 +242,7 @@ The recommended namespace for passing information through middleware and to your
 this.state.user = yield User.find(id);
 ```
 
-### ctx.cookies.get(name, [options])
+#### ctx.cookies.get(name, [options])
 
 Get cookie `name` with `options`:
 
@@ -250,7 +250,7 @@ Get cookie `name` with `options`:
 
 Toa uses the [cookies](https://github.com/jed/cookies) module where options are simply passed.
 
-### ctx.cookies.set(name, value, [options])
+#### ctx.cookies.set(name, value, [options])
 
 Set cookie `name` to `value` with `options`:
 
@@ -263,7 +263,7 @@ Set cookie `name` to `value` with `options`:
 
 Toa uses the [cookies](https://github.com/jed/cookies) module where options are simply passed.
 
-### ctx.throw([msg], [status], [properties])
+#### ctx.throw([msg], [status], [properties])
 
 Helper method to throw an error with a `.status` property defaulting to `500` that will allow Toa to respond appropriately. The following combinations are allowed:
 
@@ -293,7 +293,7 @@ this.throw('access_denied', { user: user });
 
 Toa uses [http-errors](https://github.com/jshttp/http-errors) to create errors.
 
-### ctx.assert(value, [msg], [status], [properties])
+#### ctx.assert(value, [msg], [status], [properties])
 
 Helper method to throw an error similar to `.throw()` when `!value`. Similar to node's [assert()](http://nodejs.org/api/assert.html) method.
 
@@ -303,17 +303,17 @@ this.assert(this.state.user, 401, 'User not found. Please login!');
 
 Toa uses [http-assert](https://github.com/jshttp/http-assert) for assertions.
 
-### ctx.respond
+#### ctx.respond
 
 To bypass Toa's built-in response handling, you may explicitly set `this.respond = false;`. Use this if you want to write to the raw `res` object instead of letting Toa handle the response for you.
 
 Note that using this is __not__ supported by Toa. This may break intended functionality of Toa middleware and Toa itself. Using this property is considered a hack and is only a convenience to those wishing to use traditional `fn(req, res)` functions and middleware within Toa.
 
-### ctx.catchStream(stream)
+#### ctx.catchStream(stream)
 
 Catch a `stream`'s error, if 'error' event emit from the stream, the error will be throw to Thunk's `onerror` and response it.
 
-## Request aliases
+### Request aliases
 
 The following accessors and alias [Request](request.md) equivalents:
 
@@ -348,7 +348,7 @@ The following accessors and alias [Request](request.md) equivalents:
 - `ctx.acceptsLanguages()`
 - `ctx.get()`
 
-## Response aliases
+### Response aliases
 
 The following accessors and alias [Response](response.md) equivalents:
 
@@ -378,39 +378,39 @@ The following accessors and alias [Response](response.md) equivalents:
 
 `Request` object is an abstraction on top of node's vanilla request object, providing additional functionality that is useful for every day HTTP server development.
 
-### request.header
+#### request.header
 
 Request header object.
 
-### request.headers
+#### request.headers
 
 Request header object. Alias as `request.header`.
 
-### request.method
+#### request.method
 
 Request method.
 
-### request.method=
+#### request.method=
 
 Set request method, useful for implementing middleware such as `methodOverride()`.
 
-### request.length
+#### request.length
 
 Return request Content-Length as a number when present, or `undefined`.
 
-### request.url
+#### request.url
 
 Get request URL.
 
-### request.url=
+#### request.url=
 
 Set request URL, useful for url rewrites.
 
-### request.originalUrl
+#### request.originalUrl
 
 Get request original URL.
 
-### request.href
+#### request.href
 
 Get full request URL, include `protocol`, `host` and `url`.
 
@@ -419,39 +419,39 @@ this.request.href
 // => http://example.com/foo/bar?q=1
 ```
 
-### request.path
+#### request.path
 
 Get request pathname.
 
-### request.path=
+#### request.path=
 
 Set request pathname and retain query-string when present.
 
-### request.querystring
+#### request.querystring
 
 Get raw query string void of `?`.
 
-### request.querystring=
+#### request.querystring=
 
 Set raw query string.
 
-### request.search
+#### request.search
 
 Get raw query string with the `?`.
 
-### request.search=
+#### request.search=
 
 Set raw query string.
 
-### request.host
+#### request.host
 
 Get host (hostname:port) when present. Supports `X-Forwarded-Host` when `app.proxy` is __true__, otherwise `Host` is used.
 
-### request.hostname
+#### request.hostname
 
 Get hostname when present. Supports `X-Forwarded-Host` when `app.proxy` is __true__, otherwise `Host` is used.
 
-### request.type
+#### request.type
 
 Get request `Content-Type` void of parameters such as "charset".
 
@@ -460,7 +460,7 @@ var ct = this.request.type;
 // => "image/png"
 ```
 
-### request.charset
+#### request.charset
 
 Get request charset when present, or `undefined`:
 
@@ -469,7 +469,7 @@ this.request.charset
 // => "utf-8"
 ```
 
-### request.query
+#### request.query
 
 Get parsed query-string, returning an empty object when no query-string is present. Note that this getter does _not_ support nested parsing.
 
@@ -482,7 +482,7 @@ For example "color=blue&size=small":
 }
 ```
 
-### request.query=
+#### request.query=
 
 Set query-string to the given object. Note that this setter does _not_ support nested objects.
 
@@ -490,7 +490,7 @@ Set query-string to the given object. Note that this setter does _not_ support n
 this.query = { next: '/login' };
 ```
 
-### request.fresh
+#### request.fresh
 
 Check if a request cache is "fresh", aka the contents have not changed. This method is for cache negotiation between `If-None-Match` / `ETag`, and `If-Modified-Since` and `Last-Modified`. It should be referenced after setting one or more of these response headers.
 
@@ -508,27 +508,27 @@ if (this.fresh) {
 this.body = yield db.find('something');
 ```
 
-### request.stale
+#### request.stale
 
 Inverse of `request.fresh`.
 
-### request.protocol
+#### request.protocol
 
 Return request protocol, "https" or "http". Supports `X-Forwarded-Proto` when `app.proxy` is __true__.
 
-### request.secure
+#### request.secure
 
 Shorthand for `this.protocol == "https"` to check if a request was issued via TLS.
 
-### request.ip
+#### request.ip
 
 Request remote address. Supports `X-Forwarded-For` when `app.proxy` is __true__.
 
-### request.ips
+#### request.ips
 
 When `X-Forwarded-For` is present and `app.proxy` is enabled an array of these ips is returned, ordered from upstream -> downstream. When disabled an empty array is returned.
 
-### request.subdomains
+#### request.subdomains
 
 Return subdomains as an array.
 
@@ -539,7 +539,7 @@ For example, if the domain is "tobi.ferrets.example.com":
 If `app.subdomainOffset` is not set, this.subdomains is `["ferrets", "tobi"]`.
 If `app.subdomainOffset` is 3, this.subdomains is `["tobi"]`.
 
-### request.is(types...)
+#### request.is(types...)
 
 Check if the incoming request contains the "Content-Type" header field, and it contains any of the give mime `type`s. If there is no request body, `undefined` is returned. If there is no content type, or the match fails `false` is returned. Otherwise, it returns the matching content-type.
 
@@ -567,7 +567,7 @@ if (this.is('image/*')) {
 }
 ```
 
-### Content Negotiation
+#### Content Negotiation
 
 `Request` object includes helpful content negotiation utilities powered by [accepts](http://github.com/expressjs/accepts) and [negotiator](https://github.com/federomero/negotiator). These utilities are:
 
@@ -582,7 +582,7 @@ If multiple types are supplied, the best match will be returned. If no matches a
 
 In the case of missing accept headers where any type is acceptable, the first type will be returned. Thus, the order of types you supply is important.
 
-### request.accepts(types)
+#### request.accepts(types)
 
 Check if the given `type(s)` is acceptable, returning the best match when true, otherwise `false`. The `type` value may be one or more mime type string such as "application/json", the extension name such as "json", or an array `["json", "html", "text/plain"]`.
 
@@ -629,7 +629,7 @@ switch (this.accepts('json', 'html', 'text')) {
 }
 ```
 
-### request.acceptsEncodings(encodings)
+#### request.acceptsEncodings(encodings)
 
 Check if `encodings` are acceptable, returning the best match when true, otherwise `false`. Note that you should include `identity` as one of the encodings!
 
@@ -652,7 +652,7 @@ this.acceptsEncodings();
 
 Note that the `identity` encoding (which means no encoding) could be unacceptable if the client explicitly sends `identity;q=0`. Although this is an edge case, you should still handle the case where this method returns `false`.
 
-### request.acceptsCharsets(charsets)
+#### request.acceptsCharsets(charsets)
 
 Check if `charsets` are acceptable, returning the best match when true, otherwise `false`.
 
@@ -673,7 +673,7 @@ this.acceptsCharsets();
 // => ["utf-8", "utf-7", "iso-8859-1"]
 ```
 
-### request.acceptsLanguages(langs)
+#### request.acceptsLanguages(langs)
 
 Check if `langs` are acceptable, returning the best match when true, otherwise `false`.
 
@@ -694,15 +694,15 @@ this.acceptsLanguages();
 // => ["es", "pt", "en"]
 ```
 
-### request.idempotent
+#### request.idempotent
 
 Check if the request is idempotent.
 
-### request.socket
+#### request.socket
 
 Return the request socket.
 
-### request.get(field)
+#### request.get(field)
 
 Return request header.
 
@@ -713,23 +713,23 @@ Return request header.
 
 `Response` object is an abstraction on top of node's vanilla response object, providing additional functionality that is useful for every day HTTP server development.
 
-### response.header
+#### response.header
 
 Response header object.
 
-### response.headers
+#### response.headers
 
 Response header object. Alias as `response.header`.
 
-### response.socket
+#### response.socket
 
 Request socket.
 
-### response.status
+#### response.status
 
 Get response status. By default, `response.status` is not set unlike node's `res.statusCode` which defaults to `200`.
 
-### response.status=
+#### response.status=
 
 Set response status via numeric code:
 
@@ -794,27 +794,27 @@ __NOTE__: don't worry too much about memorizing these strings,
 if you have a typo an error will be thrown, displaying this list
 so you can make a correction.
 
-### response.message
+#### response.message
 
 Get response status message. By default, `response.message` is associated with `response.status`.
 
-### response.message=
+#### response.message=
 
 Set response status message to the given value.
 
-### response.length=
+#### response.length=
 
 Set response Content-Length to the given value.
 
-### response.length
+#### response.length
 
 Return response Content-Length as a number when present, or deduce from `this.body` when possible, or `undefined`.
 
-### response.body
+#### response.body
 
 Get response body.
 
-### response.body=
+#### response.body=
 
 Set response body to one of the following:
 
@@ -826,23 +826,23 @@ Set response body to one of the following:
 
 If `response.status` has not been set, Toa will automatically set the status to `200` or `204`.
 
-#### String
+##### String
 
 The Content-Type is defaulted to text/html or text/plain, both with a default charset of utf-8. The Content-Length field is also set.
 
-#### Buffer
+##### Buffer
 
 The Content-Type is defaulted to application/octet-stream, and Content-Length is also set.
 
-#### Stream
+##### Stream
 
 The Content-Type is defaulted to application/octet-stream.
 
-#### Object
+##### Object
 
 The Content-Type is defaulted to application/json.
 
-### response.get(field)
+#### response.get(field)
 
 Get a response header field value with case-insensitive `field`.
 
@@ -850,7 +850,7 @@ Get a response header field value with case-insensitive `field`.
 var etag = this.get('etag');
 ```
 
-### response.set(field, value)
+#### response.set(field, value)
 
 Set response header `field` to `value`:
 
@@ -858,7 +858,7 @@ Set response header `field` to `value`:
 this.set('cache-control', 'no-cache');
 ```
 
-### response.append(field, value)
+#### response.append(field, value)
 
 Append additional header `field` with value `val`.
 
@@ -866,7 +866,7 @@ Append additional header `field` with value `val`.
 this.append('link', '<http://127.0.0.1/>');
 ```
 
-### response.set(fields)
+#### response.set(fields)
 
 Set several response header `fields` with an object:
 
@@ -877,11 +877,11 @@ this.set({
 });
 ```
 
-### response.remove(field)
+#### response.remove(field)
 
 Remove header `field`.
 
-### response.type
+#### response.type
 
 Get response `Content-Type` void of parameters such as "charset".
 
@@ -890,7 +890,7 @@ var ct = this.type;
 // => "image/png"
 ```
 
-### response.type=
+#### response.type=
 
 Set response `Content-Type` via mime string or file extension.
 
@@ -903,11 +903,11 @@ this.type = 'png';
 
 Note: when appropriate a `charset` is selected for you, for example `response.type = 'html'` will default to "utf-8", however when explicitly defined in full as `response.type = 'text/html'` no charset is assigned.
 
-### response.is(types...)
+#### response.is(types...)
 
 Very similar to `this.request.is()`. Check whether the response type is one of the supplied types. This is particularly useful for creating middleware that manipulate responses.
 
-### response.redirect(url, [alt])
+#### response.redirect(url, [alt])
 
 Perform a [302] redirect to `url`.
 
@@ -928,19 +928,19 @@ this.redirect('/cart');
 this.body = 'Redirecting to shopping cart';
 ```
 
-### response.attachment([filename])
+#### response.attachment([filename])
 
 Set `Content-Disposition` to "attachment" to signal the client to prompt for download. Optionally specify the `filename` of the download.
 
-### response.headerSent
+#### response.headerSent
 
 Check if a response header has already been sent. Useful for seeing if the client may be notified on error.
 
-### response.lastModified
+#### response.lastModified
 
 Return the `Last-Modified` header as a `Date`, if it exists.
 
-### response.lastModified=
+#### response.lastModified=
 
 Set the `Last-Modified` header as an appropriate UTC string. You can either set it as a `Date` or date string.
 
@@ -948,7 +948,7 @@ Set the `Last-Modified` header as an appropriate UTC string. You can either set 
 this.response.lastModified = new Date();
 ```
 
-### response.etag=
+#### response.etag=
 
 Set the ETag of a response including the wrapped `"`s. Note that there is no corresponding `response.etag` getter.
 
@@ -956,7 +956,7 @@ Set the ETag of a response including the wrapped `"`s. Note that there is no cor
 this.response.etag = crypto.createHash('md5').update(this.body).digest('hex');
 ```
 
-### response.vary(field)
+#### response.vary(field)
 
 Vary on `field`.
 
