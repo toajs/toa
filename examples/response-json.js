@@ -4,7 +4,7 @@
 // **License:** MIT
 
 var Toa = require('../index');
-var app = Toa(function (Thunk) {
+var app = Toa(function(thunk) {
   this.body = this.toJSON();
 });
 

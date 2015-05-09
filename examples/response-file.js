@@ -5,7 +5,7 @@
 
 var fs = require('fs');
 var Toa = require('../index');
-var app = Toa(function (Thunk) {
+var app = Toa(function(thunk) {
   this.type = 'text';
   this.body = fs.createReadStream(__dirname + '/simple.js', {encoding: 'utf8'});
 });

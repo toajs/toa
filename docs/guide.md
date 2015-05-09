@@ -18,9 +18,9 @@ Toa
 
 ## Toa 简介
 
-__Toa__ 修改自 __Koa__，基本架构原理与 __Koa__ 相似，`context`、`request`、`response` 三大基础对象几乎一样。但 __Toa__ 是基于 [thunks](https://github.com/thunks/thunks) 组合业务逻辑，来实现异步流程控制和异常处理。`thunks` 是一个比 `co` 更强大，性能更好的异步流程控制工具。
+__Toa__ 修改自 __Koa__，基本架构原理与 __Koa__ 相似，`context`、`request`、`response` 三大基础对象几乎一样。但 __Toa__ 是基于 [thunks](https://github.com/thunks/thunks) 组合业务逻辑，来实现异步流程控制和异常处理。`thunks` 是一个比 `co` 更强大的异步流程控制工具。
 
-__Toa__ 的异步核心是 `thunk` 函数，故而支持 `node.js v0.10.x`，但在支持 generator 的 node 环境中（io.js, node.js >= v0.11.9）将会有更好地编程体验：**用同步逻辑编写非阻塞的异步程序**。
+__Toa__ 的异步核心是 `thunk` 函数，支持 `node.js v0.10.x`，但在支持 generator 的 node 环境中（io.js, node.js >= v0.11.9）将会有更好地编程体验：**用同步逻辑编写非阻塞的异步程序**。
 
 __Toa__ 与 __Koa__ 学习成本和编程体验是一致的，两者之间几乎是无缝切换。但 __Toa__ 去掉了 __Koa__ 的 `级联（Cascading）` 逻辑，弱化中间件，强化模块化组件，尽量削弱第三方组件访问应用的能力，
 使得编写大型应用的结构逻辑更简洁明了，也更安全。
@@ -48,6 +48,7 @@ __Toa__ 与 __Koa__ 学习成本和编程体验是一致的，两者之间几乎
 npm install toa
 ````
 
+------
 
 ## Application 应用
 
@@ -75,12 +76,12 @@ app.listen(3000);
 ### Class: Toa([server][, appBody][, options])
 
 - `server`: {Object}, 可以是 http server 或 https server。
-- `appBody`: {Function} 有唯一参数 `Thunk`，它的作用域带有 `onerror` 监听，能捕获任何异常。`appBody` 中如果有异步逻辑，则应该封装在 `thunk` 函数、 `generator` 函数、`generator` 对象或`promise` 对象等中并 `return` 返回（与 `thunks` 或 `Promise` 类似）。
-- `options`: {Object} 同 `thunks` 的 options，可以定义 `appBody` 中 `Thunk` 作用域的 `debug` 方法和 `onerror` 方法。其中 `onerror` 方法可用于对捕获异常进行初步加工处理，再 `return` 或 `throw` 给 Toa 内置的 `onResError` 处理。如果 `onerror` 返回 `true`，则忽略该异常，继续执行后续业务逻辑。
+- `appBody`: {Function} 有唯一参数 `thunk` 生成器，它的作用域已与当前的 request 请求绑定，它的 `onerror` 能捕获任何异常。`appBody` 中如果有异步逻辑，则应该封装在 `thunk` 生成器能处理的对象（thunkable），如 `generator` 函数、`generator` 对象或`promise` 对象等，并 `return` 返回（与 `thunks` 或 `Promise` 类似）。
+- `options`: {Object} 同 `thunks` 的 options，可以定义 `appBody` 中 `thunk` 作用域的 `debug` 方法和 `onerror` 方法。其中 `onerror` 方法可用于对捕获异常进行初步加工处理，再 `return` 或 `throw` 给 Toa 内置的 `onResError` 处理。如果 `onerror` 返回 `true`，则忽略该异常，继续执行后续业务逻辑。
 
 ```js
 // with full arguments
-var app = new Toa(server, function(Thunk) {
+var app = new Toa(server, function(thunk) {
   // body...
 }, {
   debug: function() {}
@@ -179,6 +180,7 @@ app.onmessage = function(msg) {
 app.listen(3000);
 ```
 
+------
 
 ## Context
 
@@ -371,6 +373,7 @@ The following accessors and alias [Response](response.md) equivalents:
 - `ctx.lastModified=`
 - `ctx.etag=`
 
+------
 
 ## Request
 
@@ -706,6 +709,7 @@ Return the request socket.
 
 Return request header.
 
+------
 
 ## Response
 

@@ -17,6 +17,8 @@ var toa = require('..');
 var fs = require('fs');
 var AssertionError = assert.AssertionError;
 
+process.setMaxListeners(0);
+
 describe('app', function() {
   it('should handle socket errors', function(done) {
     var app = toa(function() {

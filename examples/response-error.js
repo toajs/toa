@@ -4,11 +4,11 @@
 // **License:** MIT
 
 var Toa = require('../index');
-var app = Toa(function (Thunk) {
+var app = Toa(function(thunk) {
   this.body = 'Hello World!\n-- toa';
 });
 
-app.use(function (callback) {
+app.use(function(callback) {
   this.throw(401, new Error('Unauthorized'));
 });
 

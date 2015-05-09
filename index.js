@@ -24,7 +24,7 @@ var pwdReg = new RegExp(process.cwd().replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), 'g
 module.exports = Toa;
 
 Toa.NAME = 'Toa';
-Toa.VERSION = 'v0.9.1';
+Toa.VERSION = 'v0.9.2';
 
 function Toa(server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options);
@@ -153,7 +153,7 @@ proto.listen = function() {
         }
       }
       // ignore err and response to client
-      if (err === true) return Thunk.seq.call(ctx, ctx.onPreEnd)(respond);
+      if (err === true) return thunk.seq.call(ctx, ctx.onPreEnd)(respond);
 
       try {
         onResError.call(ctx, err);
@@ -163,12 +163,11 @@ proto.listen = function() {
     }
 
     var ctx = createContext(app, req, res);
-    var Thunk = thunks({
+    var thunk = thunks({
       debug: debug,
       onerror: onerror
     });
 
-    Object.freeze(Thunk);
     ctx.on('error', onerror);
     ctx.onerror = onerror;
     onFinished(res, function(err) {
@@ -178,10 +177,10 @@ proto.listen = function() {
 
     if (ctx.config.poweredBy) ctx.set('X-Powered-By', ctx.config.poweredBy);
 
-    Thunk.seq.call(ctx, middleware)(function() {
-      return body.call(this, Thunk);
+    thunk.seq.call(ctx, middleware)(function() {
+      return body.call(this, thunk);
     })(function() {
-      return Thunk.seq.call(this, this.onPreEnd);
+      return thunk.seq.call(this, this.onPreEnd);
     })(respond);
   });
 

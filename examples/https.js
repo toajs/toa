@@ -15,7 +15,7 @@ var options = {
 var server = https.createServer(options);
 
 
-var app = Toa(server, function (Thunk) {
+var app = Toa(server, function(thunk) {
   this.body = 'Hello World!\n-- toa';
 });
 

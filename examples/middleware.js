@@ -6,7 +6,7 @@
 var Toa = require('../index');
 var app = Toa();
 
-app.use(function (callback) {
+app.use(function(callback) {
   this.body = 'Hello World!\n-- toa';
   callback();
 });
