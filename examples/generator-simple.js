@@ -4,7 +4,7 @@
 // **License:** MIT
 
 var Toa = require('../index');
-var app = Toa(function*(thunk) {
+var app = Toa(function*() {
   this.body = yield 'Hello World!\n-- ' + this.config.poweredBy;
 });
 

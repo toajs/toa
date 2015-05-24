@@ -64,7 +64,7 @@ var Toa = require('toa');
 
 ```js
 // with full arguments
-var app = new Toa(server, function(thunk) {
+var app = new Toa(server, function() {
   // body...
 }, {
   debug: function() {}
@@ -104,7 +104,7 @@ app.config = config;
 加载中间件，返回 `app`，`fn` 必须是 `thunk` 函数或 `generator` 函数，函数中的 `this` 值为 `context`。
 
 ```js
-app.use(function (callback) {
+app.use(function(callback) {
   // task
   // this === context
   callback(err, result);
@@ -112,7 +112,7 @@ app.use(function (callback) {
 ```
 
 ```js
-app.use(function* () {
+app.use(function*() {
   // task
   // this === context
   yield result;
@@ -133,21 +133,6 @@ app.onerror = function(err) {
   // catch system error
   var msg = err.stack || err.toString();
   console.error(msg.replace(/^/gm, '  '));
-};
-```
-
-#### app.onmessage = function(message) {}
-
-设置 `onmessage` 函数，该函数接受 `process` 的 `message` 通知，主要目的是用来处理 `pm2 gracefulReload`，也可以自己定义其行为。
-
-```js
-// default
-app.onmessage = function(msg) {
-  if (msg === 'shutdown') {
-    this.server.close(function() {
-      process.exit(0);
-    });
-  }
 };
 ```
 

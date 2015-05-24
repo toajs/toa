@@ -154,21 +154,6 @@ app.onerror = function(err) {
 };
 ```
 
-#### app.onmessage = function(message) {}
-
-设置 `onmessage` 函数，该函数接受 `process` 的 `message` 通知，主要目的是用来处理 `pm2 gracefulReload`，也可以自己定义其行为。
-
-```js
-// default
-app.onmessage = function(msg) {
-  if (msg === 'shutdown') {
-    this.server.close(function() {
-      process.exit(0);
-    });
-  }
-};
-```
-
 #### app.listen(port, [hostname], [backlog], [callback])
 #### app.listen(path, [callback])
 #### app.listen(handle, [callback])

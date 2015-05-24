@@ -20,6 +20,6 @@ describe('req.type', function() {
 
   describe('with no host present', function() {
     var req = request();
-    assert(req.type == null);
+    assert(req.type === '');
   });
 });

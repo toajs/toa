@@ -17,8 +17,6 @@ var toa = require('..');
 var fs = require('fs');
 var AssertionError = assert.AssertionError;
 
-process.setMaxListeners(0);
-
 describe('app', function() {
   it('should handle socket errors', function(done) {
     var app = toa(function() {
@@ -38,10 +36,11 @@ describe('app', function() {
 
 describe('app.use(fn)', function() {
   it('should run middleware befor body', function(done) {
-    var app = toa(function (Thunk) {
+    var app = toa(function() {
       calls.push(3);
-      return Thunk(4)(function(err, res) {
+      return this.thunk(4)(function(err, res) {
         calls.push(4);
+        this.body = calls;
       });
     });
     var calls = [];
@@ -51,18 +50,17 @@ describe('app.use(fn)', function() {
       return next();
     });
 
-    app.use(function (next) {
+    app.use(function(next) {
       calls.push(2);
       return next();
     });
 
     request(app.listen())
       .get('/')
-      .end(function(err) {
-        if (err) return done(err);
-        assert.deepEqual(calls, [1, 2, 3, 4]);
-        done();
-      });
+      .expect(function(res) {
+        assert.deepEqual(res.body, [1, 2, 3, 4]);
+      })
+      .end(done);
   });
 });
 
@@ -99,7 +97,7 @@ describe('app.onerror(err)', function() {
 describe('app.respond', function() {
   describe('when this.respond === false', function() {
     it('should bypass app.respond', function(done) {
-      var app = toa(function (Thunk) {
+      var app = toa(function() {
         this.body = 'Hello';
         this.respond = false;
 
@@ -121,7 +119,7 @@ describe('app.respond', function() {
 
   describe('when HEAD is used', function() {
     it('should not respond with the body', function(done) {
-      var app = toa(function(Thunk) {
+      var app = toa(function() {
         this.body = 'Hello';
       });
 
@@ -138,7 +136,7 @@ describe('app.respond', function() {
     });
 
     it('should keep json headers', function(done) {
-      var app = toa(function(Thunk) {
+      var app = toa(function() {
         this.body = {
           hello: 'world'
         };
@@ -157,7 +155,7 @@ describe('app.respond', function() {
     });
 
     it('should keep string headers', function(done) {
-      var app = toa(function(Thunk) {
+      var app = toa(function() {
         this.body = 'hello world';
       });
 
@@ -176,7 +174,7 @@ describe('app.respond', function() {
     });
 
     it('should keep buffer headers', function(done) {
-      var app = toa(function(Thunks) {
+      var app = toa(function() {
         this.body = new Buffer('hello world');
       });
 
@@ -712,7 +710,7 @@ describe('app.respond', function() {
     it('should be catchable', function(done) {
       var app = toa(function() {
           this.body = 'Got something';
-      }, function (err) {
+      }, function(err) {
         assert(err.message, 'boom!');
         this.body = 'Got error';
         return true;

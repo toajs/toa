@@ -24,7 +24,7 @@ var pwdReg = new RegExp(process.cwd().replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), 'g
 module.exports = Toa;
 
 Toa.NAME = 'Toa';
-Toa.VERSION = 'v0.9.2';
+Toa.VERSION = 'v0.10.0';
 
 function Toa(server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options);
@@ -104,20 +104,6 @@ proto.use = function(fn) {
 };
 
 /**
- * Accept a 'shutdown' message to stop from accepting new connections and keeps existing connections.
- * The server is finally closed and exit gracefully when all connections are ended.
- * For example: `pm2 gracefulReload app`
- */
-
-proto.onmessage = function(msg) {
-  if (msg === 'shutdown') {
-    this.server.close(function() {
-      process.exit(0);
-    });
-  }
-};
-
-/**
  * start server
  *
  * @param {Mixed} ...
@@ -134,15 +120,8 @@ proto.listen = function() {
   var errorHandler = this.errorHandler;
   var middleware = this.middleware.slice();
 
-  var onmessage = this.onmessage.bind(this);
-  process.on('message', onmessage);
-  server.once('close', function() {
-    process.removeListener('message', onmessage);
-  });
-
   server.addListener('request', function(req, res) {
     res.statusCode = 404;
-
     function onerror(err) {
       if (err == null) return;
       if (errorHandler) {
@@ -153,7 +132,7 @@ proto.listen = function() {
         }
       }
       // ignore err and response to client
-      if (err === true) return thunk.seq.call(ctx, ctx.onPreEnd)(respond);
+      if (err === true) return ctx.thunk.seq.call(ctx, ctx.onPreEnd)(respond);
 
       try {
         onResError.call(ctx, err);
@@ -162,11 +141,10 @@ proto.listen = function() {
       }
     }
 
-    var ctx = createContext(app, req, res);
-    var thunk = thunks({
+    var ctx = createContext(app, req, res, thunks({
       debug: debug,
       onerror: onerror
-    });
+    }));
 
     ctx.on('error', onerror);
     ctx.onerror = onerror;
@@ -177,10 +155,10 @@ proto.listen = function() {
 
     if (ctx.config.poweredBy) ctx.set('X-Powered-By', ctx.config.poweredBy);
 
-    thunk.seq.call(ctx, middleware)(function() {
-      return body.call(this, thunk);
+    ctx.thunk.seq.call(ctx, middleware)(function() {
+      return body.call(this, this.thunk);
     })(function() {
-      return thunk.seq.call(this, this.onPreEnd);
+      return this.thunk.seq.call(this, this.onPreEnd);
     })(respond);
   });
 
@@ -294,7 +272,7 @@ function onResError(err) {
  * @api private
  */
 
-function createContext(app, req, res) {
+function createContext(app, req, res, thunk) {
   var context = Object.create(app.context);
   var request = context.request = Object.create(app.request);
   var response = context.response = Object.create(app.response);
@@ -309,6 +287,7 @@ function createContext(app, req, res) {
   context.cookies = new Cookies(req, res, app.keys);
   context.accept = request.accept = accepts(req);
   context.config = Object.create(app.config);
+  context.thunk = thunk;
   context.state = {};
 
   Object.defineProperty(context, 'onPreEnd', {

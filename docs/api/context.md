@@ -3,8 +3,8 @@
 ## Difference from Koa:
 
 - remove `ctx.app`
-- remove `ctx.onerror`
 - add `ctx.catchStream`
+- add `ctx.thunk`, it is thunk function that bound a scope with `onerror`.
 - is a `EventEmitter` instance
 
 `Context` object encapsulates node's `request` and `response` objects into a single object which provides many helpful methods for writing web applications and APIs. These operations are used so frequently in HTTP server development that they are added at this level instead of a higher level framework, which would force middleware to re-implement this common functionality.
@@ -30,6 +30,10 @@ Many of the context's accessors and methods simply delegate to their `ctx.reques
 ## API
 
 `Context` specific methods and accessors.
+
+### ctx.thunk
+
+A thunk function that bound a scope with `onerror`.
 
 ### ctx.req
 
