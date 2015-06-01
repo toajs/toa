@@ -1,22 +1,20 @@
-'use strict';
+'use strict'
 // **Github:** https://github.com/toajs/toa
 //
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it, before, after, beforeEach, afterEach*/
+/*global describe, it */
 
-/*jshint -W124 */
+var assert = require('assert')
+var request = require('../context').request
 
-var assert = require('assert');
-var request = require('../context').request;
-
-describe('req.secure', function() {
-  it('should return true when encrypted', function() {
-    var req = request();
+describe('req.secure', function () {
+  it('should return true when encrypted', function () {
+    var req = request()
     req.req.socket = {
       encrypted: true
-    };
-    assert(req.secure);
-  });
-});
+    }
+    assert(req.secure)
+  })
+})

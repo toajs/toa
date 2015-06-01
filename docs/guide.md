@@ -10,13 +10,13 @@ Toa
 
 ## Summary
 
-- [Toa 简介](#toa-%E7%AE%80%E4%BB%8B)
-- [Application 应用](#application-%E5%BA%94%E7%94%A8)
+- [Toa 简介](#toa)
+- [Application 应用](#application)
 - [Context](#context)
 - [Request](#request)
 - [Response](#response)
 
-## Toa 简介
+## Toa
 
 __Toa__ 修改自 __Koa__，基本架构原理与 __Koa__ 相似，`context`、`request`、`response` 三大基础对象几乎一样。但 __Toa__ 是基于 [thunks](https://github.com/thunks/thunks) 组合业务逻辑，来实现异步流程控制和异常处理。`thunks` 是一个比 `co` 更强大的异步流程控制工具。
 
@@ -50,7 +50,7 @@ npm install toa
 
 ------
 
-## Application 应用
+## Application
 
 一个 Toa Application（以下简称 __app__）由一系列 __中间件__ 和 __模块__ 组成。__中间件__ 是指通过 `app.use` 加载的 thunk 函数或 generator 函数。__模块__ 特指在实例化 Toa 时的 `appBody` 中的功能组件。
 
@@ -59,7 +59,7 @@ npm install toa
 
 对于 web server 的一次访问请求，app 会按照顺序先运行中间件，然后再运行 `appBody` 中的模块组，最后运行内置的 `respond` 函数，将请求结果自动响应的客户端。由于 Toa 没有 `级联（Cascading）`，这些中间件或模块的运行不会有任何交叉，它们总是先运行完一个，再运行下一个。
 
-Toa 只有一个极简的内核，提供快捷的 HTTP 操作和异步流程控制能力。具体的业务功能逻辑则由中间件和模块组合实现（上面已列出开发一个应用常用的中间件或模块）。
+Toa 只有一个极简的内核，提供快捷的 HTTP 操作和异步流程控制能力。具体的业务功能逻辑则由中间件和模块组合实现。
 用户则可根据自己的业务需求，以最轻量级的方式组合自己的应用。
 
 让我们来看看 Toa 极其简单的 Hello World 应用程序：
@@ -174,8 +174,8 @@ app.listen(3000);
 ### Difference from Koa:
 
 - remove `ctx.app`
-- remove `ctx.onerror`
 - add `ctx.catchStream`
+- add `ctx.thunk`, it is thunk function that bound a scope with `onerror`.
 - is a `EventEmitter` instance
 
 `Context` object encapsulates node's `request` and `response` objects into a single object which provides many helpful methods for writing web applications and APIs. These operations are used so frequently in HTTP server development that they are added at this level instead of a higher level framework, which would force middleware to re-implement this common functionality.
@@ -197,6 +197,10 @@ app.use(function*() {
 ```
 
 Many of the context's accessors and methods simply delegate to their `ctx.request` or `ctx.response` equivalents for convenience, and are otherwise identical. For example `ctx.type` and `ctx.length` delegate to the `response` object, and `ctx.path` and `ctx.method` delegate to the `request`.
+
+### ctx.thunk
+
+A thunk function that bound a scope with `onerror`.
 
 #### ctx.req
 

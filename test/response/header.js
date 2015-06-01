@@ -1,30 +1,28 @@
-'use strict';
+'use strict'
 // **Github:** https://github.com/toajs/toa
 //
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it, before, after, beforeEach, afterEach*/
+/*global describe, it */
 
-/*jshint -W124 */
+var assert = require('assert')
+var response = require('../context').response
 
-var assert = require('assert');
-var response = require('../context').response;
-
-describe('res.header', function() {
-  it('should return the response header object', function() {
-    var res = response();
-    res.set('X-Foo', 'bar');
+describe('res.header', function () {
+  it('should return the response header object', function () {
+    var res = response()
+    res.set('X-Foo', 'bar')
     assert.deepEqual(res.header, {
       'x-foo': 'bar'
-    });
-  });
+    })
+  })
 
-  describe('when res._headers not present', function() {
-    it('should return empty object', function() {
-      var res = response();
-      res.res._headers = null;
-      assert.deepEqual(res.header, {});
-    });
-  });
-});
+  describe('when res._headers not present', function () {
+    it('should return empty object', function () {
+      var res = response()
+      res.res._headers = null
+      assert.deepEqual(res.header, {})
+    })
+  })
+})

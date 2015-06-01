@@ -4,7 +4,7 @@
   "authors": [
     "Yan Qing <admin@zensh.com>"
   ],
-  "version": "0.10.0",
+  "version": "0.11.0",
   "main": "index.js",
   "license": "MIT",
   "repository": {
@@ -49,14 +49,14 @@
   },
   "devDependencies": {
     "gulp": "^3.8.11",
-    "gulp-jshint": "^1.11.0",
     "gulp-mocha": "^2.1.0",
     "gulp-sequence": "^0.3.2",
+    "standard": "^4.0.0",
     "supertest": "^1.0.1",
     "test-console": "^0.7.1"
   },
   "scripts": {
-    "test": "gulp test"
+    "test": "standard && gulp test"
   },
   "ignore": [
     "**/.*",
