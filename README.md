@@ -4,6 +4,9 @@ Toa
 
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
+[![js-standard-style][js-standard-image]][js-standard-url]
+[![Coverage Status][coveralls-image]][coveralls-url]
+[![Downloads][downloads-image]][downloads-url]
 [![Talk topic][talk-image]][talk-url]
 
 ### Thanks to [Koa](https://github.com/koajs/koa) and it's authors
@@ -153,5 +156,14 @@ app.listen(3000);
 [travis-url]: https://travis-ci.org/toajs/toa
 [travis-image]: http://img.shields.io/travis/toajs/toa.svg
 
+[coveralls-url]: https://coveralls.io/r/toajs/toa
+[coveralls-image]: https://coveralls.io/repos/toajs/toa/badge.svg
+
+[downloads-url]: https://npmjs.org/package/toa
+[downloads-image]: http://img.shields.io/npm/dm/toa.svg?style=flat-square
+
 [talk-url]: https://guest.talk.ai/rooms/a6a9331024
 [talk-image]: https://img.shields.io/talk/t/a6a9331024.svg
+
+[js-standard-url]: https://github.com/feross/standard
+[js-standard-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat

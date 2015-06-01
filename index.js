@@ -24,7 +24,7 @@ var pwdReg = new RegExp(process.cwd().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g
 module.exports = Toa
 
 Toa.NAME = 'Toa'
-Toa.VERSION = 'v0.11.0'
+Toa.VERSION = 'v0.11.1'
 
 function Toa (server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options)

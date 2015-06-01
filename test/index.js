@@ -10,6 +10,7 @@ var stderr = require('test-console').stderr
 var request = require('supertest')
 var statuses = require('statuses')
 var assert = require('assert')
+var http = require('http')
 var toa = require('..')
 var fs = require('fs')
 
@@ -28,9 +29,126 @@ describe('app', function () {
       .get('/')
       .end(function () {})
   })
+
+  it('should work with custom server', function (done) {
+    var server = http.createServer()
+    var app = toa(server, function () {
+      this.body = 'hello'
+    })
+
+    assert.strictEqual(app.server, server)
+
+    request(app.listen())
+      .get('/')
+      .expect('hello')
+      .end(done)
+  })
+
+  it('should work with error handle', function (done) {
+    var app = toa(function () {
+      this.throw(404)
+    }, function (err) {
+      this.body = 'hello'
+      assert.strictEqual(err.status, 404)
+      return true
+    })
+
+    request(app.listen())
+      .get('/')
+      .expect('hello')
+      .end(done)
+  })
+
+  it('should throw errorHandle\'s error', function (done) {
+    var app = toa(function () {
+      this.throw(404)
+    }, function (err) {
+      if (err) throw new Error('errorHandle error')
+    })
+
+    var handleErr = null
+
+    app.onerror = function (error) {
+      handleErr = error
+    }
+
+    request(app.listen())
+      .get('/')
+      .expect(500)
+      .end(function (err) {
+        assert.strictEqual(handleErr.message, 'errorHandle error')
+        done(err)
+      })
+  })
+
+  it('should work with error handle', function (done) {
+    var app = toa(function () {
+      this.throw(404)
+    }, function (err) {
+      this.body = 'hello'
+      assert.strictEqual(err.status, 404)
+      return true
+    })
+
+    request(app.listen())
+      .get('/')
+      .expect('hello')
+      .end(done)
+  })
+
+  it('should respond non-error by onResError', function (done) {
+    var app = toa(function () {
+      this.body = 123
+      throw {
+        message: 'some message',
+        status: 206
+      }
+    })
+
+    request(app.listen())
+      .get('/')
+      .expect(206)
+      .expect({
+        message: 'some message',
+        status: 206
+      })
+      .end(done)
+  })
+
+  it('should work with options', function (done) {
+    var debugLogs = 0
+    var app = toa(function () {
+      this.throw(404)
+    }, {
+      onerror: function (err) {
+        this.body = 'hello'
+        assert.strictEqual(err.status, 404)
+      },
+      debug: function (err, res) {
+        debugLogs += 1
+        if (err) assert.strictEqual(err.status, 404)
+      }
+    })
+
+    request(app.listen())
+      .get('/')
+      .expect(404)
+      .end(function (err) {
+        assert.strictEqual(debugLogs > 1, true)
+        done(err)
+      })
+  })
 })
 
 describe('app.use(fn)', function () {
+  it('should throw error with non-function middleware', function (done) {
+    var app = toa()
+    assert.throws(function () {
+      app.use({})
+    })
+    done()
+  })
+
   it('should run middleware befor body', function (done) {
     var app = toa(function () {
       calls.push(3)
@@ -87,6 +205,18 @@ describe('app.onerror(err)', function () {
     })
 
     assert.deepEqual(output, ['  Foo\n'])
+    done()
+  })
+
+  it('should transform non-error to error object', function (done) {
+    var app = toa()
+
+    var err = 'Foo'
+    var output = stderr.inspectSync(function () {
+      app.onerror(err)
+    })
+
+    assert.strictEqual(output[0].indexOf('  Error: non-error thrown: Foo\n'), 0)
     done()
   })
 })
@@ -783,6 +913,16 @@ describe('app.context', function () {
     request(app2.listen())
       .get('/')
       .expect(204, done)
+  })
+
+  it('should throw error with non-object config', function (done) {
+    var app = toa()
+
+    assert.throws(function () {
+      app.config = []
+    })
+    assert.strictEqual(app.config.poweredBy, 'Toa')
+    done()
   })
 
   it('should not affect the application config', function (done) {
