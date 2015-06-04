@@ -4,7 +4,7 @@
 
 - remove `ctx.app`
 - add `ctx.catchStream`
-- add `ctx.thunk`, it is thunk function that bound a scope with `onerror`.
+- add `ctx.thunk`, it is thunk function that bound a scope with `onerror`
 - is a `EventEmitter` instance
 
 `Context` object encapsulates node's `request` and `response` objects into a single object which provides many helpful methods for writing web applications and APIs. These operations are used so frequently in HTTP server development that they are added at this level instead of a higher level framework, which would force middleware to re-implement this common functionality.
@@ -12,17 +12,17 @@
 A `Context` is created _per_ request, and is referenced in middleware as the receiver, or the `this` identifier, as shown in the following snippet:
 
 ```js
-var app = Toa(function*() {
-  this; // is the Context
-  this.request; // is a toa Request
-  this.response; // is a toa Response
-});
+var app = Toa(function* () {
+  this // is the Context
+  this.request // is a toa Request
+  this.response // is a toa Response
+})
 
-app.use(function*() {
-  this; // is the Context
-  this.request; // is a toa Request
-  this.response; // is a toa Response
-});
+app.use(function* () {
+  this // is the Context
+  this.request // is a toa Request
+  this.response // is a toa Response
+})
 ```
 
 Many of the context's accessors and methods simply delegate to their `ctx.request` or `ctx.response` equivalents for convenience, and are otherwise identical. For example `ctx.type` and `ctx.length` delegate to the `response` object, and `ctx.path` and `ctx.method` delegate to the `request`.
@@ -63,7 +63,7 @@ A Toa `Response` object.
 The recommended namespace for passing information through middleware and to your frontend views.
 
 ```js
-this.state.user = yield User.find(id);
+this.state.user = yield User.find(id)
 ```
 
 ### ctx.cookies.get(name, [options])
@@ -92,18 +92,18 @@ Toa uses the [cookies](https://github.com/jed/cookies) module where options are 
 Helper method to throw an error with a `.status` property defaulting to `500` that will allow Toa to respond appropriately. The following combinations are allowed:
 
 ```js
-this.throw(403);
-this.throw('name required', 400);
-this.throw(400, 'name required');
-this.throw('something exploded');
+this.throw(403)
+this.throw('name required', 400)
+this.throw(400, 'name required')
+this.throw('something exploded')
 ```
 
 For example `this.throw('name required', 400)` is equivalent to:
 
 ```js
-var err = new Error('name required');
-err.status = 400;
-throw err;
+var err = new Error('name required')
+err.status = 400
+throw err
 ```
 
 Note that these are user-level errors and are flagged with `err.expose` meaning the messages are appropriate for client responses, which is typically not the case for error messages since you do not want to leak failure details.
@@ -111,8 +111,8 @@ Note that these are user-level errors and are flagged with `err.expose` meaning 
 You may optionally pass a `properties` object which is merged into the error as-is, useful for decorating machine-friendly errors which are reported to the requester upstream.
 
 ```js
-this.throw(401, 'access_denied', { user: user });
-this.throw('access_denied', { user: user });
+this.throw(401, 'access_denied', {user: user})
+this.throw('access_denied', {user: user})
 ```
 
 Toa uses [http-errors](https://github.com/jshttp/http-errors) to create errors.
@@ -122,14 +122,14 @@ Toa uses [http-errors](https://github.com/jshttp/http-errors) to create errors.
 Helper method to throw an error similar to `.throw()` when `!value`. Similar to node's [assert()](http://nodejs.org/api/assert.html) method.
 
 ```js
-this.assert(this.state.user, 401, 'User not found. Please login!');
+this.assert(this.state.user, 401, 'User not found. Please login!')
 ```
 
 Toa uses [http-assert](https://github.com/jshttp/http-assert) for assertions.
 
 ### ctx.respond
 
-To bypass Toa's built-in response handling, you may explicitly set `this.respond = false;`. Use this if you want to write to the raw `res` object instead of letting Toa handle the response for you.
+To bypass Toa's built-in response handling, you may explicitly set `this.respond = false`. Use this if you want to write to the raw `res` object instead of letting Toa handle the response for you.
 
 Note that using this is __not__ supported by Toa. This may break intended functionality of Toa middleware and Toa itself. Using this property is considered a hack and is only a convenience to those wishing to use traditional `fn(req, res)` functions and middleware within Toa.
 

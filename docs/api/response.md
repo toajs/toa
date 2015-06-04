@@ -138,7 +138,7 @@ The Content-Type is defaulted to application/json.
 Get a response header field value with case-insensitive `field`.
 
 ```js
-var etag = this.get('etag');
+var etag = this.get('etag')
 ```
 
 ### response.set(field, value)
@@ -146,7 +146,7 @@ var etag = this.get('etag');
 Set response header `field` to `value`:
 
 ```js
-this.set('cache-control', 'no-cache');
+this.set('cache-control', 'no-cache')
 ```
 
 ### response.append(field, value)
@@ -154,7 +154,7 @@ this.set('cache-control', 'no-cache');
 Append additional header `field` with value `val`.
 
 ```js
-this.append('link', '<http://127.0.0.1/>');
+this.append('link', '<http://127.0.0.1/>')
 ```
 
 ### response.set(fields)
@@ -165,7 +165,7 @@ Set several response header `fields` with an object:
 this.set({
   'etag': '1234',
   'last-modified': date
-});
+})
 ```
 
 ### response.remove(field)
@@ -177,7 +177,7 @@ Remove header `field`.
 Get response `Content-Type` void of parameters such as "charset".
 
 ```js
-var ct = this.type;
+var ct = this.type
 // => "image/png"
 ```
 
@@ -186,10 +186,10 @@ var ct = this.type;
 Set response `Content-Type` via mime string or file extension.
 
 ```js
-this.type = 'text/plain; charset=utf-8';
-this.type = 'image/png';
-this.type = '.png';
-this.type = 'png';
+this.type = 'text/plain; charset=utf-8'
+this.type = 'image/png'
+this.type = '.png'
+this.type = 'png'
 ```
 
 Note: when appropriate a `charset` is selected for you, for example `response.type = 'html'` will default to "utf-8", however when explicitly defined in full as `response.type = 'text/html'` no charset is assigned.
@@ -205,18 +205,18 @@ Perform a [302] redirect to `url`.
 The string "back" is special-cased to provide Referrer support, when Referrer is not present `alt` or "/" is used.
 
 ```js
-this.redirect('back');
-this.redirect('back', '/index.html');
-this.redirect('/login');
-this.redirect('http://google.com');
+this.redirect('back')
+this.redirect('back', '/index.html')
+this.redirect('/login')
+this.redirect('http://google.com')
 ```
 
 To alter the default status of `302`, simply assign the status before or after this call. To alter the body, assign it after this call:
 
 ```js
-this.status = 301;
-this.redirect('/cart');
-this.body = 'Redirecting to shopping cart';
+this.status = 301
+this.redirect('/cart')
+this.body = 'Redirecting to shopping cart'
 ```
 
 ### response.attachment([filename])
@@ -236,7 +236,7 @@ Return the `Last-Modified` header as a `Date`, if it exists.
 Set the `Last-Modified` header as an appropriate UTC string. You can either set it as a `Date` or date string.
 
 ```js
-this.response.lastModified = new Date();
+this.response.lastModified = new Date()
 ```
 
 ### response.etag=
@@ -244,7 +244,7 @@ this.response.lastModified = new Date();
 Set the ETag of a response including the wrapped `"`s. Note that there is no corresponding `response.etag` getter.
 
 ```js
-this.response.etag = crypto.createHash('md5').update(this.body).digest('hex');
+this.response.etag = crypto.createHash('md5').update(this.body).digest('hex')
 ```
 
 ### response.vary(field)

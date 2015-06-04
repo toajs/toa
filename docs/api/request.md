@@ -82,7 +82,7 @@ Get hostname when present. Supports `X-Forwarded-Host` when `app.proxy` is __tru
 Get request `Content-Type` void of parameters such as "charset".
 
 ```js
-var ct = this.request.type;
+var ct = this.request.type
 // => "image/png"
 ```
 
@@ -113,7 +113,7 @@ For example "color=blue&size=small":
 Set query-string to the given object. Note that this setter does _not_ support nested objects.
 
 ```js
-this.query = { next: '/login' };
+this.query = {next: '/login'}
 ```
 
 ### request.fresh
@@ -121,17 +121,17 @@ this.query = { next: '/login' };
 Check if a request cache is "fresh", aka the contents have not changed. This method is for cache negotiation between `If-None-Match` / `ETag`, and `If-Modified-Since` and `Last-Modified`. It should be referenced after setting one or more of these response headers.
 
 ```js
-this.set('etag', '123');
+this.set('etag', '123')
 
 // cache is ok
 if (this.fresh) {
-  this.status = 304;
-  return;
+  this.status = 304
+  return
 }
 
 // cache is stale
 // fetch new data
-this.body = yield db.find('something');
+this.body = yield db.find('something')
 ```
 
 ### request.stale
@@ -171,16 +171,16 @@ Check if the incoming request contains the "Content-Type" header field, and it c
 
 ```js
 // With Content-Type: text/html; charset=utf-8
-this.is('html'); // => 'html'
-this.is('text/html'); // => 'text/html'
-this.is('text/*', 'text/html'); // => 'text/html'
+this.is('html') // => 'html'
+this.is('text/html') // => 'text/html'
+this.is('text/*', 'text/html') // => 'text/html'
 
 // When Content-Type is application/json
-this.is('json', 'urlencoded'); // => 'json'
-this.is('application/json'); // => 'application/json'
-this.is('html', 'application/*'); // => 'application/json'
+this.is('json', 'urlencoded') // => 'json'
+this.is('application/json') // => 'application/json'
+this.is('html', 'application/*') // => 'application/json'
 
-this.is('html'); // => false
+this.is('html') // => false
 ```
 
 For example if you want to ensure that only images are sent to a given route:
@@ -189,7 +189,7 @@ For example if you want to ensure that only images are sent to a given route:
 if (this.is('image/*')) {
   // process
 } else {
-  this.throw(415, 'images only!');
+  this.throw(415, 'images only!')
 }
 ```
 
@@ -214,33 +214,33 @@ Check if the given `type(s)` is acceptable, returning the best match when true, 
 
 ```js
 // Accept: text/html
-this.accepts('html');
+this.accepts('html')
 // => "html"
 
 // Accept: text/*, application/json
-this.accepts('html');
+this.accepts('html')
 // => "html"
-this.accepts('text/html');
+this.accepts('text/html')
 // => "text/html"
-this.accepts('json', 'text');
+this.accepts('json', 'text')
 // => "json"
-this.accepts('application/json');
+this.accepts('application/json')
 // => "application/json"
 
 // Accept: text/*, application/json
-this.accepts('image/png');
-this.accepts('png');
+this.accepts('image/png')
+this.accepts('png')
 // => false
 
 // Accept: text/*;q=.5, application/json
-this.accepts(['html', 'json']);
-this.accepts('html', 'json');
+this.accepts(['html', 'json'])
+this.accepts('html', 'json')
 // => "json"
 
 // No Accept header
-this.accepts('html', 'json');
+this.accepts('html', 'json')
 // => "html"
-this.accepts('json', 'html');
+this.accepts('json', 'html')
 // => "json"
 ```
 
@@ -248,10 +248,10 @@ You may call `this.accepts()` as many times as you like, or use a switch:
 
 ```js
 switch (this.accepts('json', 'html', 'text')) {
-  case 'json': break;
-  case 'html': break;
-  case 'text': break;
-  default: this.throw(406, 'json, html, or text only');
+  case 'json': break
+  case 'html': break
+  case 'text': break
+  default: this.throw(406, 'json, html, or text only')
 }
 ```
 
@@ -261,10 +261,10 @@ Check if `encodings` are acceptable, returning the best match when true, otherwi
 
 ```js
 // Accept-Encoding: gzip
-this.acceptsEncodings('gzip', 'deflate', 'identity');
+this.acceptsEncodings('gzip', 'deflate', 'identity')
 // => "gzip"
 
-this.acceptsEncodings(['gzip', 'deflate', 'identity']);
+this.acceptsEncodings(['gzip', 'deflate', 'identity'])
 // => "gzip"
 ```
 
@@ -272,7 +272,7 @@ When no arguments are given all accepted encodings are returned as an array:
 
 ```js
 // Accept-Encoding: gzip, deflate
-this.acceptsEncodings();
+this.acceptsEncodings()
 // => ["gzip", "deflate", "identity"]
 ```
 
@@ -284,10 +284,10 @@ Check if `charsets` are acceptable, returning the best match when true, otherwis
 
 ```js
 // Accept-Charset: utf-8, iso-8859-1;q=0.2, utf-7;q=0.5
-this.acceptsCharsets('utf-8', 'utf-7');
+this.acceptsCharsets('utf-8', 'utf-7')
 // => "utf-8"
 
-this.acceptsCharsets(['utf-7', 'utf-8']);
+this.acceptsCharsets(['utf-7', 'utf-8'])
 // => "utf-8"
 ```
 
@@ -295,7 +295,7 @@ When no arguments are given all accepted charsets are returned as an array:
 
 ```js
 // Accept-Charset: utf-8, iso-8859-1;q=0.2, utf-7;q=0.5
-this.acceptsCharsets();
+this.acceptsCharsets()
 // => ["utf-8", "utf-7", "iso-8859-1"]
 ```
 
@@ -305,10 +305,10 @@ Check if `langs` are acceptable, returning the best match when true, otherwise `
 
 ```js
 // Accept-Language: en;q=0.8, es, pt
-this.acceptsLanguages('es', 'en');
+this.acceptsLanguages('es', 'en')
 // => "es"
 
-this.acceptsLanguages(['en', 'es']);
+this.acceptsLanguages(['en', 'es'])
 // => "es"
 ```
 
@@ -316,7 +316,7 @@ When no arguments are given all accepted languages are returned as an array:
 
 ```js
 // Accept-Language: en;q=0.8, es, pt
-this.acceptsLanguages();
+this.acceptsLanguages()
 // => ["es", "pt", "en"]
 ```
 
