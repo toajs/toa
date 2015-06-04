@@ -19,6 +19,14 @@ Toa
 
 **Toa** 与 **Koa** 学习成本和编程体验是一致的，两者之间几乎是无缝切换。但 **Toa** 去掉了 **Koa** 的 `级联（Cascading）` 逻辑，弱化中间件，强化模块化组件，尽量削弱第三方组件访问应用的能力，使得编写大型应用的结构逻辑更简洁明了，也更安全。
 
+### koa Process
+
+![koa Process](https://raw.githubusercontent.com/toajs/toa/master/docs/process_koa.png)
+
+### Toa Process
+
+![Toa Process](https://raw.githubusercontent.com/toajs/toa/master/docs/process_toa.png)
+
 ## 功能模块
 与 Koa 一样， Toa 也没有绑定过多的功能，而仅仅提供了一个轻量优雅的函数库，和强大的扩展能力。
 
