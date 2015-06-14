@@ -4,6 +4,7 @@
 // **License:** MIT
 
 var Stream = require('stream')
+var thunks = require('thunks')
 var toa = require('..')
 
 exports = module.exports = function (req, res) {
@@ -27,7 +28,11 @@ exports = module.exports = function (req, res) {
   res.removeHeader = function (k, v) {
     delete res._headers[k.toLowerCase()]
   }
-  return toa.createContext(toa(), req, res)
+  return toa.createContext(toa(), req, res, onerror, thunks())
+
+  function onerror (err) {
+    console.log(err)
+  }
 }
 
 exports.context = function (req, res) {

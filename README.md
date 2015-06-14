@@ -28,7 +28,7 @@ Toa
 ![Toa Process](https://raw.githubusercontent.com/toajs/toa/master/docs/process_toa.png)
 
 ## 功能模块
-与 Koa 一样， Toa 也没有绑定过多的功能，而仅仅提供了一个轻量优雅的函数库，和强大的扩展能力。
+与 Koa 一样， Toa 也没有绑定多余的功能，而仅仅提供了一个轻量优雅的函数库，异步控制处理器和强大的扩展能力。
 
 使用者可以根据自己的需求选择独立的功能模块或中间件，或自己实现相关功能模块。以下是 Toajs 提供的基础性的功能模块。它们已能满足大多数的应用需求。
 
@@ -43,6 +43,7 @@ Toa
 - [toa-favicon](https://github.com/toajs/toa-favicon) Favicon middleware for toa.
 - [toa-session](https://github.com/toajs/toa-session) Session middleware for toa.
 - [toa-compress](https://github.com/toajs/toa-compress) Compress responses middleware for toa.
+- [toa-ratelimit](https://github.com/toajs/toa-ratelimit) Rate limiter module for toa.
 
 ## 安装 Toa
 
@@ -65,9 +66,12 @@ app.listen(3000)
 ## API
 
 ### [使用手册](https://github.com/toajs/toa/blob/master/docs/guide.md)
+### [Application](https://github.com/toajs/toa/blob/master/docs/api/application.md)
 ### [Context](https://github.com/toajs/toa/blob/master/docs/api/context.md)
 ### [Request](https://github.com/toajs/toa/blob/master/docs/api/request.md)
 ### [Response](https://github.com/toajs/toa/blob/master/docs/api/response.md)
+
+## [Change Log](https://github.com/toajs/toa/blob/master/CHANGELOG.md)
 
 ## Who's using
 

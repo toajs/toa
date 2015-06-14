@@ -24,7 +24,7 @@ var pwdReg = new RegExp(process.cwd().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g
 module.exports = Toa
 
 Toa.NAME = 'Toa'
-Toa.VERSION = 'v0.11.2'
+Toa.VERSION = 'v0.12.0'
 
 function Toa (server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options)
@@ -33,7 +33,7 @@ function Toa (server, body, options) {
   this.context = Object.create(context)
   this.request = Object.create(request)
   this.response = Object.create(response)
-  this.server = server && isFunction(server.listen) ? server : http.createServer()
+  this.server = server && isFunction(server.listen) ? server : null
 
   if (this.server !== server) {
     options = body
@@ -51,8 +51,10 @@ function Toa (server, body, options) {
   if (isFunction(options)) {
     this.errorHandler = options
     this.debug = null
+    this.stopHandler = null
   } else {
     this.debug = isFunction(options.debug) ? options.debug : null
+    this.stopHandler = isFunction(options.onstop) ? options.onstop : null
     this.errorHandler = isFunction(options.onerror) ? options.onerror : null
   }
 
@@ -112,57 +114,77 @@ proto.use = function (fn) {
  */
 
 proto.listen = function () {
+  this.server = this.server || http.createServer()
+  return this.server
+    .on('request', this.toListener())
+    .listen.apply(this.server, arguments)
+}
+
+/**
+ * Return a request listener
+ * for node's native http server.
+ *
+ * @return {Function}
+ * @api public
+ */
+
+proto.toListener = function () {
   var app = this
-  var args = arguments
   var body = this.body
   var debug = this.debug
-  var server = this.server
-  var errorHandler = this.errorHandler
+  var stopHandler = this.stopHandler || noOp
+  var errorHandler = this.errorHandler || noOp
   var middleware = this.middleware.slice()
 
-  server.addListener('request', function (req, res) {
-    res.statusCode = 404
-    function onerror (err) {
-      if (err == null) return
-      if (errorHandler) {
-        try {
-          err = errorHandler.call(ctx, err) || err
-        } catch (error) {
-          err = error
-        }
-      }
-      // ignore err and response to client
-      if (err === true) return ctx.thunk.seq.call(ctx, ctx.onPreEnd)(respond)
-
-      try {
-        onResError.call(ctx, err)
-      } catch (error) {
-        app.onerror.call(ctx, error)
-      }
-    }
-
-    var ctx = createContext(app, req, res, thunks({
+  return function requestListener (req, res) {
+    var ctx = createContext(app, req, res, onerror, thunks({
       debug: debug,
+      onstop: onstop,
       onerror: onerror
     }))
 
-    ctx.on('error', onerror)
-    ctx.onerror = onerror
+    res.statusCode = 404
+    if (ctx.config.poweredBy) ctx.set('X-Powered-By', ctx.config.poweredBy)
+
     onFinished(res, function (err) {
       ctx.emit('end')
       onerror(err)
     })
 
-    if (ctx.config.poweredBy) ctx.set('X-Powered-By', ctx.config.poweredBy)
-
     ctx.thunk.seq.call(ctx, middleware)(function () {
       return body.call(this, this.thunk)
     })(function () {
-      return this.thunk.seq.call(this, this.onPreEnd)
-    })(respond)
-  })
+      return this.thunk.seq.call(this, this.onPreEnd)(respond)
+    })
 
-  return server.listen.apply(server, args)
+    function onstop (sig) {
+      if (ctx.status === 404) {
+        ctx.status = 418
+        ctx.message = sig.message
+      }
+      ctx.thunk()(function () {
+        return stopHandler.call(this, sig)
+      })(respond)
+    }
+
+    function onerror (err) {
+      if (err == null) return
+
+      try {
+        err = errorHandler.call(ctx, err) || err
+      } catch (error) {
+        err = error
+      }
+      // ignore err and response to client
+      if (err === true) return respond.call(ctx)
+
+      try {
+        onResError.call(ctx, err)
+      } catch (error) {
+        app.onerror(error)
+      }
+    }
+  }
 }
 
 /**
@@ -237,8 +259,6 @@ function respond () {
  */
 
 function onResError (err) {
-  if (err == null) return
-
   // nothing we can do here other
   // than delegate to the app-level
   // handler and log.
@@ -272,7 +292,7 @@ function onResError (err) {
  * @api private
  */
 
-function createContext (app, req, res, thunk) {
+function createContext (app, req, res, onerror, thunk) {
   var context = Object.create(app.context)
   var request = context.request = Object.create(app.request)
   var response = context.response = Object.create(app.response)
@@ -302,6 +322,8 @@ function createContext (app, req, res, thunk) {
   })
 
   EventEmitter.call(context)
+  context.onerror = onerror
+  context.on('error', onerror)
   return context
 }
 
@@ -311,7 +333,7 @@ function isFunction (fn) {
   return typeof fn === 'function'
 }
 
+// It is exported for test, don't use it in application!
 Toa.createContext = function () {
-  // It is exported for test, don't use it in application!
   return createContext.apply(null, arguments)
 }

@@ -41,4 +41,12 @@ describe('ctx.href', function () {
       .expect(200)
       .end(done)
   })
+
+  it('should work with `GET http://example.com/foo`', function (done) {
+    var ctx = context()
+    ctx.originalUrl = ctx.request.originalUrl = ctx.req.url = 'http://example.com/foo'
+    assert.strictEqual(ctx.request.href, 'http://example.com/foo')
+    assert.strictEqual(ctx.href, 'http://example.com/foo')
+    done()
+  })
 })

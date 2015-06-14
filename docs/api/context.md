@@ -1,10 +1,12 @@
-# Context (Similar to [Koa's Context](https://github.com/koajs/koa/blob/master/docs/api/context.md))
+## Context
+> Similar to [Koa's Context](https://github.com/koajs/koa/blob/master/docs/api/context.md)
 
-## Difference from Koa:
+### Difference from Koa:
 
 - remove `ctx.app`
 - add `ctx.catchStream`
-- add `ctx.thunk`, it is thunk function that bound a scope with `onerror`
+- add `ctx.thunk`, it is thunk function that bound a scope with `debug`, `onstop`, `onerror`.
+- add `ctx.end`, use to stopping request process and respond immediately.
 - is a `EventEmitter` instance
 
 `Context` object encapsulates node's `request` and `response` objects into a single object which provides many helpful methods for writing web applications and APIs. These operations are used so frequently in HTTP server development that they are added at this level instead of a higher level framework, which would force middleware to re-implement this common functionality.
@@ -27,19 +29,27 @@ app.use(function* () {
 
 Many of the context's accessors and methods simply delegate to their `ctx.request` or `ctx.response` equivalents for convenience, and are otherwise identical. For example `ctx.type` and `ctx.length` delegate to the `response` object, and `ctx.path` and `ctx.method` delegate to the `request`.
 
-## API
+### API
 
 `Context` specific methods and accessors.
 
-### ctx.thunk
+#### ctx.thunk([thunkable])
 
-A thunk function that bound a scope with `onerror`.
+A thunk function that bound a scope with `debug`, `onstop`, `onerror`.
 
-### ctx.req
+- `thunkable` thunkable value, see: https://github.com/thunks/thunks
+
+#### ctx.end([message])
+
+Use to stopping request process and respond immediately.
+
+- `message` String, see: https://github.com/thunks/thunks
+
+#### ctx.req
 
 Node's `request` object.
 
-### ctx.res
+#### ctx.res
 
 Node's `response` object.
 
@@ -50,15 +60,15 @@ Bypassing Toa's response handling is __not supported__. Avoid using the followin
 - `res.write()`
 - `res.end()`
 
-### ctx.request
+#### ctx.request
 
 A Toa `Request` object.
 
-### ctx.response
+#### ctx.response
 
 A Toa `Response` object.
 
-### ctx.state
+#### ctx.state
 
 The recommended namespace for passing information through middleware and to your frontend views.
 
@@ -66,7 +76,7 @@ The recommended namespace for passing information through middleware and to your
 this.state.user = yield User.find(id)
 ```
 
-### ctx.cookies.get(name, [options])
+#### ctx.cookies.get(name, [options])
 
 Get cookie `name` with `options`:
 
@@ -74,7 +84,7 @@ Get cookie `name` with `options`:
 
 Toa uses the [cookies](https://github.com/jed/cookies) module where options are simply passed.
 
-### ctx.cookies.set(name, value, [options])
+#### ctx.cookies.set(name, value, [options])
 
 Set cookie `name` to `value` with `options`:
 
@@ -87,7 +97,7 @@ Set cookie `name` to `value` with `options`:
 
 Toa uses the [cookies](https://github.com/jed/cookies) module where options are simply passed.
 
-### ctx.throw([msg], [status], [properties])
+#### ctx.throw([msg], [status], [properties])
 
 Helper method to throw an error with a `.status` property defaulting to `500` that will allow Toa to respond appropriately. The following combinations are allowed:
 
@@ -117,7 +127,7 @@ this.throw('access_denied', {user: user})
 
 Toa uses [http-errors](https://github.com/jshttp/http-errors) to create errors.
 
-### ctx.assert(value, [msg], [status], [properties])
+#### ctx.assert(value, [msg], [status], [properties])
 
 Helper method to throw an error similar to `.throw()` when `!value`. Similar to node's [assert()](http://nodejs.org/api/assert.html) method.
 
@@ -127,17 +137,17 @@ this.assert(this.state.user, 401, 'User not found. Please login!')
 
 Toa uses [http-assert](https://github.com/jshttp/http-assert) for assertions.
 
-### ctx.respond
+#### ctx.respond
 
 To bypass Toa's built-in response handling, you may explicitly set `this.respond = false`. Use this if you want to write to the raw `res` object instead of letting Toa handle the response for you.
 
 Note that using this is __not__ supported by Toa. This may break intended functionality of Toa middleware and Toa itself. Using this property is considered a hack and is only a convenience to those wishing to use traditional `fn(req, res)` functions and middleware within Toa.
 
-### ctx.catchStream(stream)
+#### ctx.catchStream(stream)
 
 Catch a `stream`'s error, if 'error' event emit from the stream, the error will be throw to Thunk's `onerror` and response it.
 
-## Request aliases
+### Request aliases
 
 The following accessors and alias [Request](request.md) equivalents:
 
@@ -172,7 +182,7 @@ The following accessors and alias [Request](request.md) equivalents:
 - `ctx.acceptsLanguages()`
 - `ctx.get()`
 
-## Response aliases
+### Response aliases
 
 The following accessors and alias [Response](response.md) equivalents:
 

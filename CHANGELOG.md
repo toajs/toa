@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file starting from version **v0.10.0**.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.12.0] - 2015-06-14
+### Changed
+
+- Support `onstop` options for Toa constructor, add `context.end()` to stop request process.
+- Add `app.toListener()`
+- Toa constructor will not create server by default, server will be created in `app.listen()` if omit in constructor.
+- Improve test and documents
+
+### Fixed
+
 ## [0.11.1] - 2015-06-01
 ### Changed
 

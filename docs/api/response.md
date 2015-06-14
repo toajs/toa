@@ -1,26 +1,27 @@
-# Response (The same as [Koa's Response](https://github.com/koajs/koa/blob/master/docs/api/response.md))
+## Response
+> The same as [Koa's Response](https://github.com/koajs/koa/blob/master/docs/api/response.md)
 
 `Response` object is an abstraction on top of node's vanilla response object, providing additional functionality that is useful for every day HTTP server development.
 
-## API
+### API
 
-### response.header
+#### response.header
 
 Response header object.
 
-### response.headers
+#### response.headers
 
 Response header object. Alias as `response.header`.
 
-### response.socket
+#### response.socket
 
 Request socket.
 
-### response.status
+#### response.status
 
 Get response status. By default, `response.status` is not set unlike node's `res.statusCode` which defaults to `200`.
 
-### response.status=
+#### response.status=
 
 Set response status via numeric code:
 
@@ -85,27 +86,27 @@ __NOTE__: don't worry too much about memorizing these strings,
 if you have a typo an error will be thrown, displaying this list
 so you can make a correction.
 
-### response.message
+#### response.message
 
 Get response status message. By default, `response.message` is associated with `response.status`.
 
-### response.message=
+#### response.message=
 
 Set response status message to the given value.
 
-### response.length=
+#### response.length=
 
 Set response Content-Length to the given value.
 
-### response.length
+#### response.length
 
 Return response Content-Length as a number when present, or deduce from `this.body` when possible, or `undefined`.
 
-### response.body
+#### response.body
 
 Get response body.
 
-### response.body=
+#### response.body=
 
 Set response body to one of the following:
 
@@ -117,23 +118,23 @@ Set response body to one of the following:
 
 If `response.status` has not been set, Toa will automatically set the status to `200` or `204`.
 
-#### String
+##### String
 
 The Content-Type is defaulted to text/html or text/plain, both with a default charset of utf-8. The Content-Length field is also set.
 
-#### Buffer
+##### Buffer
 
 The Content-Type is defaulted to application/octet-stream, and Content-Length is also set.
 
-#### Stream
+##### Stream
 
 The Content-Type is defaulted to application/octet-stream.
 
-#### Object
+##### Object
 
 The Content-Type is defaulted to application/json.
 
-### response.get(field)
+#### response.get(field)
 
 Get a response header field value with case-insensitive `field`.
 
@@ -141,7 +142,7 @@ Get a response header field value with case-insensitive `field`.
 var etag = this.get('etag')
 ```
 
-### response.set(field, value)
+#### response.set(field, value)
 
 Set response header `field` to `value`:
 
@@ -149,7 +150,7 @@ Set response header `field` to `value`:
 this.set('cache-control', 'no-cache')
 ```
 
-### response.append(field, value)
+#### response.append(field, value)
 
 Append additional header `field` with value `val`.
 
@@ -157,7 +158,7 @@ Append additional header `field` with value `val`.
 this.append('link', '<http://127.0.0.1/>')
 ```
 
-### response.set(fields)
+#### response.set(fields)
 
 Set several response header `fields` with an object:
 
@@ -168,11 +169,11 @@ this.set({
 })
 ```
 
-### response.remove(field)
+#### response.remove(field)
 
 Remove header `field`.
 
-### response.type
+#### response.type
 
 Get response `Content-Type` void of parameters such as "charset".
 
@@ -181,7 +182,7 @@ var ct = this.type
 // => "image/png"
 ```
 
-### response.type=
+#### response.type=
 
 Set response `Content-Type` via mime string or file extension.
 
@@ -194,11 +195,11 @@ this.type = 'png'
 
 Note: when appropriate a `charset` is selected for you, for example `response.type = 'html'` will default to "utf-8", however when explicitly defined in full as `response.type = 'text/html'` no charset is assigned.
 
-### response.is(types...)
+#### response.is(types...)
 
 Very similar to `this.request.is()`. Check whether the response type is one of the supplied types. This is particularly useful for creating middleware that manipulate responses.
 
-### response.redirect(url, [alt])
+#### response.redirect(url, [alt])
 
 Perform a [302] redirect to `url`.
 
@@ -219,19 +220,19 @@ this.redirect('/cart')
 this.body = 'Redirecting to shopping cart'
 ```
 
-### response.attachment([filename])
+#### response.attachment([filename])
 
 Set `Content-Disposition` to "attachment" to signal the client to prompt for download. Optionally specify the `filename` of the download.
 
-### response.headerSent
+#### response.headerSent
 
 Check if a response header has already been sent. Useful for seeing if the client may be notified on error.
 
-### response.lastModified
+#### response.lastModified
 
 Return the `Last-Modified` header as a `Date`, if it exists.
 
-### response.lastModified=
+#### response.lastModified=
 
 Set the `Last-Modified` header as an appropriate UTC string. You can either set it as a `Date` or date string.
 
@@ -239,7 +240,7 @@ Set the `Last-Modified` header as an appropriate UTC string. You can either set 
 this.response.lastModified = new Date()
 ```
 
-### response.etag=
+#### response.etag=
 
 Set the ETag of a response including the wrapped `"`s. Note that there is no corresponding `response.etag` getter.
 
@@ -247,6 +248,6 @@ Set the ETag of a response including the wrapped `"`s. Note that there is no cor
 this.response.etag = crypto.createHash('md5').update(this.body).digest('hex')
 ```
 
-### response.vary(field)
+#### response.vary(field)
 
 Vary on `field`.

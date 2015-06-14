@@ -23,6 +23,9 @@ describe('ctx.append(name, val)', function () {
 
     ctx.append('Set-Cookie', ['foo=bar', 'fizz=buzz'])
     assert.deepEqual(ctx.response.header['set-cookie'], ['foo=bar', 'fizz=buzz'])
+
+    ctx.append('Set-Cookie', ['name=zhang', 'age=30'])
+    assert.deepEqual(ctx.response.header['set-cookie'], ['foo=bar', 'fizz=buzz', 'name=zhang', 'age=30'])
   })
 
   it('should get reset by res.set(field, val)', function () {

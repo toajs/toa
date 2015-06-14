@@ -2,19 +2,15 @@ Toa
 ====
 简洁而强大的 web 框架。
 
-[![NPM version][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
-[![Talk topic][talk-image]][talk-url]
-
 ## Thanks to [Koa](https://github.com/koajs/koa) and it's authors
 
 ## Summary
 
 - [Toa 简介](#toa)
 - [Application 应用](#application)
-- [Context](#context)
-- [Request](#request)
-- [Response](#response)
+- [Context 对象](#context)
+- [Request 对象](#request)
+- [Response 对象](#response)
 
 ## Toa
 
@@ -24,24 +20,6 @@ __Toa__ 的异步核心是 `thunk` 函数，支持 `node.js v0.10.x`，但在支
 
 __Toa__ 与 __Koa__ 学习成本和编程体验是一致的，两者之间几乎是无缝切换。但 __Toa__ 去掉了 __Koa__ 的 `级联（Cascading）` 逻辑，弱化中间件，强化模块化组件，尽量削弱第三方组件访问应用的能力，
 使得编写大型应用的结构逻辑更简洁明了，也更安全。
-
-### 功能模块
-与 Koa 一样， Toa 也没有绑定过多的功能，而仅仅提供了一个轻量优雅的函数库，和强大的扩展能力。
-
-使用者可以根据自己的需求选择独立的功能模块或中间件，或自己实现相关功能模块。
-以下是 __Toajs__ 提供的基础性的功能模块。它们已能满足大多数的应用需求。
-
-- [toa-pm](https://github.com/toajs/toa-pm) Process events manager for toa.
-- [toa-ejs](https://github.com/toajs/toa-ejs) Ejs render module for toa.
-- [toa-mejs](https://github.com/toajs/toa-mejs) Mejs render module for toa.
-- [toa-i18n](https://github.com/toajs/toa-i18n) I18n middleware for toa.
-- [toa-body](https://github.com/toajs/toa-body) Request body parser for toa.
-- [toa-token](https://github.com/toajs/toa-token) Token based authentication for toa.
-- [toa-router](https://github.com/toajs/toa-router) A router for toa.
-- [toa-static](https://github.com/toajs/toa-static) A static server module for toa.
-- [toa-favicon](https://github.com/toajs/toa-favicon) Favicon middleware for toa.
-- [toa-session](https://github.com/toajs/toa-session) Session middleware for toa.
-- [toa-compress](https://github.com/toajs/toa-compress) Compress responses middleware for toa.
 
 ### 安装 Toa
 
@@ -76,16 +54,20 @@ app.listen(3000)
 
 ### Class: Toa([server][, appBody][, options])
 
-- `server`: {Object}, 可以是 http server 或 https server。
-- `appBody`: {Function} 有唯一参数 `thunk` 生成器（同 `this.thunk`），它的作用域已与当前的 request 请求绑定，它的 `onerror` 能捕获任何异常。`appBody` 中如果有异步逻辑，则应该封装在 `thunk` 生成器能处理的对象（thunkable），如 `generator` 函数、`generator` 对象或`promise` 对象等，并 `return` 返回（与 `thunks` 或 `Promise` 类似）。
-- `options`: {Object} 同 `thunks` 的 options，可以定义 `appBody` 中 `thunk` 作用域的 `debug` 方法和 `onerror` 方法。其中 `onerror` 方法可用于对捕获异常进行初步加工处理，再 `return` 或 `throw` 给 Toa 内置的 `onResError` 处理。如果 `onerror` 返回 `true`，则忽略该异常，继续执行后续业务逻辑。
+- `server`: {Object}, http server 或 https server 实例。
+- `appBody`: {Function} `appBody` 中如果有异步逻辑，则应该封装成 `thunk` 处理器能处理的对象（thunkable value），如 `generator` 函数、`generator` 对象、thunk 函数或`promise` 对象等，并 `return` 返回（与 `thunks` 或 `Promise` 类似）。
+- `options`: {Object} 类似 `thunks` 的 options，对于 server 的每一个 **client request**，toa app 均会用 `thunks` 生成一个的 `thunk`，挂载到 `context.thunk`，该 `thunk` 的作用域对该 **client request** 的整个生命周期生效。故 `options` 的 `debug`、`onstop`、`onerror` 也对应于该 **client request**。
 
+  - `options.debug`: {Function} 其 `this` 为 `null`。可捕获 **client request** 异步处理流程每一步结果，用于调试。
+  - `options.onstop`: {Function} 其 `this` 为 **client request** 的 `context` 对象。当调用 `context.end()` 时，会立即终止 **client request** 处理流程，`onstop` 会运行，然后 `respond` 客户端，`onstop` 可返回异步值。
+  - `options.onerror`: {Function} 其 `this` 为 **client request** 的 `context` 对象。当 **client request** 处理流程出现异常时，会抛出到 `onerror`，原有处理流程会终止，`onerror` 运行完毕后再进入 toa 内置的异常处理流程，最后 `respond` 客户端。如果 `onerror` 返回 `true`，则会忽略该异常，异常不会进入内置异常处理流程，然后直接 `respond` 客户端。
 ```js
 // with full arguments
 var app = new Toa(server, function () {
   // body...
 }, {
   debug: function () {},
+  onstop: function (sig) {},
   onerror: function (error) {}
 })
 ```
@@ -155,6 +137,29 @@ app.onerror = function (err) {
 }
 ```
 
+
+#### app.toListener()
+
+返回 app request listener。
+
+```js
+var http = require('http')
+var toa = require('toa')
+
+var app = toa()
+
+var server = http.createServer(app.toListener())
+server.listen(3000)
+```
+
+等效于：
+```js
+var toa = require('toa')
+
+var app = toa()
+app.listen(3000)
+```
+
 #### app.listen(port, [hostname], [backlog], [callback])
 #### app.listen(path, [callback])
 #### app.listen(handle, [callback])
@@ -166,17 +171,18 @@ app.onerror = function (err) {
 app.listen(3000)
 ```
 
+
 ------
 
 ## Context
-
-### Similar to [Koa's Context](https://github.com/koajs/koa/blob/master/docs/api/context.md)
+> Similar to [Koa's Context](https://github.com/koajs/koa/blob/master/docs/api/context.md)
 
 ### Difference from Koa:
 
 - remove `ctx.app`
 - add `ctx.catchStream`
-- add `ctx.thunk`, it is thunk function that bound a scope with `onerror`
+- add `ctx.thunk`, it is thunk function that bound a scope with `debug`, `onstop`, `onerror`.
+- add `ctx.end`, use to stopping request process and respond immediately.
 - is a `EventEmitter` instance
 
 `Context` object encapsulates node's `request` and `response` objects into a single object which provides many helpful methods for writing web applications and APIs. These operations are used so frequently in HTTP server development that they are added at this level instead of a higher level framework, which would force middleware to re-implement this common functionality.
@@ -199,9 +205,21 @@ app.use(function* () {
 
 Many of the context's accessors and methods simply delegate to their `ctx.request` or `ctx.response` equivalents for convenience, and are otherwise identical. For example `ctx.type` and `ctx.length` delegate to the `response` object, and `ctx.path` and `ctx.method` delegate to the `request`.
 
-### ctx.thunk
+### API
 
-A thunk function that bound a scope with `onerror`.
+`Context` specific methods and accessors.
+
+#### ctx.thunk([thunkable])
+
+A thunk function that bound a scope with `debug`, `onstop`, `onerror`.
+
+- `thunkable` thunkable value, see: https://github.com/thunks/thunks
+
+#### ctx.end([message])
+
+Use to stopping request process and respond immediately.
+
+- `message` String, see: https://github.com/thunks/thunks
 
 #### ctx.req
 
@@ -363,13 +381,15 @@ The following accessors and alias [Response](response.md) equivalents:
 - `ctx.lastModified=`
 - `ctx.etag=`
 
+
 ------
 
 ## Request
-
-### The same as [Koa's Request](https://github.com/koajs/koa/blob/master/docs/api/request.md)
+> The same as [Koa's Request](https://github.com/koajs/koa/blob/master/docs/api/request.md)
 
 `Request` object is an abstraction on top of node's vanilla request object, providing additional functionality that is useful for every day HTTP server development.
+
+### API
 
 #### request.header
 
@@ -699,13 +719,15 @@ Return the request socket.
 
 Return request header.
 
+
 ------
 
 ## Response
-
-### The same as [Koa's Response](https://github.com/koajs/koa/blob/master/docs/api/response.md)
+> The same as [Koa's Response](https://github.com/koajs/koa/blob/master/docs/api/response.md)
 
 `Response` object is an abstraction on top of node's vanilla response object, providing additional functionality that is useful for every day HTTP server development.
+
+### API
 
 #### response.header
 
@@ -954,16 +976,6 @@ this.response.etag = crypto.createHash('md5').update(this.body).digest('hex')
 
 Vary on `field`.
 
+
 ------
 
-## Benchmark 性能
-
-
-[npm-url]: https://npmjs.org/package/toa
-[npm-image]: http://img.shields.io/npm/v/toa.svg
-
-[travis-url]: https://travis-ci.org/toajs/toa
-[travis-image]: http://img.shields.io/travis/toajs/toa.svg
-
-[talk-url]: https://guest.talk.ai/rooms/a6a9331024
-[talk-image]: https://img.shields.io/talk/t/a6a9331024.svg
