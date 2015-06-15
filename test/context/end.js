@@ -5,6 +5,7 @@
 /*global describe, it */
 
 var assert = require('assert')
+var thunks = require('thunks')
 var request = require('supertest')
 var toa = require('../..')
 
@@ -77,6 +78,28 @@ describe('context end', function () {
       .get('/')
       .expect(200)
       .expect('Good job.')
+      .end(done)
+  })
+
+  it('should work in nested thunks', function (done) {
+    var thunk = thunks()
+    var app = toa(function () {
+      return this.thunk()(function () {
+        return thunk.call(this)(function () {
+          this.end('nested thunks')
+        })
+      })(function () {
+        assert.strictEqual('It should not run', true)
+        this.body = 'test'
+      })
+    })
+
+    request(app.listen())
+      .get('/')
+      .expect(418)
+      .expect(function (res) {
+        assert.strictEqual(res.res.statusMessage || res.res.text, 'nested thunks')
+      })
       .end(done)
   })
 

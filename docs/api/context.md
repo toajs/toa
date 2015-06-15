@@ -41,7 +41,7 @@ A thunk function that bound a scope with `debug`, `onstop`, `onerror`.
 
 #### ctx.end([message])
 
-Use to stopping request process and respond immediately.
+Use to stopping request process and respond immediately. **It should not run in `try catch` block, otherwise `onstop` will not be trigger**.
 
 - `message` String, see: https://github.com/thunks/thunks
 

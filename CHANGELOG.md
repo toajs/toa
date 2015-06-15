@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file starting from version **v0.10.0**.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.12.1] - 2015-06-15
+### Changed
+
+### Fixed
+
+- Fixed `context.end` with `thunks@v3.4.2`
+
 ## [0.12.0] - 2015-06-14
 ### Changed
 
