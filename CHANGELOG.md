@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file starting from version **v0.10.0**.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.12.2] - 2015-06-28
+### Changed
+
+- Updated dependencies
+- Don't unset headers while context throw non-error object.
+
+### Fixed
+
 ## [0.12.1] - 2015-06-15
 ### Changed
 

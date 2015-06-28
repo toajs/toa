@@ -24,7 +24,7 @@ var pwdReg = new RegExp(process.cwd().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g
 module.exports = Toa
 
 Toa.NAME = 'Toa'
-Toa.VERSION = 'v0.12.1'
+Toa.VERSION = 'v0.12.2'
 
 function Toa (server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options)
@@ -59,10 +59,10 @@ function Toa (server, body, options) {
   }
 
   var config = {
-    proxy: false,
     env: process.env.NODE_ENV || 'development',
     subdomainOffset: 2,
-    poweredBy: 'Toa'
+    poweredBy: 'Toa',
+    proxy: false
   }
 
   Object.defineProperty(this, 'config', {
@@ -264,14 +264,14 @@ function onResError (err) {
   // handler and log.
   if (this.headerSent || !this.writable) throw err
 
-  // unset all headers
-  this.res._headers = {}
-
   if (!util.isError(err)) {
     this.body = err
     if (err.status) this.status = err.status
     return respond.call(this)
   }
+
+  // unset all headers
+  this.res._headers = {}
 
   // support ENOENT to 404, default to 500
   if (err.code === 'ENOENT') this.status = 404

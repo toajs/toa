@@ -4,7 +4,7 @@
   "authors": [
     "Yan Qing <admin@zensh.com>"
   ],
-  "version": "0.12.1",
+  "version": "0.12.2",
   "main": "index.js",
   "license": "MIT",
   "repository": {
@@ -39,7 +39,7 @@
     "http-assert": "~1.1.1",
     "http-errors": "~1.3.1",
     "koa-is-json": "~1.0.0",
-    "mime-types": "~2.1.1",
+    "mime-types": "~2.1.2",
     "on-finished": "~2.3.0",
     "parseurl": "~1.3.0",
     "statuses": "~1.2.1",
@@ -50,14 +50,14 @@
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-istanbul": "^0.10.0",
-    "gulp-mocha": "^2.1.1",
+    "gulp-mocha": "^2.1.2",
     "gulp-sequence": "^0.3.2",
-    "gulp-util": "^3.0.5",
-    "merge2": "^0.3.5",
-    "standard": "^4.2.1",
+    "gulp-util": "^3.0.6",
+    "merge2": "^0.3.6",
+    "standard": "^4.4.0",
     "supertest": "^1.0.1",
     "test-console": "^0.7.1",
-    "through2": "^1.1.1"
+    "through2": "^2.0.0"
   },
   "scripts": {
     "test": "standard && gulp test"
