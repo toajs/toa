@@ -4,7 +4,7 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/* global describe, it */
 
 var stderr = require('test-console').stderr
 var request = require('supertest')

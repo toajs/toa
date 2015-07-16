@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file starting from version **v0.10.0**.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.12.3] - 2015-07-16
+### Changed
+
+### Fixed
+
+- Fixed context.toJSON
+
 ## [0.12.2] - 2015-06-28
 ### Changed
 
