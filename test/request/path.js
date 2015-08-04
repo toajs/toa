@@ -28,7 +28,7 @@ describe('ctx.path=', function () {
   })
 
   it('should change .url but not .originalUrl', function () {
-    var ctx = context({url: '/login' })
+    var ctx = context({url: '/login'})
     ctx.path = '/logout'
     assert(ctx.url === '/logout')
     assert(ctx.originalUrl === '/login')

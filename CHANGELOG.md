@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file starting from version **v0.10.0**.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.13.0] - 2015-08-04
+### Changed
+
+- `onstop` handler will execute `context.onPreEnd` queue
+- Add `context.createError`
+
+### Fixed
+
 ## [0.12.3] - 2015-07-16
 ### Changed
 

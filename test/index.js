@@ -99,10 +99,11 @@ describe('app', function () {
   it('should respond non-error by onResError', function (done) {
     var app = toa(function () {
       this.body = 123
-      throw {
+      var obj = {
         message: 'some message',
         status: 206
       }
+      throw obj
     })
 
     request(app.listen())

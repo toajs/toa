@@ -10,14 +10,14 @@ var toa = require('..')
 exports = module.exports = function (req, res) {
   var socket = new Stream.Duplex()
   req = req || {
-      headers: {},
-      socket: socket,
-      __proto__: Stream.Readable.prototype
+    headers: {},
+    socket: socket,
+    __proto__: Stream.Readable.prototype
   }
   res = res || {
-      _headers: {},
-      socket: socket,
-      __proto__: Stream.Writable.prototype
+    _headers: {},
+    socket: socket,
+    __proto__: Stream.Writable.prototype
   }
   res.getHeader = function (k) {
     return res._headers[k.toLowerCase()]

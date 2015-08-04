@@ -27,7 +27,7 @@ gulp.task('docs', function () {
     'docs/api/context.md',
     'docs/api/request.md',
     'docs/api/response.md'
-    ])
+  ])
     .pipe(through.obj(function (file, code, next) {
       guide += file.contents.toString() + '\n\n------\n\n'
       next()

@@ -20,7 +20,7 @@ describe('ctx.query', function () {
   })
 
   it("should return the same object each time it's accessed", function (done) {
-    var ctx = context({url: '/' })
+    var ctx = context({url: '/'})
     ctx.query.a = '2'
     assert.strictEqual(ctx.query.a, '2')
     done()

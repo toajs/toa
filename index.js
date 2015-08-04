@@ -24,7 +24,7 @@ var pwdReg = new RegExp(process.cwd().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g
 module.exports = Toa
 
 Toa.NAME = 'Toa'
-Toa.VERSION = 'v0.12.3'
+Toa.VERSION = 'v0.13.0'
 
 function Toa (server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options)
@@ -164,7 +164,9 @@ proto.toListener = function () {
       }
       ctx.thunk()(function () {
         return stopHandler.call(this, sig)
-      })(respond)
+      })(function () {
+        return this.thunk.seq.call(this, this.onPreEnd)(respond)
+      })
     }
 
     function onerror (err) {
