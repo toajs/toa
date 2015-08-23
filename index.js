@@ -24,7 +24,7 @@ var pwdReg = new RegExp(process.cwd().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g
 module.exports = Toa
 
 Toa.NAME = 'Toa'
-Toa.VERSION = 'v0.13.0'
+Toa.VERSION = 'v1.0.0'
 
 function Toa (server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options)
@@ -198,7 +198,7 @@ proto.toListener = function () {
 
 proto.onerror = function (err) {
   // ignore null and response error
-  if (err == null || (err.status && err.status < 500)) return
+  if (err == null || err.expose || (err.status && err.status < 500)) return
   if (!util.isError(err)) err = new Error('non-error thrown: ' + err)
 
   // catch system error
@@ -211,7 +211,6 @@ proto.onerror = function (err) {
  */
 
 function respond () {
-  var ctx = this
   if (this.respond === false) return
 
   var res = this.res
@@ -225,8 +224,6 @@ function respond () {
     // strip headers
     this.body = null
     res.end()
-
-    if (body instanceof Stream) body.once('error', ctx.onerror)
 
   } else if (this.method === 'HEAD') {
     if (isJSON(body)) this.length = Buffer.byteLength(JSON.stringify(body))
@@ -324,7 +321,6 @@ function createContext (app, req, res, onerror, thunk) {
   })
 
   EventEmitter.call(context)
-  context.onerror = onerror
   context.on('error', onerror)
   return context
 }

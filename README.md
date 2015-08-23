@@ -42,6 +42,7 @@ Toa
 - [toa-static](https://github.com/toajs/toa-static) A static server module for toa.
 - [toa-favicon](https://github.com/toajs/toa-favicon) Favicon middleware for toa.
 - [toa-session](https://github.com/toajs/toa-session) Session middleware for toa.
+- [toa-cookie-session](https://github.com/toajs/toa-cookie-session) Cookie session middleware for toa.
 - [toa-compress](https://github.com/toajs/toa-compress) Compress responses middleware for toa.
 - [toa-ratelimit](https://github.com/toajs/toa-ratelimit) Rate limiter module for toa.
 

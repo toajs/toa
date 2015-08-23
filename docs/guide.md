@@ -303,6 +303,10 @@ this.throw('access_denied', {user: user})
 
 Toa uses [http-errors](https://github.com/jshttp/http-errors) to create errors.
 
+#### ctx.createError([msg], [status], [properties])
+
+Similar to `ctx.throw`, create a error object, but don't throw.
+
 #### ctx.assert(value, [msg], [status], [properties])
 
 Helper method to throw an error similar to `.throw()` when `!value`. Similar to node's [assert()](http://nodejs.org/api/assert.html) method.
@@ -508,7 +512,8 @@ this.query = {next: '/login'}
 Check if a request cache is "fresh", aka the contents have not changed. This method is for cache negotiation between `If-None-Match` / `ETag`, and `If-Modified-Since` and `Last-Modified`. It should be referenced after setting one or more of these response headers.
 
 ```js
-this.set('etag', '123')
+this.status = 200
+this.set('ETag', '123')
 
 // cache is ok
 if (this.fresh) {
@@ -871,7 +876,7 @@ var etag = this.get('etag')
 Set response header `field` to `value`:
 
 ```js
-this.set('cache-control', 'no-cache')
+this.set('Cache-Control', 'no-cache')
 ```
 
 #### response.append(field, value)
@@ -879,7 +884,7 @@ this.set('cache-control', 'no-cache')
 Append additional header `field` with value `val`.
 
 ```js
-this.append('link', '<http://127.0.0.1/>')
+this.append('Link', '<http://127.0.0.1/>')
 ```
 
 #### response.set(fields)
@@ -888,8 +893,8 @@ Set several response header `fields` with an object:
 
 ```js
 this.set({
-  'etag': '1234',
-  'last-modified': date
+  'ETag': '1234',
+  'Last-Modified': date
 })
 ```
 

@@ -147,7 +147,7 @@ var etag = this.get('etag')
 Set response header `field` to `value`:
 
 ```js
-this.set('cache-control', 'no-cache')
+this.set('Cache-Control', 'no-cache')
 ```
 
 #### response.append(field, value)
@@ -155,7 +155,7 @@ this.set('cache-control', 'no-cache')
 Append additional header `field` with value `val`.
 
 ```js
-this.append('link', '<http://127.0.0.1/>')
+this.append('Link', '<http://127.0.0.1/>')
 ```
 
 #### response.set(fields)
@@ -164,8 +164,8 @@ Set several response header `fields` with an object:
 
 ```js
 this.set({
-  'etag': '1234',
-  'last-modified': date
+  'ETag': '1234',
+  'Last-Modified': date
 })
 ```
 

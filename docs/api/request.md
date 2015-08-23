@@ -122,7 +122,8 @@ this.query = {next: '/login'}
 Check if a request cache is "fresh", aka the contents have not changed. This method is for cache negotiation between `If-None-Match` / `ETag`, and `If-Modified-Since` and `Last-Modified`. It should be referenced after setting one or more of these response headers.
 
 ```js
-this.set('etag', '123')
+this.status = 200
+this.set('ETag', '123')
 
 // cache is ok
 if (this.fresh) {
