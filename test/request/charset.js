@@ -13,7 +13,7 @@ describe('req.charset', function () {
   describe('with no content-type present', function () {
     it('should return ""', function () {
       var req = request()
-      assert(req.charset === '')
+      assert.strictEqual(req.charset, '')
     })
   })
 
@@ -21,7 +21,7 @@ describe('req.charset', function () {
     it('should return ""', function () {
       var req = request()
       req.header['content-type'] = 'text/plain'
-      assert(req.charset === '')
+      assert.strictEqual(req.charset, '')
     })
   })
 
@@ -29,7 +29,7 @@ describe('req.charset', function () {
     it('should return the charset', function () {
       var req = request()
       req.header['content-type'] = 'text/plain; charset=utf-8'
-      assert(req.charset === 'utf-8')
+      assert.strictEqual(req.charset, 'utf-8')
     })
   })
 })

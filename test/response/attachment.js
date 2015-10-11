@@ -17,7 +17,7 @@ describe('ctx.attachment([filename])', function () {
       var ctx = context()
       ctx.attachment('path/to/tobi.png')
       var str = 'attachment; filename="tobi.png"'
-      assert(ctx.response.header['content-disposition'] === str)
+      assert.strictEqual(ctx.response.header['content-disposition'], str)
     })
   })
 
@@ -25,7 +25,7 @@ describe('ctx.attachment([filename])', function () {
     it('should not set filename param', function () {
       var ctx = context()
       ctx.attachment()
-      assert(ctx.response.header['content-disposition'] === 'attachment')
+      assert.strictEqual(ctx.response.header['content-disposition'], 'attachment')
     })
   })
 
@@ -34,10 +34,10 @@ describe('ctx.attachment([filename])', function () {
       var ctx = context()
       ctx.attachment('path/to/include-no-ascii-char-中文名-ok.png')
       var str = 'attachment; filename="include-no-ascii-char-???-ok.png"; filename*=UTF-8\'\'include-no-ascii-char-%E4%B8%AD%E6%96%87%E5%90%8D-ok.png'
-      assert(ctx.response.header['content-disposition'] === str)
+      assert.strictEqual(ctx.response.header['content-disposition'], str)
     })
 
-    it('should work with http client', function (done) {
+    it('should work with http client', function () {
       var app = toa()
 
       app.use(function (next) {
@@ -48,13 +48,13 @@ describe('ctx.attachment([filename])', function () {
         return next()
       })
 
-      request(app.listen())
+      return request(app.listen())
         .get('/')
         .expect('content-disposition', 'attachment; filename="include-no-ascii-char-???-ok.json"; filename*=UTF-8\'\'include-no-ascii-char-%E4%B8%AD%E6%96%87%E5%90%8D-ok.json')
         .expect({
           foo: 'bar'
         })
-        .expect(200, done)
+        .expect(200)
     })
   })
 })

@@ -13,6 +13,6 @@ var Stream = require('stream')
 describe('res.socket', function () {
   it('should return the request socket object', function () {
     var res = response()
-    assert(res.socket instanceof Stream)
+    assert.strictEqual(res.socket instanceof Stream, true)
   })
 })

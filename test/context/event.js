@@ -23,7 +23,7 @@ describe('context event', function () {
       .expect(200)
       .end(function (err) {
         if (err) return done(err)
-        assert(resEnd)
+        assert.strictEqual(resEnd, true)
         done()
       })
   })
@@ -42,7 +42,7 @@ describe('context event', function () {
       .expect(404)
       .end(function (err) {
         if (err) return done(err)
-        assert(resEnd)
+        assert.strictEqual(resEnd, true)
         done()
       })
   })
@@ -65,7 +65,7 @@ describe('context event', function () {
       .expect(500)
       .end(function (err) {
         if (err) return done(err)
-        assert(resEnd)
+        assert.strictEqual(resEnd, true)
         done()
       })
   })

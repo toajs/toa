@@ -10,7 +10,7 @@ var request = require('supertest')
 var toa = require('../..')
 
 describe('catch stream error', function () {
-  it('should respond success', function (done) {
+  it('should respond success', function () {
     var app = toa(function () {
       this.type = 'text'
       this.body = this.catchStream(fs.createReadStream(__dirname + '/catchStream.js', {
@@ -18,13 +18,12 @@ describe('catch stream error', function () {
       }))
     })
 
-    request(app.listen())
+    return request(app.listen())
       .get('/')
       .expect(200)
-      .end(done)
   })
 
-  it('should respond 404', function (done) {
+  it('should respond 404', function () {
     var app = toa(function () {
       this.type = 'text'
       this.body = this.catchStream(fs.createReadStream(__dirname + '/none.js', {
@@ -32,13 +31,11 @@ describe('catch stream error', function () {
       }))
     })
 
-    request(app.listen())
+    return request(app.listen())
       .get('/')
       .expect(404)
-      .end(function (err, res) {
-        if (err) return done(err)
-        assert((res.res.statusMessage || res.res.text) === 'Not Found')
-        done()
+      .expect(function (res) {
+        assert.strictEqual(res.res.statusMessage || res.res.text, 'Not Found')
       })
   })
 })

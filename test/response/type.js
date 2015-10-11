@@ -14,8 +14,8 @@ describe('ctx.type=', function () {
     it('should set the Content-Type', function () {
       var ctx = context()
       ctx.type = 'text/plain'
-      assert(ctx.type === 'text/plain')
-      assert(ctx.response.header['content-type'] === 'text/plain; charset=utf-8')
+      assert.strictEqual(ctx.type, 'text/plain')
+      assert.strictEqual(ctx.response.header['content-type'], 'text/plain; charset=utf-8')
     })
   })
 
@@ -23,8 +23,8 @@ describe('ctx.type=', function () {
     it('should lookup the mime', function () {
       var ctx = context()
       ctx.type = 'json'
-      assert(ctx.type === 'application/json')
-      assert(ctx.response.header['content-type'] === 'application/json; charset=utf-8')
+      assert.strictEqual(ctx.type, 'application/json')
+      assert.strictEqual(ctx.response.header['content-type'], 'application/json; charset=utf-8')
     })
   })
 
@@ -32,8 +32,8 @@ describe('ctx.type=', function () {
     it('should default the charset', function () {
       var ctx = context()
       ctx.type = 'text/html'
-      assert(ctx.type === 'text/html')
-      assert(ctx.response.header['content-type'] === 'text/html; charset=utf-8')
+      assert.strictEqual(ctx.type, 'text/html')
+      assert.strictEqual(ctx.response.header['content-type'], 'text/html; charset=utf-8')
     })
   })
 
@@ -41,8 +41,8 @@ describe('ctx.type=', function () {
     it('should not default the charset', function () {
       var ctx = context()
       ctx.type = 'text/html; charset=foo'
-      assert(ctx.type === 'text/html')
-      assert(ctx.response.header['content-type'] === 'text/html; charset=foo')
+      assert.strictEqual(ctx.type, 'text/html')
+      assert.strictEqual(ctx.response.header['content-type'], 'text/html; charset=foo')
     })
   })
 
@@ -50,8 +50,8 @@ describe('ctx.type=', function () {
     it('should default to application/octet-stream', function () {
       var ctx = context()
       ctx.type = 'asdf'
-      assert(ctx.type === 'application/octet-stream')
-      assert(ctx.response.header['content-type'] === 'application/octet-stream')
+      assert.strictEqual(ctx.type, 'application/octet-stream')
+      assert.strictEqual(ctx.response.header['content-type'], 'application/octet-stream')
     })
   })
 })
@@ -61,7 +61,7 @@ describe('ctx.type', function () {
     it('should return ""', function () {
       var ctx = context()
       // TODO: this is lame
-      assert(ctx.type === '')
+      assert.strictEqual(ctx.type, '')
     })
   })
 
@@ -69,7 +69,7 @@ describe('ctx.type', function () {
     it('should return the mime', function () {
       var ctx = context()
       ctx.type = 'json'
-      assert(ctx.type === 'application/json')
+      assert.strictEqual(ctx.type, 'application/json')
     })
   })
 })

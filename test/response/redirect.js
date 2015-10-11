@@ -13,8 +13,8 @@ describe('ctx.redirect(url)', function () {
   it('should redirect to the given url', function () {
     var ctx = context()
     ctx.redirect('http://google.com')
-    assert(ctx.response.header.location === 'http://google.com')
-    assert(ctx.status === 302)
+    assert.strictEqual(ctx.response.header.location, 'http://google.com')
+    assert.strictEqual(ctx.status, 302)
   })
 
   describe('with "back"', function () {
@@ -22,26 +22,26 @@ describe('ctx.redirect(url)', function () {
       var ctx = context()
       ctx.req.headers.referrer = '/login'
       ctx.redirect('back')
-      assert(ctx.response.header.location === '/login')
+      assert.strictEqual(ctx.response.header.location, '/login')
     })
 
     it('should redirect to Referer', function () {
       var ctx = context()
       ctx.req.headers.referer = '/login'
       ctx.redirect('back')
-      assert(ctx.response.header.location === '/login')
+      assert.strictEqual(ctx.response.header.location, '/login')
     })
 
     it('should default to alt', function () {
       var ctx = context()
       ctx.redirect('back', '/index.html')
-      assert(ctx.response.header.location === '/index.html')
+      assert.strictEqual(ctx.response.header.location, '/index.html')
     })
 
     it('should default redirect to /', function () {
       var ctx = context()
       ctx.redirect('back')
-      assert(ctx.response.header.location === '/')
+      assert.strictEqual(ctx.response.header.location, '/')
     })
   })
 
@@ -51,8 +51,8 @@ describe('ctx.redirect(url)', function () {
       var url = 'http://google.com'
       ctx.header.accept = 'text/html'
       ctx.redirect(url)
-      assert(ctx.response.header['content-type'] === 'text/html; charset=utf-8')
-      assert(ctx.body === 'Redirecting to <a href="' + url + '">' + url + '</a>.')
+      assert.strictEqual(ctx.response.header['content-type'], 'text/html; charset=utf-8')
+      assert.strictEqual(ctx.body, 'Redirecting to <a href="' + url + '">' + url + '</a>.')
     })
 
     it('should escape the url', function () {
@@ -61,8 +61,8 @@ describe('ctx.redirect(url)', function () {
       ctx.header.accept = 'text/html'
       ctx.redirect(url)
       url = escape(url)
-      assert(ctx.response.header['content-type'] === 'text/html; charset=utf-8')
-      assert(ctx.body === 'Redirecting to <a href="' + url + '">' + url + '</a>.')
+      assert.strictEqual(ctx.response.header['content-type'], 'text/html; charset=utf-8')
+      assert.strictEqual(ctx.body, 'Redirecting to <a href="' + url + '">' + url + '</a>.')
     })
   })
 
@@ -72,7 +72,7 @@ describe('ctx.redirect(url)', function () {
       var url = 'http://google.com'
       ctx.header.accept = 'text/plain'
       ctx.redirect(url)
-      assert(ctx.body === 'Redirecting to ' + url + '.')
+      assert.strictEqual(ctx.body, 'Redirecting to ' + url + '.')
     })
   })
 
@@ -83,8 +83,8 @@ describe('ctx.redirect(url)', function () {
       ctx.status = 301
       ctx.header.accept = 'text/plain'
       ctx.redirect('http://google.com')
-      assert(ctx.status === 301)
-      assert(ctx.body === 'Redirecting to ' + url + '.')
+      assert.strictEqual(ctx.status, 301)
+      assert.strictEqual(ctx.body, 'Redirecting to ' + url + '.')
     })
   })
 
@@ -95,8 +95,8 @@ describe('ctx.redirect(url)', function () {
       ctx.status = 304
       ctx.header.accept = 'text/plain'
       ctx.redirect('http://google.com')
-      assert(ctx.status === 302)
-      assert(ctx.body === 'Redirecting to ' + url + '.')
+      assert.strictEqual(ctx.status, 302)
+      assert.strictEqual(ctx.body, 'Redirecting to ' + url + '.')
     })
   })
 
@@ -107,9 +107,9 @@ describe('ctx.redirect(url)', function () {
       var url = 'http://google.com'
       ctx.header.accept = 'text/plain'
       ctx.redirect('http://google.com')
-      assert(ctx.status === 302)
-      assert(ctx.body === 'Redirecting to ' + url + '.')
-      assert(ctx.type === 'text/plain')
+      assert.strictEqual(ctx.status, 302)
+      assert.strictEqual(ctx.body, 'Redirecting to ' + url + '.')
+      assert.strictEqual(ctx.type, 'text/plain')
     })
   })
 })

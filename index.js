@@ -224,24 +224,19 @@ function respond () {
     // strip headers
     this.body = null
     res.end()
-
   } else if (this.method === 'HEAD') {
     if (isJSON(body)) this.length = Buffer.byteLength(JSON.stringify(body))
     res.end()
-
   } else if (body == null) {
     // status body
     this.type = 'text'
     body = this.message || String(code)
     this.length = Buffer.byteLength(body)
     res.end(body)
-
   } else if (typeof body === 'string' || Buffer.isBuffer(body)) {
     res.end(body)
-
   } else if (body instanceof Stream) {
     body.pipe(res)
-
   } else {
     // body: json
     body = JSON.stringify(body)

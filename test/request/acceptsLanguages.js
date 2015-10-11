@@ -26,7 +26,7 @@ describe('ctx.acceptsLanguages(langs)', function () {
         it('should return the best fit', function () {
           var ctx = context()
           ctx.req.headers['accept-language'] = 'en;q=0.8, es, pt'
-          assert(ctx.acceptsLanguages('es', 'en') === 'es')
+          assert.strictEqual(ctx.acceptsLanguages('es', 'en'), 'es')
         })
       })
 
@@ -34,7 +34,7 @@ describe('ctx.acceptsLanguages(langs)', function () {
         it('should return false', function () {
           var ctx = context()
           ctx.req.headers['accept-language'] = 'en;q=0.8, es, pt'
-          assert(ctx.acceptsLanguages('fr', 'au') === false)
+          assert.strictEqual(ctx.acceptsLanguages('fr', 'au'), false)
         })
       })
     })
@@ -42,7 +42,7 @@ describe('ctx.acceptsLanguages(langs)', function () {
     describe('when Accept-Language is not populated', function () {
       it('should return the first type', function () {
         var ctx = context()
-        assert(ctx.acceptsLanguages('es', 'en') === 'es')
+        assert.strictEqual(ctx.acceptsLanguages('es', 'en'), 'es')
       })
     })
   })
@@ -51,7 +51,7 @@ describe('ctx.acceptsLanguages(langs)', function () {
     it('should return the best fit', function () {
       var ctx = context()
       ctx.req.headers['accept-language'] = 'en;q=0.8, es, pt'
-      assert(ctx.acceptsLanguages(['es', 'en']) === 'es')
+      assert.strictEqual(ctx.acceptsLanguages(['es', 'en']), 'es')
     })
   })
 })

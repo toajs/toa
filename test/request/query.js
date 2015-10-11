@@ -19,18 +19,17 @@ describe('ctx.query', function () {
     })
   })
 
-  it("should return the same object each time it's accessed", function (done) {
+  it("should return the same object each time it's accessed", function () {
     var ctx = context({url: '/'})
     ctx.query.a = '2'
     assert.strictEqual(ctx.query.a, '2')
-    done()
   })
 
   it('should return a parsed query-string', function () {
     var ctx = context({
       url: '/?page=2'
     })
-    assert(ctx.query.page, '2')
+    assert.strictEqual(ctx.query.page, '2')
   })
 })
 
@@ -43,9 +42,9 @@ describe('ctx.query=', function () {
       page: 2,
       color: 'blue'
     }
-    assert(ctx.url === '/store/shoes?page=2&color=blue')
-    assert(ctx.querystring === 'page=2&color=blue')
-    assert(ctx.search === '?page=2&color=blue')
+    assert.strictEqual(ctx.url, '/store/shoes?page=2&color=blue')
+    assert.strictEqual(ctx.querystring, 'page=2&color=blue')
+    assert.strictEqual(ctx.search, '?page=2&color=blue')
   })
 
   it('should change .url but not .originalUrl', function () {
@@ -55,8 +54,8 @@ describe('ctx.query=', function () {
     ctx.query = {
       page: 2
     }
-    assert(ctx.url === '/store/shoes?page=2')
-    assert(ctx.originalUrl === '/store/shoes')
-    assert(ctx.request.originalUrl === '/store/shoes')
+    assert.strictEqual(ctx.url, '/store/shoes?page=2')
+    assert.strictEqual(ctx.originalUrl, '/store/shoes')
+    assert.strictEqual(ctx.request.originalUrl, '/store/shoes')
   })
 })

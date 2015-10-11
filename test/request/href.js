@@ -24,29 +24,27 @@ describe('ctx.href', function () {
       __proto__: Stream.Readable.prototype
     }
     var ctx = context(req)
-    assert(ctx.href === 'http://localhost/users/1?next=dashboard')
+    assert.strictEqual(ctx.href, 'http://localhost/users/1?next=dashboard')
     // change it also work
     ctx.url = '/foo/users/1?next=/dashboard'
-    assert(ctx.href === 'http://localhost/users/1?next=dashboard')
+    assert.strictEqual(ctx.href, 'http://localhost/users/1?next=dashboard')
   })
 
-  it('should work with `GET /users/1?next=dashboard`', function (done) {
+  it('should work with `GET /users/1?next=dashboard`', function () {
     var app = toa(function () {
       this.body = this.href
-      assert(this.body === this.protocol + '://' + this.host + '/users/1?next=dashboard')
+      assert.strictEqual(this.body, this.protocol + '://' + this.host + '/users/1?next=dashboard')
     })
 
-    request(app.listen())
+    return request(app.listen())
       .get('/users/1?next=dashboard')
       .expect(200)
-      .end(done)
   })
 
-  it('should work with `GET http://example.com/foo`', function (done) {
+  it('should work with `GET http://example.com/foo`', function () {
     var ctx = context()
     ctx.originalUrl = ctx.request.originalUrl = ctx.req.url = 'http://example.com/foo'
     assert.strictEqual(ctx.request.href, 'http://example.com/foo')
     assert.strictEqual(ctx.href, 'http://example.com/foo')
-    done()
   })
 })

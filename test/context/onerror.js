@@ -11,7 +11,7 @@ var request = require('supertest')
 var toa = require('../..')
 
 describe('catch error', function () {
-  it('should respond', function (done) {
+  it('should respond', function () {
     var app = toa()
 
     app.use(function (next) {
@@ -21,15 +21,14 @@ describe('catch error', function () {
       return next()
     })
 
-    request(app.listen())
+    return request(app.listen())
       .get('/')
       .expect(418)
       .expect('Content-Type', 'text/plain; charset=utf-8')
       .expect('Content-Length', '4')
-      .end(done)
   })
 
-  it('should unset all headers', function (done) {
+  it('should unset all headers', function () {
     var app = toa()
 
     app.use(function (next) {
@@ -41,23 +40,20 @@ describe('catch error', function () {
       return next()
     })
 
-    request(app.listen())
+    return request(app.listen())
       .get('/')
       .expect(418)
       .expect('Content-Type', 'text/plain; charset=utf-8')
       .expect('Content-Length', '4')
-      .end(function (err, res) {
-        if (err) return done(err)
-
-        assert(res.headers.vary === undefined)
-        assert(res.headers['x-csrf-token'] === undefined)
-        done()
+      .expect(function (res) {
+        assert.strictEqual(res.headers.vary, undefined)
+        assert.strictEqual(res.headers['x-csrf-token'], undefined)
       })
   })
 
   describe('when invalid err.status', function () {
     describe('not number', function () {
-      it('should respond 500', function (done) {
+      it('should respond 500', function () {
         var app = toa()
 
         app.use(function (next) {
@@ -69,16 +65,16 @@ describe('catch error', function () {
 
         app.onerror = function () {}
 
-        request(app.listen())
+        return request(app.listen())
           .get('/')
           .expect(500)
           .expect('Content-Type', 'text/plain; charset=utf-8')
-          .expect('Internal Server Error', done)
+          .expect('Internal Server Error')
       })
     })
 
     describe('not http status code', function () {
-      it('should respond 500', function (done) {
+      it('should respond 500', function () {
         var app = toa()
 
         app.use(function (next) {
@@ -90,11 +86,11 @@ describe('catch error', function () {
 
         app.onerror = function () {}
 
-        request(app.listen())
+        return request(app.listen())
           .get('/')
           .expect(500)
           .expect('Content-Type', 'text/plain; charset=utf-8')
-          .expect('Internal Server Error', done)
+          .expect('Internal Server Error')
       })
     })
   })

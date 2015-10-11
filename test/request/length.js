@@ -13,11 +13,11 @@ describe('ctx.length', function () {
   it('should return length in content-length', function () {
     var req = request()
     req.header['content-length'] = '10'
-    assert(req.length === 10)
+    assert.strictEqual(req.length, 10)
   })
 
   describe('with no content-length present', function () {
     var req = request()
-    assert(req.length == null)
+    assert.strictEqual(req.length == null, true)
   })
 })

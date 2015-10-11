@@ -13,13 +13,13 @@ describe('ctx.set(name, val)', function () {
   it('should set a field value', function () {
     var ctx = context()
     ctx.set('x-foo', 'bar')
-    assert(ctx.response.header['x-foo'] === 'bar')
+    assert.strictEqual(ctx.response.header['x-foo'], 'bar')
   })
 
   it('should coerce to a string', function () {
     var ctx = context()
     ctx.set('x-foo', 5)
-    assert(ctx.response.header['x-foo'] === '5')
+    assert.strictEqual(ctx.response.header['x-foo'], '5')
   })
 
   it('should set a field value of array', function () {
@@ -38,7 +38,7 @@ describe('ctx.set(object)', function () {
       bar: '2'
     })
 
-    assert(ctx.response.header.foo === '1')
-    assert(ctx.response.header.bar === '2')
+    assert.strictEqual(ctx.response.header.foo, '1')
+    assert.strictEqual(ctx.response.header.bar, '2')
   })
 })

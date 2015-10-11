@@ -16,7 +16,7 @@ describe('ctx.idempotent', function () {
       function check (method) {
         var req = request()
         req.method = method
-        assert(req.idempotent)
+        assert.strictEqual(req.idempotent, true)
       }
     })
   })
@@ -25,7 +25,7 @@ describe('ctx.idempotent', function () {
     it('should return false', function () {
       var req = request()
       req.method = 'POST'
-      assert(req.idempotent === false)
+      assert.strictEqual(req.idempotent, false)
     })
   })
 })

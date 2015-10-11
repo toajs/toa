@@ -14,7 +14,7 @@ describe('ctx.fresh', function () {
     it('should return false', function () {
       var ctx = context()
       ctx.req.method = 'POST'
-      assert(ctx.fresh === false)
+      assert.strictEqual(ctx.fresh, false)
     })
   })
 
@@ -25,7 +25,7 @@ describe('ctx.fresh', function () {
       ctx.req.method = 'GET'
       ctx.req.headers['if-none-match'] = '123'
       ctx.set('ETag', '123')
-      assert(ctx.fresh === false)
+      assert.strictEqual(ctx.fresh, false)
     })
   })
 
@@ -37,7 +37,7 @@ describe('ctx.fresh', function () {
         ctx.req.method = 'GET'
         ctx.req.headers['if-none-match'] = '123'
         ctx.set('ETag', '123')
-        assert(ctx.fresh)
+        assert.strictEqual(ctx.fresh, true)
       })
     })
 
@@ -48,7 +48,7 @@ describe('ctx.fresh', function () {
         ctx.req.method = 'GET'
         ctx.req.headers['if-none-match'] = '123'
         ctx.set('ETag', 'hey')
-        assert(ctx.fresh === false)
+        assert.strictEqual(ctx.fresh, false)
       })
     })
   })

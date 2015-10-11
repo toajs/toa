@@ -11,7 +11,7 @@ var request = require('supertest')
 var toa = require('../..')
 
 describe('ctx.cookies.set()', function () {
-  it('should set an unsigned cookie', function (done) {
+  it('should set an unsigned cookie', function () {
     var app = toa()
 
     app.use(function (next) {
@@ -20,22 +20,19 @@ describe('ctx.cookies.set()', function () {
       return next()
     })
 
-    request(app.listen())
+    return request(app.listen())
       .get('/')
       .expect(204)
-      .end(function (err, res) {
-        if (err) return done(err)
-
-        assert(res.headers['set-cookie'].some(function (cookie) {
+      .expect(function (res) {
+        assert.strictEqual(res.headers['set-cookie'].some(function (cookie) {
           return /^name=/.test(cookie)
-        }))
-        done()
+        }), true)
       })
   })
 
   describe('with .signed', function () {
     describe('when no .keys are set', function () {
-      it('should error', function (done) {
+      it('should error', function () {
         var app = toa()
         app.keys = null
 
@@ -50,13 +47,13 @@ describe('ctx.cookies.set()', function () {
           return next()
         })
 
-        request(app.listen())
+        return request(app.listen())
           .get('/')
-          .expect('.keys required for signed cookies', done)
+          .expect('.keys required for signed cookies')
       })
     })
 
-    it('should send a signed cookie', function (done) {
+    it('should send a signed cookie', function () {
       var app = toa()
 
       app.use(function (next) {
@@ -67,23 +64,19 @@ describe('ctx.cookies.set()', function () {
         return next()
       })
 
-      request(app.listen())
+      return request(app.listen())
         .get('/')
         .expect(204)
-        .end(function (err, res) {
-          if (err) return done(err)
-
+        .expect(function (res) {
           var cookies = res.headers['set-cookie']
 
-          assert(cookies.some(function (cookie) {
+          assert.strictEqual(cookies.some(function (cookie) {
             return /^name=/.test(cookie)
-          }))
+          }), true)
 
-          assert(cookies.some(function (cookie) {
+          assert.strictEqual(cookies.some(function (cookie) {
             return /^name\.sig=/.test(cookie)
-          }))
-
-          done()
+          }), true)
         })
     })
   })

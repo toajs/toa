@@ -12,6 +12,6 @@ var request = require('../context').request
 describe('req.headers', function () {
   it('should return the request header object', function () {
     var req = request()
-    assert(req.headers === req.req.headers)
+    assert.strictEqual(req.headers, req.req.headers)
   })
 })

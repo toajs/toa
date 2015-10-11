@@ -34,7 +34,7 @@ describe('ctx.append(name, val)', function () {
     ctx.append('Link', '<http://localhost/>')
     ctx.append('Link', '<http://localhost:80/>')
     ctx.set('Link', '<http://127.0.0.1/>')
-    assert(ctx.response.header.link === '<http://127.0.0.1/>')
+    assert.strictEqual(ctx.response.header.link, '<http://127.0.0.1/>')
   })
 
   it('should work with res.set(field, val) first', function () {

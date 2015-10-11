@@ -18,7 +18,7 @@ describe('res.status=', function () {
       it('should set the status', function () {
         var res = response()
         res.status = 403
-        assert(res.status === 403)
+        assert.strictEqual(res.status, 403)
       })
 
       it('should not throw', function () {
@@ -44,7 +44,7 @@ describe('res.status=', function () {
       it('should set the status', function () {
         var res = response()
         res.status = 700
-        assert(res.status === 700)
+        assert.strictEqual(res.status, 700)
       })
 
       it('should not throw', function () {
@@ -64,7 +64,7 @@ describe('res.status=', function () {
   })
 
   function strip (status) {
-    it('should strip content related header fields', function (done) {
+    it('should strip content related header fields', function () {
       var app = toa()
 
       app.use(function (next) {
@@ -75,25 +75,24 @@ describe('res.status=', function () {
         this.set('Content-Length', '15')
         this.set('Transfer-Encoding', 'chunked')
         this.status = status
-        assert(this.response.header['content-type'] == null)
-        assert(this.response.header['content-length'] == null)
-        assert(this.response.header['transfer-encoding'] == null)
+        assert.strictEqual(this.response.header['content-type'] == null, true)
+        assert.strictEqual(this.response.header['content-length'] == null, true)
+        assert.strictEqual(this.response.header['transfer-encoding'] == null, true)
         return next()
       })
 
-      request(app.listen())
+      return request(app.listen())
         .get('/')
         .expect(status)
-        .end(function (err, res) {
-          assert(res.header['content-type'] == null)
-          assert(res.header['content-length'] == null)
-          assert(res.header['content-encoding'] == null)
-          assert(res.text.length === 0)
-          done(err)
+        .expect(function (res) {
+          assert.strictEqual(res.header['content-type'] == null, true)
+          assert.strictEqual(res.header['content-length'] == null, true)
+          assert.strictEqual(res.header['content-encoding'] == null, true)
+          assert.strictEqual(res.text.length, 0)
         })
     })
 
-    it('should strip content releated header fields after status set', function (done) {
+    it('should strip content releated header fields after status set', function () {
       var app = toa()
 
       app.use(function (next) {
@@ -107,15 +106,14 @@ describe('res.status=', function () {
         return next()
       })
 
-      request(app.listen())
+      return request(app.listen())
         .get('/')
         .expect(status)
-        .end(function (err, res) {
-          assert(res.header['content-type'] == null)
-          assert(res.header['content-length'] == null)
-          assert(res.header['content-encoding'] == null)
-          assert(res.text.length === 0)
-          done(err)
+        .expect(function (res) {
+          assert.strictEqual(res.header['content-type'] == null, true)
+          assert.strictEqual(res.header['content-length'] == null, true)
+          assert.strictEqual(res.header['content-encoding'] == null, true)
+          assert.strictEqual(res.text.length, 0)
         })
     })
   }

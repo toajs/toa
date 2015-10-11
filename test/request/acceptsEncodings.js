@@ -16,7 +16,7 @@ describe('ctx.acceptsEncodings()', function () {
         var ctx = context()
         ctx.req.headers['accept-encoding'] = 'gzip, compress;q=0.2'
         assert.deepEqual(ctx.acceptsEncodings(), ['gzip', 'compress', 'identity'])
-        assert(ctx.acceptsEncodings('gzip', 'compress') === 'gzip')
+        assert.strictEqual(ctx.acceptsEncodings('gzip', 'compress'), 'gzip')
       })
     })
 
@@ -24,7 +24,7 @@ describe('ctx.acceptsEncodings()', function () {
       it('should return identity', function () {
         var ctx = context()
         assert.deepEqual(ctx.acceptsEncodings(), ['identity'])
-        assert(ctx.acceptsEncodings('gzip', 'deflate', 'identity') === 'identity')
+        assert.strictEqual(ctx.acceptsEncodings('gzip', 'deflate', 'identity'), 'identity')
       })
     })
   })

@@ -11,7 +11,7 @@ var assert = require('assert')
 var toa = require('../..')
 
 describe('ctx.state', function () {
-  it('should provide a ctx.state namespace', function (done) {
+  it('should provide a ctx.state namespace', function () {
     var app = toa()
 
     app.use(function (next) {
@@ -19,9 +19,8 @@ describe('ctx.state', function () {
       return next()
     })
 
-    request(app.listen())
+    return request(app.listen())
       .get('/')
       .expect(404)
-      .end(done)
   })
 })

@@ -26,7 +26,7 @@ describe('ctx.acceptsCharsets()', function () {
         it('should return the best fit', function () {
           var ctx = context()
           ctx.req.headers['accept-charset'] = 'utf-8, iso-8859-1;q=0.2, utf-7;q=0.5'
-          assert(ctx.acceptsCharsets('utf-7', 'utf-8') === 'utf-8')
+          assert.strictEqual(ctx.acceptsCharsets('utf-7', 'utf-8'), 'utf-8')
         })
       })
 
@@ -34,7 +34,7 @@ describe('ctx.acceptsCharsets()', function () {
         it('should return false', function () {
           var ctx = context()
           ctx.req.headers['accept-charset'] = 'utf-8, iso-8859-1;q=0.2, utf-7;q=0.5'
-          assert(ctx.acceptsCharsets('utf-16') === false)
+          assert.strictEqual(ctx.acceptsCharsets('utf-16'), false)
         })
       })
     })
@@ -42,7 +42,7 @@ describe('ctx.acceptsCharsets()', function () {
     describe('when Accept-Charset is not populated', function () {
       it('should return the first type', function () {
         var ctx = context()
-        assert(ctx.acceptsCharsets('utf-7', 'utf-8') === 'utf-7')
+        assert.strictEqual(ctx.acceptsCharsets('utf-7', 'utf-8'), 'utf-7')
       })
     })
   })
@@ -51,7 +51,7 @@ describe('ctx.acceptsCharsets()', function () {
     it('should return the best fit', function () {
       var ctx = context()
       ctx.req.headers['accept-charset'] = 'utf-8, iso-8859-1;q=0.2, utf-7;q=0.5'
-      assert(ctx.acceptsCharsets(['utf-7', 'utf-8']) === 'utf-8')
+      assert.strictEqual(ctx.acceptsCharsets(['utf-7', 'utf-8']), 'utf-8')
     })
   })
 })

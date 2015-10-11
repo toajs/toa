@@ -13,13 +13,13 @@ describe('req.host', function () {
   it('should return host with port', function () {
     var req = request()
     req.header.host = 'foo.com:3000'
-    assert(req.host === 'foo.com:3000')
+    assert.strictEqual(req.host, 'foo.com:3000')
   })
 
   describe('with no host present', function () {
     it('should return null', function () {
       var req = request()
-      assert(req.host === '')
+      assert.strictEqual(req.host, '')
     })
   })
 
@@ -29,7 +29,7 @@ describe('req.host', function () {
         var req = request()
         req.header['x-forwarded-host'] = 'bar.com'
         req.header.host = 'foo.com'
-        assert(req.host === 'foo.com')
+        assert.strictEqual(req.host, 'foo.com')
       })
     })
 
@@ -39,7 +39,7 @@ describe('req.host', function () {
         req.ctx.config.proxy = true
         req.header['x-forwarded-host'] = 'bar.com, baz.com'
         req.header.host = 'foo.com'
-        assert(req.host === 'bar.com')
+        assert.strictEqual(req.host, 'bar.com')
       })
     })
   })

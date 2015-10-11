@@ -16,8 +16,8 @@ describe('ctx.throw(msg)', function () {
     try {
       ctx.throw('boom')
     } catch (err) {
-      assert(err.status === 500)
-      assert(!err.expose)
+      assert.strictEqual(err.status, 500)
+      assert.strictEqual(err.expose, false)
       done()
     }
   })
@@ -31,9 +31,9 @@ describe('ctx.throw(err)', function () {
     try {
       ctx.throw(err)
     } catch (err) {
-      assert(err.status === 500)
-      assert(err.message === 'test')
-      assert(!err.expose)
+      assert.strictEqual(err.status, 500)
+      assert.strictEqual(err.message, 'test')
+      assert.strictEqual(err.expose, false)
       done()
     }
   })
@@ -47,9 +47,9 @@ describe('ctx.throw(err, status)', function () {
     try {
       ctx.throw(error, 422)
     } catch (err) {
-      assert(err.status === 422)
-      assert(err.message === 'test')
-      assert(err.expose === true)
+      assert.strictEqual(err.status, 422)
+      assert.strictEqual(err.message, 'test')
+      assert.strictEqual(err.expose, true)
       done()
     }
   })
@@ -63,9 +63,9 @@ describe('ctx.throw(status, err)', function () {
     try {
       ctx.throw(422, error)
     } catch (err) {
-      assert(err.status === 422)
-      assert(err.message === 'test')
-      assert(err.expose)
+      assert.strictEqual(err.status, 422)
+      assert.strictEqual(err.message, 'test')
+      assert.strictEqual(err.expose, true)
       done()
     }
   })
@@ -78,9 +78,9 @@ describe('ctx.throw(msg, status)', function () {
     try {
       ctx.throw('name required', 400)
     } catch (err) {
-      assert(err.message === 'name required')
-      assert(err.status === 400)
-      assert(err.expose)
+      assert.strictEqual(err.message, 'name required')
+      assert.strictEqual(err.status, 400)
+      assert.strictEqual(err.expose, true)
       done()
     }
   })
@@ -93,9 +93,9 @@ describe('ctx.throw(status, msg)', function () {
     try {
       ctx.throw(400, 'name required')
     } catch (err) {
-      assert(err.message === 'name required')
-      assert(err.status === 400)
-      assert(err.expose)
+      assert.strictEqual(err.message, 'name required')
+      assert.strictEqual(err.status, 400)
+      assert.strictEqual(err.expose, true)
       done()
     }
   })
@@ -108,9 +108,9 @@ describe('ctx.throw(status)', function () {
     try {
       ctx.throw(400)
     } catch (err) {
-      assert(err.message === 'Bad Request')
-      assert(err.status === 400)
-      assert(err.expose)
+      assert.strictEqual(err.message, 'Bad Request')
+      assert.strictEqual(err.status, 400)
+      assert.strictEqual(err.expose, true)
       done()
     }
   })
@@ -124,8 +124,8 @@ describe('ctx.throw(status)', function () {
         err.status = -1
         ctx.throw(err)
       } catch (err) {
-        assert(err.message === 'some error')
-        assert(!err.expose)
+        assert.strictEqual(err.message, 'some error')
+        assert.strictEqual(err.expose, false)
         done()
       }
     })
@@ -141,10 +141,10 @@ describe('ctx.throw(status, msg, props)', function () {
         prop: true
       })
     } catch (err) {
-      assert(err.message === 'msg')
-      assert(err.status === 400)
-      assert(err.expose)
-      assert(err.prop)
+      assert.strictEqual(err.message, 'msg')
+      assert.strictEqual(err.status, 400)
+      assert.strictEqual(err.expose, true)
+      assert.strictEqual(err.prop, true)
       done()
     }
   })
@@ -159,10 +159,10 @@ describe('ctx.throw(status, msg, props)', function () {
           status: -1
         })
       } catch (err) {
-        assert(err.message === 'msg')
-        assert(err.status === 400)
-        assert(err.expose)
-        assert(err.prop)
+        assert.strictEqual(err.message, 'msg')
+        assert.strictEqual(err.status, 400)
+        assert.strictEqual(err.expose, true)
+        assert.strictEqual(err.prop, true)
         done()
       }
     })
@@ -178,10 +178,10 @@ describe('ctx.throw(msg, props)', function () {
         prop: true
       })
     } catch (err) {
-      assert(err.message === 'msg')
-      assert(err.status === 500)
-      assert(err.expose === false)
-      assert(err.prop)
+      assert.strictEqual(err.message, 'msg')
+      assert.strictEqual(err.status, 500)
+      assert.strictEqual(err.expose, false)
+      assert.strictEqual(err.prop, true)
       done()
     }
   })
@@ -196,10 +196,10 @@ describe('ctx.throw(status, props)', function () {
         prop: true
       })
     } catch (err) {
-      assert(err.message === 'Bad Request')
-      assert(err.status === 400)
-      assert(err.expose)
-      assert(err.prop)
+      assert.strictEqual(err.message, 'Bad Request')
+      assert.strictEqual(err.status, 400)
+      assert.strictEqual(err.expose, true)
+      assert.strictEqual(err.prop, true)
       done()
     }
   })
@@ -214,10 +214,10 @@ describe('ctx.throw(err, props)', function () {
         prop: true
       })
     } catch (err) {
-      assert(err.message === 'test')
-      assert(err.status === 500)
-      assert(err.expose === false)
-      assert(err.prop)
+      assert.strictEqual(err.message, 'test')
+      assert.strictEqual(err.status, 500)
+      assert.strictEqual(err.expose, false)
+      assert.strictEqual(err.prop, true)
       done()
     }
   })

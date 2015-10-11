@@ -13,10 +13,10 @@ describe('context onPreEnd', function () {
     var count = 0
     var app = toa(function () {
       this.body = 'test'
-      assert(this.onPreEnd.length === 1)
-      assert(count === 1)
+      assert.strictEqual(this.onPreEnd.length, 1)
+      assert.strictEqual(count, 1)
       this.on('end', function () {
-        assert(count === 2)
+        assert.strictEqual(count, 2)
         count++
       })
     })
@@ -35,7 +35,7 @@ describe('context onPreEnd', function () {
       .expect(200)
       .end(function (err) {
         if (err) return done(err)
-        assert(count === 3)
+        assert.strictEqual(count, 3)
         done()
       })
   })
@@ -45,12 +45,12 @@ describe('context onPreEnd', function () {
     var app = toa(function () {
       this.body = 'test'
       var queue = this.onPreEnd
-      assert(queue.length === 2)
-      assert(count === 1)
+      assert.strictEqual(queue.length, 2)
+      assert.strictEqual(count, 1)
       // should not change onPreEnd queue
       queue.pop()
       this.on('end', function () {
-        assert(count === 3)
+        assert.strictEqual(count, 3)
         count++
       })
     })
@@ -73,7 +73,7 @@ describe('context onPreEnd', function () {
       .expect(200)
       .end(function (err) {
         if (err) return done(err)
-        assert(count === 4)
+        assert.strictEqual(count, 4)
         done()
       })
   })

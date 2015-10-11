@@ -16,7 +16,7 @@ describe('req.protocol', function () {
       req.req.socket = {
         encrypted: true
       }
-      assert(req.protocol === 'https')
+      assert.strictEqual(req.protocol, 'https')
     })
   })
 
@@ -24,7 +24,7 @@ describe('req.protocol', function () {
     it('should return "http"', function () {
       var req = request()
       req.req.socket = {}
-      assert(req.protocol === 'http')
+      assert.strictEqual(req.protocol, 'http')
     })
   })
 
@@ -35,7 +35,7 @@ describe('req.protocol', function () {
         req.ctx.config.proxy = true
         req.req.socket = {}
         req.header['x-forwarded-proto'] = 'https, http'
-        assert(req.protocol === 'https')
+        assert.strictEqual(req.protocol, 'https')
       })
 
       describe('and X-Forwarded-Proto is empty', function () {
@@ -44,7 +44,7 @@ describe('req.protocol', function () {
           req.ctx.config.proxy = true
           req.req.socket = {}
           req.header['x-forwarded-proto'] = ''
-          assert(req.protocol === 'http')
+          assert.strictEqual(req.protocol, 'http')
         })
       })
     })
@@ -54,7 +54,7 @@ describe('req.protocol', function () {
         var req = request()
         req.req.socket = {}
         req.header['x-forwarded-proto'] = 'https, http'
-        assert(req.protocol === 'http')
+        assert.strictEqual(req.protocol, 'http')
       })
     })
   })

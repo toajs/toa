@@ -15,7 +15,7 @@ describe('res.length', function () {
     it('should return a number', function () {
       var res = response()
       res.header['content-length'] = '120'
-      assert(res.length === 120)
+      assert.strictEqual(res.length, 120)
     })
   })
 })
@@ -25,7 +25,7 @@ describe('res.length', function () {
     it('should return a number', function () {
       var res = response()
       res.set('Content-Length', '1024')
-      assert(res.length === 1024)
+      assert.strictEqual(res.length, 1024)
     })
   })
 
@@ -36,41 +36,41 @@ describe('res.length', function () {
 
         res.body = 'foo'
         res.remove('Content-Length')
-        assert(res.length === 3)
+        assert.strictEqual(res.length, 3)
 
         res.body = 'foo'
-        assert(res.length === 3)
+        assert.strictEqual(res.length, 3)
 
         res.body = new Buffer('foo bar')
         res.remove('Content-Length')
-        assert(res.length === 7)
+        assert.strictEqual(res.length, 7)
 
         res.body = new Buffer('foo bar')
-        assert(res.length === 7)
+        assert.strictEqual(res.length, 7)
 
         res.body = {
           hello: 'world'
         }
         res.remove('Content-Length')
-        assert(res.length === 17)
+        assert.strictEqual(res.length, 17)
 
         res.body = {
           hello: 'world'
         }
-        assert(res.length === 17)
+        assert.strictEqual(res.length, 17)
 
         res.body = fs.createReadStream('package.json')
-        assert(res.length == null)
+        assert.strictEqual(res.length == null, true)
 
         res.body = null
-        assert(res.length == null)
+        assert.strictEqual(res.length == null, true)
       })
     })
 
     describe('and .body is not', function () {
       it('should return undefined', function () {
         var res = response()
-        assert(res.length == null)
+        assert.strictEqual(res.length == null, true)
       })
     })
   })

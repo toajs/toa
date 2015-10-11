@@ -10,7 +10,7 @@ var request = require('supertest')
 var toa = require('../..')
 
 describe('context end', function () {
-  it('should run onstop after context.end', function (done) {
+  it('should run onstop after context.end', function () {
     var app = toa(function () {
       assert.strictEqual('It should not run', true)
       this.body = 'test'
@@ -26,16 +26,15 @@ describe('context end', function () {
       this.end()
     })
 
-    request(app.listen())
+    return request(app.listen())
       .get('/')
       .expect(418)
       .expect(function (res) {
         assert.strictEqual(res.res.statusMessage || res.res.text, 'process stopped')
       })
-      .end(done)
   })
 
-  it('should respond body with onstop and context.end', function (done) {
+  it('should respond body with onstop and context.end', function () {
     var app = toa(function () {
       return this.thunk()(function () {
         this.end('test this.end')
@@ -56,14 +55,13 @@ describe('context end', function () {
       }
     })
 
-    request(app.listen())
+    return request(app.listen())
       .get('/')
       .expect(200)
       .expect('Good job.')
-      .end(done)
   })
 
-  it('should not overwrite response body with context.end', function (done) {
+  it('should not overwrite response body with context.end', function () {
     var app = toa(function () {
       return this.thunk()(function () {
         this.body = 'Good job.'
@@ -74,14 +72,13 @@ describe('context end', function () {
       })
     })
 
-    request(app.listen())
+    return request(app.listen())
       .get('/')
       .expect(200)
       .expect('Good job.')
-      .end(done)
   })
 
-  it('should work in nested thunks', function (done) {
+  it('should work in nested thunks', function () {
     var thunk = thunks()
     var app = toa(function () {
       return this.thunk()(function () {
@@ -94,13 +91,11 @@ describe('context end', function () {
       })
     })
 
-    request(app.listen())
+    return request(app.listen())
       .get('/')
       .expect(418)
       .expect(function (res) {
         assert.strictEqual(res.res.statusMessage || res.res.text, 'nested thunks')
       })
-      .end(done)
   })
-
 })

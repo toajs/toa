@@ -37,7 +37,7 @@ describe('res.body=', function () {
       var res = response()
       res.type = 'html'
       res.body = 'something'
-      assert(res.length === 9)
+      assert.strictEqual(res.length, 9)
     })
   })
 

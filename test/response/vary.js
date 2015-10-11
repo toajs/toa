@@ -14,7 +14,7 @@ describe('ctx.vary(field)', function () {
     it('should set it', function () {
       var ctx = context()
       ctx.vary('Accept')
-      assert(ctx.response.header.vary === 'Accept')
+      assert.strictEqual(ctx.response.header.vary, 'Accept')
     })
   })
 
@@ -23,7 +23,7 @@ describe('ctx.vary(field)', function () {
       var ctx = context()
       ctx.vary('Accept')
       ctx.vary('Accept-Encoding')
-      assert(ctx.response.header.vary === 'Accept, Accept-Encoding')
+      assert.strictEqual(ctx.response.header.vary, 'Accept, Accept-Encoding')
     })
   })
 
@@ -34,7 +34,7 @@ describe('ctx.vary(field)', function () {
       ctx.vary('Accept-Encoding')
       ctx.vary('Accept')
       ctx.vary('Accept-Encoding')
-      assert(ctx.response.header.vary === 'Accept, Accept-Encoding')
+      assert.strictEqual(ctx.response.header.vary, 'Accept, Accept-Encoding')
     })
   })
 })

@@ -16,7 +16,7 @@ describe('req.stale', function () {
     ctx.method = 'GET'
     ctx.req.headers['if-none-match'] = '"123"'
     ctx.set('ETag', '"123"')
-    assert(ctx.fresh)
-    assert(ctx.stale === false)
+    assert.strictEqual(ctx.fresh, true)
+    assert.strictEqual(ctx.stale, false)
   })
 })

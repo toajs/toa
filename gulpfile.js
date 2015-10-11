@@ -7,6 +7,8 @@ var mocha = require('gulp-mocha')
 var through = require('through2')
 var istanbul = require('gulp-istanbul')
 var gulpSequence = require('gulp-sequence')
+// pathed mocha
+require('thunk-mocha')
 
 gulp.task('mocha', function (done) {
   return merge(
@@ -16,7 +18,7 @@ gulp.task('mocha', function (done) {
     gulp.src(['test/index.js', 'test/context/*', 'test/request/*', 'test/response/*'])
       .pipe(mocha({timeout: 10000}))
       .pipe(istanbul.writeReports()) // Creating the reports after tests runned
-      .pipe(istanbul.enforceThresholds({thresholds: {global: 90}})) // Enforce a coverage of at least 90%
+      .pipe(istanbul.enforceThresholds({thresholds: {global: 95}})) // Enforce a coverage of at least 90%
   )
 })
 

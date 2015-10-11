@@ -15,6 +15,6 @@ describe('req.secure', function () {
     req.req.socket = {
       encrypted: true
     }
-    assert(req.secure)
+    assert.strictEqual(req.secure, true)
   })
 })

@@ -16,7 +16,7 @@ describe('req.ip', function () {
       req.ctx.config.proxy = true
       req.header['x-forwarded-for'] = '127.0.0.1'
       req.socket.remoteAddress = '127.0.0.2'
-      assert(req.ip === '127.0.0.1')
+      assert.strictEqual(req.ip, '127.0.0.1')
     })
   })
 
@@ -24,7 +24,7 @@ describe('req.ip', function () {
     it('should return req.socket.removeAddress', function () {
       var req = request()
       req.socket.remoteAddress = '127.0.0.2'
-      assert(req.ip === '127.0.0.2')
+      assert.strictEqual(req.ip, '127.0.0.2')
     })
   })
 })

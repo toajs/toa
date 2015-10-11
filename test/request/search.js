@@ -15,8 +15,8 @@ describe('ctx.search=', function () {
       url: '/store/shoes'
     })
     ctx.search = '?page=2&color=blue'
-    assert(ctx.url === '/store/shoes?page=2&color=blue')
-    assert(ctx.search === '?page=2&color=blue')
+    assert.strictEqual(ctx.url, '/store/shoes?page=2&color=blue')
+    assert.strictEqual(ctx.search, '?page=2&color=blue')
   })
 
   it('should update ctx.querystring and ctx.query', function () {
@@ -24,8 +24,8 @@ describe('ctx.search=', function () {
       url: '/store/shoes'
     })
     ctx.search = '?page=2&color=blue'
-    assert(ctx.url === '/store/shoes?page=2&color=blue')
-    assert(ctx.querystring === 'page=2&color=blue')
+    assert.strictEqual(ctx.url, '/store/shoes?page=2&color=blue')
+    assert.strictEqual(ctx.querystring, 'page=2&color=blue')
     assert.deepEqual(ctx.query, {
       page: '2',
       color: 'blue'
@@ -37,9 +37,9 @@ describe('ctx.search=', function () {
       url: '/store/shoes'
     })
     ctx.search = '?page=2&color=blue'
-    assert(ctx.url === '/store/shoes?page=2&color=blue')
-    assert(ctx.originalUrl === '/store/shoes')
-    assert(ctx.request.originalUrl === '/store/shoes')
+    assert.strictEqual(ctx.url, '/store/shoes?page=2&color=blue')
+    assert.strictEqual(ctx.originalUrl, '/store/shoes')
+    assert.strictEqual(ctx.request.originalUrl, '/store/shoes')
   })
 
   describe('when missing', function () {
@@ -47,7 +47,7 @@ describe('ctx.search=', function () {
       var ctx = context({
         url: '/store/shoes'
       })
-      assert(ctx.search === '')
+      assert.strictEqual(ctx.search, '')
     })
   })
 })
