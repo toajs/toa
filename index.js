@@ -24,7 +24,7 @@ var pwdReg = new RegExp(process.cwd().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g
 module.exports = Toa
 
 Toa.NAME = 'Toa'
-Toa.VERSION = 'v1.0.0'
+Toa.VERSION = 'v1.1.0'
 
 function Toa (server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options)
@@ -71,7 +71,9 @@ function Toa (server, body, options) {
     },
     set: function (obj) {
       if (!obj || obj.constructor !== Object) throw new Error('config require a object')
-      for (var key in obj) config[key] = obj[key]
+      Object.keys(obj).map(function (key) {
+        config[key] = obj[key]
+      })
     },
     enumerable: true,
     configurable: false
@@ -151,10 +153,12 @@ proto.toListener = function () {
       onerror(err)
     })
 
-    ctx.thunk.seq.call(ctx, middleware)(function () {
-      return body.call(this, this.thunk)
+    var seq = ctx.thunk.seq
+
+    seq.call(ctx, middleware)(function () {
+      return body.call(ctx, ctx.thunk)
     })(function () {
-      return this.thunk.seq.call(this, this.onPreEnd)(respond)
+      return seq.call(ctx, ctx.onPreEnd)(respond)
     })
 
     function onstop (sig) {
@@ -163,9 +167,9 @@ proto.toListener = function () {
         ctx.message = sig.message
       }
       ctx.thunk()(function () {
-        return stopHandler.call(this, sig)
+        return stopHandler.call(ctx, sig)
       })(function () {
-        return this.thunk.seq.call(this, this.onPreEnd)(respond)
+        return seq.call(ctx, ctx.onPreEnd)(respond)
       })
     }
 
