@@ -18,13 +18,15 @@ var EventEmitter = require('events').EventEmitter
 var context = require('./lib/context')
 var request = require('./lib/request')
 var response = require('./lib/response')
+var packageInfo = require('./package.json')
 
 var pwdReg = new RegExp(process.cwd().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')
 
 module.exports = Toa
 
-Toa.NAME = 'Toa'
-Toa.VERSION = 'v1.1.0'
+Toa.NAME = packageInfo.name
+Toa.VERSION = packageInfo.version
+Toa.AUTHORS = packageInfo.authors
 
 function Toa (server, body, options) {
   if (!(this instanceof Toa)) return new Toa(server, body, options)
