@@ -28,11 +28,7 @@ exports = module.exports = function (req, res) {
   res.removeHeader = function (k, v) {
     delete res._headers[k.toLowerCase()]
   }
-  return toa.createContext(toa(), req, res, onerror, thunks())
-
-  function onerror (err) {
-    console.log(err)
-  }
+  return toa.createContext(toa(), req, res, thunks())
 }
 
 exports.context = function (req, res) {

@@ -28,36 +28,36 @@ Toa.NAME = packageInfo.name
 Toa.VERSION = packageInfo.version
 Toa.AUTHORS = packageInfo.authors
 
-function Toa (server, body, options) {
-  if (!(this instanceof Toa)) return new Toa(server, body, options)
-
+function Toa (server, mainFn, options) {
+  if (!(this instanceof Toa)) return new Toa(server, mainFn, options)
+  var app = this
   this.middleware = []
   this.context = Object.create(context)
   this.request = Object.create(request)
   this.response = Object.create(response)
-  this.server = server && isFunction(server.listen) ? server : null
 
+  this.server = server && isFunction(server.listen) ? server : null
   if (this.server !== server) {
-    options = body
-    body = server
+    options = mainFn
+    mainFn = server
   }
 
-  if (!isFunction(body)) {
-    options = body
-    body = noOp
+  if (!isFunction(mainFn)) {
+    options = mainFn
+    mainFn = noOp
   }
 
   options = options || {}
-  this.body = body
+  this.mainFn = mainFn
 
   if (isFunction(options)) {
-    this.errorHandler = options
+    this.errorHandle = options
     this.debug = null
-    this.stopHandler = null
+    this.stopHandle = null
   } else {
     this.debug = isFunction(options.debug) ? options.debug : null
-    this.stopHandler = isFunction(options.onstop) ? options.onstop : null
-    this.errorHandler = isFunction(options.onerror) ? options.onerror : null
+    this.stopHandle = isFunction(options.onstop) ? options.onstop : null
+    this.errorHandle = isFunction(options.onerror) ? options.onerror : null
   }
 
   var config = {
@@ -68,6 +68,7 @@ function Toa (server, body, options) {
   }
 
   Object.defineProperty(this, 'config', {
+    enumerable: true,
     get: function () {
       return config
     },
@@ -76,9 +77,26 @@ function Toa (server, body, options) {
       Object.keys(obj).map(function (key) {
         config[key] = obj[key]
       })
-    },
+    }
+  })
+
+  Object.defineProperty(this.context, 'onerror', {
     enumerable: true,
-    configurable: false
+    value: function (err) {
+      if (err == null) return
+      // if error trigger by context, try to respond
+      if (this.req && this.res) err = onResError.call(this, err)
+      if (err) app.onerror(err)
+    }
+  })
+  Object.defineProperty(this.context, 'onPreEnd', {
+    enumerable: true,
+    get: function () {
+      return this.preEndHandlers.slice()
+    },
+    set: function (handle) {
+      this.preEndHandlers.push(handle)
+    }
   })
 }
 
@@ -134,63 +152,59 @@ proto.listen = function () {
 
 proto.toListener = function () {
   var app = this
-  var body = this.body
+  var mainFn = this.mainFn
   var debug = this.debug
-  var stopHandler = this.stopHandler || noOp
-  var errorHandler = this.errorHandler || noOp
+  var stopHandle = this.stopHandle || noOp
+  var errorHandle = this.errorHandle || noOp
   var middleware = this.middleware.slice()
 
   return function requestListener (req, res) {
-    var ctx = createContext(app, req, res, onerror, thunks({
+    var thunk = thunks({
       debug: debug,
       onstop: onstop,
       onerror: onerror
-    }))
+    })
+    var ctx = createContext(app, req, res, thunk)
+    ctx.on('error', ctx.onerror)
 
     res.statusCode = 404
     if (ctx.config.poweredBy) ctx.set('X-Powered-By', ctx.config.poweredBy)
 
     onFinished(res, function (err) {
       ctx.emit('end')
-      onerror(err)
+      var body = ctx.body
+      if (body instanceof Stream && body.toaCleanHandle) body.toaCleanHandle(err)
+      else if (err != null) ctx.onerror(err)
     })
 
     var seq = ctx.thunk.seq
-
     seq.call(ctx, middleware)(function () {
-      return body.call(ctx, ctx.thunk)
+      return mainFn.call(ctx, ctx.thunk)
     })(function () {
-      return seq.call(ctx, ctx.onPreEnd)(respond)
-    })
+      return seq.call(ctx, ctx.onPreEnd)
+    })(respond)
 
     function onstop (sig) {
       if (ctx.status === 404) {
         ctx.status = 418
         ctx.message = sig.message
       }
-      ctx.thunk()(function () {
-        return stopHandler.call(ctx, sig)
-      })(function () {
-        return seq.call(ctx, ctx.onPreEnd)(respond)
-      })
+      ctx.thunk(stopHandle.call(ctx, sig))(function () {
+        return seq.call(ctx, ctx.onPreEnd)
+      })(respond)
     }
 
     function onerror (err) {
       if (err == null) return
 
       try {
-        err = errorHandler.call(ctx, err) || err
+        err = errorHandle.call(ctx, err) || err
       } catch (error) {
         err = error
       }
       // ignore err and response to client
       if (err === true) return respond.call(ctx)
-
-      try {
-        onResError.call(ctx, err)
-      } catch (error) {
-        app.onerror(error)
-      }
+      ctx.onerror(err)
     }
   }
 }
@@ -262,16 +276,22 @@ function onResError (err) {
   // nothing we can do here other
   // than delegate to the app-level
   // handler and log.
-  if (this.headerSent || !this.writable) throw err
+  if (this.headerSent || !this.writable) {
+    err.headerSent = true
+    return err
+  }
 
   if (!util.isError(err)) {
     this.body = err
     if (err.status) this.status = err.status
-    return respond.call(this)
+    respond.call(this)
+    return
   }
 
   // unset all headers
   this.res._headers = {}
+  // force text/plain
+  this.type = 'text'
 
   // support ENOENT to 404, default to 500
   if (err.code === 'ENOENT') this.status = 404
@@ -283,7 +303,7 @@ function onResError (err) {
   // hide server directory for error response
   this.body = msg.replace(pwdReg, '[Server Directory]')
   respond.call(this)
-  throw err
+  return err
 }
 
 /**
@@ -292,11 +312,10 @@ function onResError (err) {
  * @api private
  */
 
-function createContext (app, req, res, onerror, thunk) {
+function createContext (app, req, res, thunk) {
   var context = Object.create(app.context)
   var request = context.request = Object.create(app.request)
   var response = context.response = Object.create(app.response)
-  var preEndHandlers = []
 
   response.request = request
   request.response = response
@@ -309,20 +328,9 @@ function createContext (app, req, res, onerror, thunk) {
   context.config = Object.create(app.config)
   context.thunk = thunk
   context.state = {}
-
-  Object.defineProperty(context, 'onPreEnd', {
-    get: function () {
-      return preEndHandlers.slice()
-    },
-    set: function (handler) {
-      preEndHandlers.push(handler)
-    },
-    enumerable: true,
-    configurable: false
-  })
+  context.preEndHandlers = []
 
   EventEmitter.call(context)
-  context.on('error', onerror)
   return context
 }
 
@@ -332,7 +340,8 @@ function isFunction (fn) {
   return typeof fn === 'function'
 }
 
-// It is exported for test, don't use it in application!
-Toa.createContext = function () {
-  return createContext.apply(null, arguments)
+if (process.env.NODE_ENV === 'test') {
+  Toa.createContext = function () {
+    return createContext.apply(null, arguments)
+  }
 }

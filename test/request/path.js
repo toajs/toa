@@ -8,6 +8,7 @@
 
 var assert = require('assert')
 var context = require('../context')
+var parseurl = require('parseurl')
 
 describe('ctx.path', function () {
   it('should return the pathname', function () {
@@ -33,5 +34,12 @@ describe('ctx.path=', function () {
     assert.strictEqual(ctx.url, '/logout')
     assert.strictEqual(ctx.originalUrl, '/login')
     assert.strictEqual(ctx.request.originalUrl, '/login')
+  })
+
+  it('should not affect parseurl', function () {
+    var ctx = context({url: '/login?foo=bar'})
+    ctx.path = '/login'
+    var url = parseurl(ctx.req)
+    assert.strictEqual(url.path, '/login?foo=bar')
   })
 })

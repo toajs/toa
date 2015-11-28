@@ -6,6 +6,7 @@
 // **License:** MIT
 /* global describe, it */
 
+var Stream = require('stream')
 var stderr = require('test-console').stderr
 var request = require('supertest')
 var statuses = require('statuses')
@@ -91,6 +92,26 @@ describe('app', function () {
     return request(app.listen())
       .get('/')
       .expect('hello')
+  })
+
+  it('error should have headerSent when occured after send', function (done) {
+    var app = toa(function () {
+      this.body = 'hello'
+      this.thunk.delay.call(this, 100)(function () {
+        this.throw(500)
+      })
+    })
+
+    app.onerror = function (err) {
+      assert.strictEqual(err.status, 500)
+      assert.strictEqual(err.headerSent, true)
+      done()
+    }
+
+    return request(app.listen())
+      .get('/')
+      .expect(200)
+      .end(function () {})
   })
 
   it('should respond non-error by onResError', function () {
@@ -327,6 +348,22 @@ describe('app.respond', function () {
         .head('/')
         .expect('content-type', /application\/javascript/)
         .expect(200)
+    })
+
+    it('should not send Content-Type header', function (done) {
+      var app = toa(function () {
+        this.body = ''
+        this.type = null
+      })
+
+      request(app.listen())
+        .get('/')
+        .expect(200)
+        .end(function (err, res) {
+          if (err) return done(err)
+          assert.strictEqual(res.header['content-type'], undefined)
+          done()
+        })
     })
   })
 
@@ -695,6 +732,50 @@ describe('app.respond', function () {
         .get('/')
         .expect('content-type', 'text/plain; charset=utf-8')
         .expect(404)
+    })
+
+    it('should not destroy stream after respond', function (done) {
+      var stream = new Stream.Readable()
+
+      stream.destroy = function () {
+        done(new Error('should not run'))
+      }
+
+      stream._read = function () {
+        this.push(null)
+      }
+
+      var app = toa(function () {
+        this.body = stream
+      })
+
+      request(app.listen())
+        .get('/')
+        .expect(200)
+        .end(done)
+    })
+
+    it('should destroy stream when response has a error', function (done) {
+      var stream = new Stream.Readable()
+
+      stream.destroy = done
+      stream._read = function () {
+        this.push('1')
+      }
+
+      var app = toa(function () {
+        this.body = stream
+      })
+
+      app.onerror = function (err) {
+        assert.strictEqual(err.headerSent, true)
+        done()
+      }
+
+      var port = app.listen().address().port
+      http.get('http://127.0.0.1:' + port, function (res) {
+        res.destroy()
+      })
     })
   })
 

@@ -8,6 +8,7 @@
 
 var assert = require('assert')
 var context = require('../context')
+var parseurl = require('parseurl')
 
 describe('ctx.querystring=', function () {
   it('should replace the querystring', function () {
@@ -40,5 +41,12 @@ describe('ctx.querystring=', function () {
     assert.strictEqual(ctx.url, '/store/shoes?page=2&color=blue')
     assert.strictEqual(ctx.originalUrl, '/store/shoes')
     assert.strictEqual(ctx.request.originalUrl, '/store/shoes')
+  })
+
+  it('should not affect parseurl', function () {
+    var ctx = context({url: '/login?foo=bar'})
+    ctx.querystring = 'foo=bar'
+    var url = parseurl(ctx.req)
+    assert.strictEqual(url.path, '/login?foo=bar')
   })
 })

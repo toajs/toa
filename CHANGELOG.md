@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file starting from version **v0.10.0**.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.0] - 2015-11-28
+### change
+
+- do not send a content-type when the type is unknown (koa_#536)
+- improve code
+
+### fixed
+
+- fixed stream body response
+- ensure parseurl always working as expected
+
 ## [1.1.2] - 2015-11-24
 ### fixed
 

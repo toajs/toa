@@ -31,12 +31,12 @@ npm install toa
 
 ## Application
 
-一个 Toa Application（以下简称 __app__）由一系列 __中间件__ 和 __模块__ 组成。__中间件__ 是指通过 `app.use` 加载的 thunk 函数或 generator 函数。__模块__ 特指在实例化 Toa 时的 `appBody` 中的功能组件。
+一个 Toa Application（以下简称 __app__）由一系列 __中间件__ 和 __模块__ 组成。__中间件__ 是指通过 `app.use` 加载的 thunk 函数或 generator 函数。__模块__ 特指在实例化 Toa 时的 `mainFn` 中的功能组件。
 
 这些功能组件可能是同步或异步的函数，它们的运行参数可以完全由应用开发者控制，它们对应用的访问权限可以变得极小。
 这里与 Koa 的强调中间件概念有较大区别：中间件总能访问到 `context` 对象，而 Koa 的 `context` 又包含了 `app` 自身的引用。也就是说中间件能访问应用的一切资源。
 
-对于 web server 的一次访问请求，app 会按照顺序先运行中间件，然后再运行 `appBody` 中的模块组，最后运行内置的 `respond` 函数，将请求结果自动响应的客户端。由于 Toa 没有 `级联（Cascading）`，这些中间件或模块的运行不会有任何交叉，它们总是先运行完一个，再运行下一个。
+对于 web server 的一次访问请求，app 会按照顺序先运行中间件，然后再运行 `mainFn` 中的模块组，最后运行内置的 `respond` 函数，将请求结果自动响应的客户端。由于 Toa 没有 `级联（Cascading）`，这些中间件或模块的运行不会有任何交叉，它们总是先运行完一个，再运行下一个。
 
 Toa 只有一个极简的内核，提供快捷的 HTTP 操作和异步流程控制能力。具体的业务功能逻辑则由中间件和模块组合实现。
 用户则可根据自己的业务需求，以最轻量级的方式组合自己的应用。
@@ -52,10 +52,10 @@ var app = Toa(function () {
 app.listen(3000)
 ```
 
-### Class: Toa([server][, appBody][, options])
+### Class: Toa([server][, mainFn][, options])
 
 - `server`: {Object}, http server 或 https server 实例。
-- `appBody`: {Function} `appBody` 中如果有异步逻辑，则应该封装成 `thunk` 处理器能处理的对象（thunkable value），如 `generator` 函数、`generator` 对象、thunk 函数或`promise` 对象等，并 `return` 返回（与 `thunks` 或 `Promise` 类似）。
+- `mainFn`: {Function} `mainFn` 中如果有异步逻辑，则应该封装成 `thunk` 处理器能处理的对象（thunkable value），如 `generator` 函数、`generator` 对象、thunk 函数或`promise` 对象等，并 `return` 返回（与 `thunks` 或 `Promise` 类似）。
 - `options`: {Object} 类似 `thunks` 的 options，对于 server 的每一个 **client request**，toa app 均会用 `thunks` 生成一个的 `thunk`，挂载到 `context.thunk`，该 `thunk` 的作用域对该 **client request** 的整个生命周期生效。故 `options` 的 `debug`、`onstop`、`onerror` 也对应于该 **client request**。
 
   - `options.debug`: {Function} 其 `this` 为 `null`。可捕获 **client request** 异步处理流程每一步结果，用于调试。

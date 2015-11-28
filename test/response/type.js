@@ -47,11 +47,11 @@ describe('ctx.type=', function () {
   })
 
   describe('with an unknown extension', function () {
-    it('should default to application/octet-stream', function () {
+    it('should not set a content-type', function () {
       var ctx = context()
       ctx.type = 'asdf'
-      assert.strictEqual(ctx.type, 'application/octet-stream')
-      assert.strictEqual(ctx.response.header['content-type'], 'application/octet-stream')
+      assert.strictEqual(ctx.type, '')
+      assert.strictEqual(ctx.response.header['content-type'], undefined)
     })
   })
 })

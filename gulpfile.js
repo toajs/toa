@@ -11,6 +11,11 @@ var gulpSequence = require('gulp-sequence')
 require('thunk-mocha')
 
 gulp.task('mocha', function (done) {
+  return gulp.src(['test/index.js', 'test/context/*', 'test/request/*', 'test/response/*'])
+    .pipe(mocha({timeout: 10000}))
+})
+
+gulp.task('travis', function (done) {
   return merge(
     gulp.src(['index.js', 'lib/*.js'])
       .pipe(istanbul()) // Covering files
@@ -43,8 +48,11 @@ gulp.task('docs', function () {
 gulp.task('default', gulpSequence('test', 'docs'))
 
 gulp.task('exit', function (callback) {
-  callback()
-  process.exit(0)
+  setTimeout(function () {
+    callback()
+    process.exit(0)
+  }, 100)
 })
 
 gulp.task('test', gulpSequence('mocha', 'exit'))
+gulp.task('test-travis', gulpSequence('travis', 'exit'))
