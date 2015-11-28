@@ -771,9 +771,7 @@ describe('app.respond', function () {
         assert.strictEqual(err.headerSent, true)
         done()
       }
-
-      var port = app.listen().address().port
-      http.get('http://127.0.0.1:' + port, function (res) {
+      http.get(app.listen().address(), function (res) {
         res.destroy()
       })
     })
