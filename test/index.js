@@ -872,6 +872,25 @@ describe('app.respond', function () {
         .get('/')
         .expect(200, 'Got error')
     })
+
+    it('should retain CORS headers', function () {
+      var app = toa(function () {
+        this.set('Access-Control-Allow-Credentials', 'true')
+        this.set('Access-Control-Allow-Origin', '*')
+        this.set('Access-Control-Allow-Methods', 'GET, POST, DELETE, HEAD, OPTIONS')
+        this.body = 'Got something'
+        this.throw(400)
+      })
+
+      return request(app.listen())
+        .get('/')
+        .expect(400)
+        .expect(function (res) {
+          assert.strictEqual(res.headers['access-control-allow-credentials'], 'true')
+          assert.strictEqual(res.headers['access-control-allow-origin'], '*')
+          assert.strictEqual(res.headers['access-control-allow-methods'], 'GET, POST, DELETE, HEAD, OPTIONS')
+        })
+    })
   })
 
   describe('when status and body property', function () {

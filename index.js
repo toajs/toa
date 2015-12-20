@@ -20,6 +20,7 @@ var request = require('./lib/request')
 var response = require('./lib/response')
 var packageInfo = require('./package.json')
 
+var CORSHeaderReg = /^Access-Control-Allow-/i
 var pwdReg = new RegExp(process.cwd().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')
 
 module.exports = Toa
@@ -86,16 +87,17 @@ function Toa (server, mainFn, options) {
       if (err == null) return
       // if error trigger by context, try to respond
       if (this.req && this.res) err = onResError.call(this, err)
-      if (err) app.onerror(err)
+      if (err != null) app.onerror(err)
     }
   })
+
   Object.defineProperty(this.context, 'onPreEnd', {
     enumerable: true,
     get: function () {
-      return this.preEndHandlers.slice()
+      return this._preEndHandlers.slice()
     },
     set: function (handle) {
-      this.preEndHandlers.push(handle)
+      this._preEndHandlers.push(handle)
     }
   })
 }
@@ -288,8 +290,14 @@ function onResError (err) {
     return
   }
 
-  // unset all headers
-  this.res._headers = {}
+  // unset headers
+  var _headers = this.res._headers
+  if (_headers) {
+    // retain CORS headers
+    Object.keys(_headers).map(function (key) {
+      if (!CORSHeaderReg.test(key)) delete _headers[key]
+    })
+  }
   // force text/plain
   this.type = 'text'
 
@@ -328,7 +336,7 @@ function createContext (app, req, res, thunk) {
   context.config = Object.create(app.config)
   context.thunk = thunk
   context.state = {}
-  context.preEndHandlers = []
+  context._preEndHandlers = []
 
   EventEmitter.call(context)
   return context
