@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file starting from version **v0.10.0**.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.3.0] - 2015-12-25
+### change
+
+- Change `end` event, it is emited in `respond()` now.
+- Add `finished` event, which will be emited after a HTTP request closes, finishes, or errors.
+- Remove mainFn's argument `thunk`, it is instead by `ctx.thunk`.
+
 ## [1.2.1] - 2015-12-20
 ### change
 

@@ -29,6 +29,16 @@ app.use(function* () {
 
 Many of the context's accessors and methods simply delegate to their `ctx.request` or `ctx.response` equivalents for convenience, and are otherwise identical. For example `ctx.type` and `ctx.length` delegate to the `response` object, and `ctx.path` and `ctx.method` delegate to the `request`.
 
+### Events
+
+#### 'end'
+Emitted after respond() was called. Indicates that body was sent.
+
+#### 'finished'
+Emitted after a HTTP request closes, finishes, or errors.
+
+A context always listen `'error'` event by `ctx.onerror`. `ctx.onerror` is a immutable error handle. So you can use `ctx.emit(error)` to deal with your exception or error.
+
 ### API
 
 `Context` specific methods and accessors.

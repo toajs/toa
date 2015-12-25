@@ -173,15 +173,15 @@ proto.toListener = function () {
     if (ctx.config.poweredBy) ctx.set('X-Powered-By', ctx.config.poweredBy)
 
     onFinished(res, function (err) {
-      ctx.emit('end')
+      ctx.emit('finished')
       var body = ctx.body
       if (body instanceof Stream && body.toaCleanHandle) body.toaCleanHandle(err)
       else if (err != null) ctx.onerror(err)
     })
 
-    var seq = ctx.thunk.seq
+    var seq = thunk.seq
     seq.call(ctx, middleware)(function () {
-      return mainFn.call(ctx, ctx.thunk)
+      return mainFn.call(ctx)
     })(function () {
       return seq.call(ctx, ctx.onPreEnd)
     })(respond)
@@ -233,9 +233,8 @@ proto.onerror = function (err) {
  */
 
 function respond () {
-  if (this.respond === false) return
-
   var res = this.res
+  if (this.respond === false) return endRespond(this)
   if (res.headersSent || !this.writable) return
 
   var body = this.body
@@ -265,6 +264,7 @@ function respond () {
     this.length = Buffer.byteLength(body)
     res.end(body)
   }
+  endRespond(this)
 }
 
 /**
@@ -334,8 +334,10 @@ function createContext (app, req, res, thunk) {
   context.cookies = new Cookies(req, res, app.keys)
   context.accept = request.accept = accepts(req)
   context.config = Object.create(app.config)
+  context.respond = null
   context.thunk = thunk
   context.state = {}
+  context._ended = false
   context._preEndHandlers = []
 
   EventEmitter.call(context)
@@ -346,6 +348,12 @@ function noOp () {}
 
 function isFunction (fn) {
   return typeof fn === 'function'
+}
+
+function endRespond (ctx) {
+  if (ctx._ended) return
+  ctx._ended = true
+  ctx.emit('end')
 }
 
 if (process.env.NODE_ENV === 'test') {
