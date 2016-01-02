@@ -173,7 +173,7 @@ proto.toListener = function () {
     if (ctx.config.poweredBy) ctx.set('X-Powered-By', ctx.config.poweredBy)
 
     onFinished(res, function (err) {
-      ctx.emit('finished')
+      ctx.emit('finished', err)
       var body = ctx.body
       if (body instanceof Stream && body.toaCleanHandle) body.toaCleanHandle(err)
       else if (err != null) ctx.onerror(err)
