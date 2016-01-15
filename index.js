@@ -6,12 +6,10 @@
 var util = require('util')
 var http = require('http')
 var Stream = require('stream')
-
 var thunks = require('thunks')
-var statuses = require('statuses')
-var Cookies = require('cookies')
 var accepts = require('accepts')
-var isJSON = require('koa-is-json')
+var Cookies = require('cookies')
+var statuses = require('statuses')
 var onFinished = require('on-finished')
 var EventEmitter = require('events').EventEmitter
 
@@ -309,7 +307,7 @@ function onResError (err) {
   var msg = err.expose ? err.message : statuses[this.status]
 
   // hide server directory for error response
-  this.body = msg.replace(pwdReg, '[Server Directory]')
+  this.body = msg.replace(pwdReg, '[application]')
   respond.call(this)
   return err
 }
@@ -354,6 +352,11 @@ function endRespond (ctx) {
   if (ctx._ended) return
   ctx._ended = true
   ctx.emit('end')
+}
+
+function isJSON (body) {
+  return body && typeof body !== 'string' && !Buffer.isBuffer(body) &&
+    !(body instanceof Stream)
 }
 
 if (process.env.NODE_ENV === 'test') {
