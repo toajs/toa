@@ -15,7 +15,7 @@ describe('res.inspect()', function () {
       var res = response()
       res.body = 'hello'
       delete res.res
-      assert.strictEqual(res.inspect() == null, true)
+      assert.strictEqual(res.inspect() === null, true)
     })
   })
 

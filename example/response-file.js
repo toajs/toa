@@ -4,7 +4,7 @@
 // **License:** MIT
 
 var fs = require('fs')
-var Toa = require('../index')
+var Toa = require('..')
 var app = Toa(function () {
   this.type = 'text'
   this.body = fs.createReadStream(__dirname + '/simple.js', {encoding: 'utf8'})

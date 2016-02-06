@@ -5,7 +5,7 @@
 
 var https = require('https')
 var fs = require('fs')
-var Toa = require('../index')
+var Toa = require('..')
 
 var options = {
   key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),

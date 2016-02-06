@@ -15,7 +15,7 @@ describe('req.inspect()', function () {
       var req = request()
       req.method = 'GET'
       delete req.req
-      assert.strictEqual(req.inspect() == null, true)
+      assert.strictEqual(req.inspect() === null, true)
     })
   })
 

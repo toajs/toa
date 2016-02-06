@@ -47,8 +47,6 @@ describe('context onPreEnd', function () {
       var queue = this.onPreEnd
       assert.strictEqual(queue.length, 2)
       assert.strictEqual(count, 1)
-      // should not change onPreEnd queue
-      queue.pop()
       this.on('end', function () {
         assert.strictEqual(count, 3)
         count++

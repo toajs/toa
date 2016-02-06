@@ -30,10 +30,10 @@ gulp.task('travis', function (done) {
 gulp.task('docs', function () {
   var guide = ''
   return gulp.src([
-    'docs/api/application.md',
-    'docs/api/context.md',
-    'docs/api/request.md',
-    'docs/api/response.md'
+    'doc/api/application.md',
+    'doc/api/context.md',
+    'doc/api/request.md',
+    'doc/api/response.md'
   ])
     .pipe(through.obj(function (file, code, next) {
       guide += file.contents.toString() + '\n\n------\n\n'
@@ -42,7 +42,7 @@ gulp.task('docs', function () {
       this.push(new gUtil.File({path: __dirname, contents: new Buffer(guide)}))
       callback()
     }))
-    .pipe(gulp.dest('docs/guide.md'))
+    .pipe(gulp.dest('doc/guide.md'))
 })
 
 gulp.task('default', gulpSequence('test', 'docs'))

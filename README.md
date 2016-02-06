@@ -7,7 +7,6 @@ Toa
 [![js-standard-style][js-standard-image]][js-standard-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
 [![Downloads][downloads-image]][downloads-url]
-[![Talk topic][talk-image]][talk-url]
 
 ## Thanks to [Koa](https://github.com/koajs/koa) and it's authors
 
@@ -21,11 +20,11 @@ Toa
 
 ### koa Process
 
-![koa Process](https://raw.githubusercontent.com/toajs/toa/master/docs/process_koa.png)
+![koa Process](https://raw.githubusercontent.com/toajs/toa/master/doc/process_koa.png)
 
 ### Toa Process
 
-![Toa Process](https://raw.githubusercontent.com/toajs/toa/master/docs/process_toa.png)
+![Toa Process](https://raw.githubusercontent.com/toajs/toa/master/doc/process_toa.png)
 
 ## 功能模块
 与 Koa 一样， Toa 也没有绑定多余的功能，而仅仅提供了一个轻量优雅的函数库，异步控制处理器和强大的扩展能力。
@@ -38,13 +37,14 @@ Toa
 - [toa-i18n](https://github.com/toajs/toa-i18n) I18n middleware for toa.
 - [toa-body](https://github.com/toajs/toa-body) Request body parser for toa.
 - [toa-token](https://github.com/toajs/toa-token) Token based authentication for toa.
-- [toa-router](https://github.com/toajs/toa-router) A router for toa.
+- [toa-router](https://github.com/toajs/toa-router) A trie router for toa.
 - [toa-static](https://github.com/toajs/toa-static) A static server module for toa.
+- [toa-morgan](https://github.com/toajs/toa-morgan) HTTP request logger middleware for Toa.
 - [toa-favicon](https://github.com/toajs/toa-favicon) Favicon middleware for toa.
 - [toa-session](https://github.com/toajs/toa-session) Session middleware for toa.
-- [toa-cookie-session](https://github.com/toajs/toa-cookie-session) Cookie session middleware for toa.
 - [toa-compress](https://github.com/toajs/toa-compress) Compress responses middleware for toa.
-- [toa-ratelimit](https://github.com/toajs/toa-ratelimit) Rate limiter module for toa.
+- [toa-ratelimit](https://github.com/toajs/toa-ratelimit) Smart rate limiter module for toa.
+- [toa-cookie-session](https://github.com/toajs/toa-cookie-session) Cookie session middleware for toa.
 
 ## 安装 Toa
 
@@ -66,11 +66,11 @@ app.listen(3000)
 
 ## API
 
-### [使用手册](https://github.com/toajs/toa/blob/master/docs/guide.md)
-### [Application](https://github.com/toajs/toa/blob/master/docs/api/application.md)
-### [Context](https://github.com/toajs/toa/blob/master/docs/api/context.md)
-### [Request](https://github.com/toajs/toa/blob/master/docs/api/request.md)
-### [Response](https://github.com/toajs/toa/blob/master/docs/api/response.md)
+### [使用手册](https://github.com/toajs/toa/blob/master/doc/guide.md)
+### [Application](https://github.com/toajs/toa/blob/master/doc/api/application.md)
+### [Context](https://github.com/toajs/toa/blob/master/doc/api/context.md)
+### [Request](https://github.com/toajs/toa/blob/master/doc/api/request.md)
+### [Response](https://github.com/toajs/toa/blob/master/doc/api/response.md)
 
 ## [Change Log](https://github.com/toajs/toa/blob/master/CHANGELOG.md)
 
@@ -94,9 +94,6 @@ app.listen(3000)
 
 [downloads-url]: https://npmjs.org/package/toa
 [downloads-image]: http://img.shields.io/npm/dm/toa.svg?style=flat-square
-
-[talk-url]: https://guest.talk.ai/rooms/a6a9331024
-[talk-image]: https://img.shields.io/talk/t/a6a9331024.svg
 
 [js-standard-url]: https://github.com/feross/standard
 [js-standard-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat

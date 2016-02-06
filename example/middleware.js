@@ -3,10 +3,12 @@
 //
 // **License:** MIT
 
-var Toa = require('../index')
-var app = Toa(function () {
+var Toa = require('..')
+var app = Toa()
+
+app.use(function (callback) {
   this.body = 'Hello World!\n-- toa'
-  throw new Error('server error')
+  callback()
 })
 
 app.listen(3000)

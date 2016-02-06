@@ -3,7 +3,7 @@
 //
 // **License:** MIT
 
-var Toa = require('../index')
+var Toa = require('..')
 var app = Toa(function *() {
   this.body = yield 'Hello World!\n-- ' + this.config.poweredBy
 })
