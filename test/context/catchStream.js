@@ -5,6 +5,7 @@
 /*global describe, it */
 
 var fs = require('fs')
+var path = require('path')
 var Stream = require('stream')
 var assert = require('assert')
 var request = require('supertest')
@@ -54,7 +55,7 @@ describe('catch stream error', function () {
   it('should respond success', function () {
     var app = toa(function () {
       this.type = 'text'
-      this.body = this.catchStream(fs.createReadStream(__dirname + '/catchStream.js', {
+      this.body = this.catchStream(fs.createReadStream(path.join(__dirname, 'catchStream.js'), {
         encoding: 'utf8'
       }))
     })
@@ -67,7 +68,7 @@ describe('catch stream error', function () {
   it('should respond 404', function () {
     var app = toa(function () {
       this.type = 'text'
-      this.body = this.catchStream(fs.createReadStream(__dirname + '/none.js', {
+      this.body = this.catchStream(fs.createReadStream(path.join(__dirname, 'none.js'), {
         encoding: 'utf8'
       }))
     })
