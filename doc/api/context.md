@@ -137,11 +137,11 @@ this.throw('access_denied', {user: user})
 
 Toa uses [http-errors](https://github.com/jshttp/http-errors) to create errors.
 
-#### ctx.createError([msg], [status], [properties])
+#### ctx.createError([status], [msg], [properties])
 
 Similar to `ctx.throw`, create a error object, but don't throw.
 
-#### ctx.assert(value, [msg], [status], [properties])
+#### ctx.assert(value, [status], [msg], [properties])
 
 Helper method to throw an error similar to `.throw()` when `!value`. Similar to node's [assert()](http://nodejs.org/api/assert.html) method.
 
