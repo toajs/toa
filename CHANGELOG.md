@@ -3,31 +3,37 @@
 All notable changes to this project will be documented in this file starting from version **v0.10.0**.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.4.2] - 2015-04-03
-
-### change
-
-- Updated dependencies, use T-man to test.
-
-## [1.4.1] - 2015-03-13
+## [1.4.3] - 2016-05-15
 
 ### change
 
 - Updated dependencies.
 
-## [1.4.0] - 2015-02-06
+## [1.4.2] - 2016-04-03
+
+### change
+
+- Updated dependencies, use T-man to test.
+
+## [1.4.1] - 2016-03-13
+
+### change
+
+- Updated dependencies.
+
+## [1.4.0] - 2016-02-06
 
 ### change
 
 - Updated dependencies, improve code and file structure.
 
-## [1.3.2] - 2015-01-15
+## [1.3.2] - 2016-01-15
 
 ### change
 
 - Updated dependencies, improve code.
 
-## [1.3.1] - 2015-01-02
+## [1.3.1] - 2016-01-02
 
 ### fixed
 

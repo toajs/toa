@@ -4,7 +4,7 @@
 // **License:** MIT
 
 var Toa = require('..')
-var app = Toa(function *() {
+var app = Toa(function * () {
   this.body = yield 'Hello World!\n-- ' + this.config.poweredBy
 })
 

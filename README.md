@@ -74,15 +74,6 @@ app.listen(3000)
 
 ## [Change Log](https://github.com/toajs/toa/blob/master/CHANGELOG.md)
 
-## Who's using
-
-### [Teambition](https://www.teambition.com/)
-1. Teambition 用户社区 https://bbs.teambition.com/
-2. Teambition 文件服务 https://striker.teambition.net/
-3. Teambition 消息服务 https://push.teambition.com/
-
-如果你也在用，不妨告知我~
-
 [npm-url]: https://npmjs.org/package/toa
 [npm-image]: http://img.shields.io/npm/v/toa.svg
 

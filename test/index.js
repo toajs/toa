@@ -864,7 +864,7 @@ describe('app.respond', function () {
         return true
       })
 
-      app.use(function () {
+      app.use(function (done) {
         throw new Error('boom!')
       })
 

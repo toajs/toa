@@ -6,7 +6,7 @@
 var Toa = require('..')
 var app = Toa()
 
-app.use(function *() {
+app.use(function * () {
   this.body = yield 'Hello World!\n-- toa'
 })
 

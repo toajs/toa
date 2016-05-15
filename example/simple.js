@@ -5,6 +5,7 @@
 
 var Toa = require('..')
 var app = Toa(function () {
+  // this.status = 202
   this.body = 'Hello World!\n-- toa'
 })
 
