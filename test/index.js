@@ -873,6 +873,62 @@ describe('app.respond', function () {
         .expect(200, 'Got error')
     })
 
+    it('should retain "Accept" headers', function () {
+      var app = toa(function () {
+        this.set('Accept', 'text/plain')
+        this.throw(400)
+      })
+
+      return request(app.listen())
+        .get('/')
+        .expect(400)
+        .expect(function (res) {
+          assert.strictEqual(res.headers['accept'], 'text/plain')
+        })
+    })
+
+    it('should retain "Allow" headers', function () {
+      var app = toa(function () {
+        this.set('Allow', 'GET, HEAD')
+        this.throw(405)
+      })
+
+      return request(app.listen())
+        .get('/')
+        .expect(405)
+        .expect(function (res) {
+          assert.strictEqual(res.headers['allow'], 'GET, HEAD')
+        })
+    })
+
+    it('should retain "Retry-After" headers', function () {
+      var app = toa(function () {
+        this.set('Retry-After', '120')
+        this.throw(429)
+      })
+
+      return request(app.listen())
+        .get('/')
+        .expect(429)
+        .expect(function (res) {
+          assert.strictEqual(res.headers['retry-after'], '120')
+        })
+    })
+
+    it('should retain "Warning" headers', function () {
+      var app = toa(function () {
+        this.set('Warning', '199 Miscellaneous warning')
+        this.throw(400)
+      })
+
+      return request(app.listen())
+        .get('/')
+        .expect(400)
+        .expect(function (res) {
+          assert.strictEqual(res.headers['warning'], '199 Miscellaneous warning')
+        })
+    })
+
     it('should retain CORS headers', function () {
       var app = toa(function () {
         this.set('Access-Control-Allow-Credentials', 'true')
