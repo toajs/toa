@@ -80,4 +80,30 @@ describe('catch stream error', function () {
         assert.strictEqual(res.res.statusMessage || res.res.text, 'Not Found')
       })
   })
+
+  it('should destroy stream when request interrupted', function () {
+    var destroyBody = false
+    var app = toa(function () {
+      var body = new Stream.PassThrough()
+      var timer = setInterval(function () {
+        body.write(new Buffer('...'))
+      }, 20)
+      body.destroy = function () {
+        destroyBody = true
+        clearInterval(timer)
+      }
+      this.body = body
+    })
+
+    var req = request(app.listen()).get('/')
+    setTimeout(function () {
+      req.abort()
+    }, 200)
+
+    return req.expect(200)
+      .expect(function (res) {
+        assert.strictEqual(destroyBody, true)
+        assert.strictEqual(res.headers['content-type'], 'application/octet-stream')
+      })
+  })
 })

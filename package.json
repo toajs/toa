@@ -4,7 +4,7 @@
   "authors": [
     "Yan Qing <admin@zensh.com>"
   ],
-  "version": "1.5.1",
+  "version": "1.5.2",
   "main": "lib/application.js",
   "license": "MIT",
   "repository": {
@@ -41,19 +41,19 @@
     "on-finished": "~2.3.0",
     "parseurl": "~1.3.1",
     "statuses": "~1.3.0",
-    "thunks": "^4.2.1",
+    "thunks": "^4.2.2",
     "type-is": "~1.6.13",
     "vary": "~1.1.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-util": "^3.0.7",
-    "istanbul": "^0.4.3",
+    "istanbul": "^0.4.4",
     "standard": "^7.1.2",
     "supertest": "^1.2.0",
     "test-console": "^1.0.0",
     "through2": "^2.0.1",
-    "tman": "^0.9.9"
+    "tman": "^1.0.0"
   },
   "scripts": {
     "test": "standard && NODE_ENV=test tman test/*.js test/**/*.js",
