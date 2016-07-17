@@ -55,6 +55,7 @@ describe('ctx.cookies.set()', function () {
 
     it('should send a signed cookie', function () {
       var app = toa()
+      app.keys = ['toa']
 
       app.use(function (next) {
         this.cookies.set('name', 'jon', {
