@@ -64,6 +64,30 @@ app.listen(3000)
 ```
 ------
 
+## [Bench](https://github.com/toajs/toa/tree/master/bench)
+
+```sh
+➜  toa git:(master) npm run bench
+
+  koa, 1 middleware:  8597.07
+  koa, 5 middleware:  7326.02
+  koa, 10 middleware:  5893.83
+  koa, 15 middleware:  4710.24
+  koa, 20 middleware:  3951.08
+  koa, 30 middleware:  2623.52
+  koa, 50 middleware:  1327.67
+  koa, 100 middleware:  420.84
+
+  toa, 1 middleware:  5340.40
+  toa, 5 middleware:  5243.68
+  toa, 10 middleware:  5033.15
+  toa, 15 middleware:  4692.98
+  toa, 20 middleware:  4692.70
+  toa, 30 middleware:  4417.65
+  toa, 50 middleware:  3857.79
+  toa, 100 middleware:  2896.41
+```
+
 ## API
 
 ### [使用手册](https://github.com/toajs/toa/blob/master/doc/guide.md)

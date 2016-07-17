@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file starting from version **v0.10.0**.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.6.0] - 2016-07-18
+
+### change
+
+- Improve performance, add bench.
+
 ## [1.5.2] - 2016-07-16
 
 ### fixed

@@ -13,7 +13,7 @@ describe('context onPreEnd', function () {
     var count = 0
     var app = toa(function () {
       this.body = 'test'
-      assert.strictEqual(this.onPreEnd.length, 1)
+      assert.strictEqual(this.onPreEnd.length, 2)
       assert.strictEqual(count, 1)
       this.on('end', function () {
         assert.strictEqual(count, 2)
@@ -45,7 +45,7 @@ describe('context onPreEnd', function () {
     var app = toa(function () {
       this.body = 'test'
       var queue = this.onPreEnd
-      assert.strictEqual(queue.length, 2)
+      assert.strictEqual(queue.length, 3)
       assert.strictEqual(count, 1)
       this.on('end', function () {
         assert.strictEqual(count, 3)

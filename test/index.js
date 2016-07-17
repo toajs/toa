@@ -152,7 +152,7 @@ describe('app', function () {
       .get('/')
       .expect(404)
       .end(function (err) {
-        assert.strictEqual(debugLogs > 1, true)
+        assert.strictEqual(debugLogs >= 1, true)
         done(err)
       })
   })

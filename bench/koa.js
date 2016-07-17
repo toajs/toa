@@ -2,16 +2,17 @@
 // **License:** MIT
 // wrk -t10 -c1000 -d30s http://127.0.0.1:3000
 
-const toa = require('..')
-const app = toa()
+const koa = require('koa')
+const app = koa()
 const port = 3333
 
 var n = parseInt(process.env.MW || '1', 10)
-process.stdout.write('  toa, ' + n + ' middleware:')
+process.stdout.write('  koa, ' + n + ' middleware:')
 
 while (n--) {
-  app.use(function * () {
+  app.use(function * (next) {
     yield (done) => setImmediate(done) // fake task
+    yield * next
   })
 }
 
