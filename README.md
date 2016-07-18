@@ -69,23 +69,23 @@ app.listen(3000)
 ```sh
 ➜  toa git:(master) npm run bench
 
-  koa, 1 middleware:  8597.07
-  koa, 5 middleware:  7326.02
-  koa, 10 middleware:  5893.83
-  koa, 15 middleware:  4710.24
-  koa, 20 middleware:  3951.08
-  koa, 30 middleware:  2623.52
-  koa, 50 middleware:  1327.67
-  koa, 100 middleware:  420.84
+  koa, 1 middleware:  8985.07
+  koa, 5 middleware:  7446.75
+  koa, 10 middleware:  6242.79
+  koa, 15 middleware:  4871.94
+  koa, 20 middleware:  4022.99
+  koa, 30 middleware:  2683.17
+  koa, 50 middleware:  1311.26
+  koa, 100 middleware:  406.96
 
-  toa, 1 middleware:  5340.40
-  toa, 5 middleware:  5243.68
-  toa, 10 middleware:  5033.15
-  toa, 15 middleware:  4692.98
-  toa, 20 middleware:  4692.70
-  toa, 30 middleware:  4417.65
-  toa, 50 middleware:  3857.79
-  toa, 100 middleware:  2896.41
+  toa, 1 middleware:  5605.00
+  toa, 5 middleware:  5492.13
+  toa, 10 middleware:  5284.73
+  toa, 15 middleware:  4997.31
+  toa, 20 middleware:  4875.59
+  toa, 30 middleware:  4583.84
+  toa, 50 middleware:  3980.04
+  toa, 100 middleware:  3104.75
 ```
 
 ## API
