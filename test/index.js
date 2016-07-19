@@ -6,6 +6,7 @@
 // **License:** MIT
 /* global describe, it */
 
+var net = require('net')
 var Stream = require('stream')
 var stderr = require('test-console').stderr
 var request = require('supertest')
@@ -16,13 +17,17 @@ var toa = require('..')
 var fs = require('fs')
 
 describe('app', function () {
-  it('should handle socket errors', function (done) {
+  it('should finished when socket errors', function (done) {
     var app = toa(function () {
       this.socket.emit('error', new Error('boom'))
+      return this.thunk.delay(100)
     })
 
     app.onerror = function (err) {
-      assert.strictEqual(err.message, 'boom')
+      assert.strictEqual(err.message, 'socket was closed!')
+      assert.strictEqual(err.headerSent, false)
+      assert.ok(err.context.request)
+      assert.ok(err.context.response)
       app.server.close(done)
     }
 
@@ -157,6 +162,39 @@ describe('app', function () {
         assert.strictEqual(debugLogs >= 1, true)
         done(err)
       })
+  })
+
+  it('should work with pipeling request', function (done) {
+    var socket = null
+    var count = 0
+    var buf = new Buffer('GET / HTTP/1.1\r\nHost: localhost:3333\r\nConnection: keep-alive\r\n\r\n')
+
+    var server = toa(function () {
+      this.body = String(++count)
+      if (!socket) socket = this.socket
+      else assert.strictEqual(this.socket, socket)
+      assert.strictEqual(socket.listenerCount('error'), 1)
+    }).listen()
+
+    var bufs = []
+    var client = net.connect(server.address().port)
+      .on('error', done)
+      .on('data', function (buf) {
+        bufs.push(buf)
+      })
+      .on('close', function () {
+        assert.strictEqual(count, 5)
+        var res = Buffer.concat(bufs).toString()
+        assert.strictEqual(res.match(/HTTP\/1\.1 200 OK/g).length, 5)
+        assert.strictEqual(res[res.length - 1], '5')
+        done()
+      })
+    setTimeout(function () { client.write(buf) })
+    setTimeout(function () { client.write(buf) })
+    setTimeout(function () { client.write(buf) })
+    setTimeout(function () { client.write(buf) }, 20)
+    setTimeout(function () { client.write(buf) }, 50)
+    setTimeout(function () { client.end() }, 100)
   })
 })
 
