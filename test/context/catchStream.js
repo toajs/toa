@@ -6,6 +6,8 @@
 
 var fs = require('fs')
 var path = require('path')
+var http = require('http')
+var thunk = require('thunks')()
 var Stream = require('stream')
 var assert = require('assert')
 var request = require('supertest')
@@ -105,5 +107,56 @@ describe('catch stream error', function () {
         assert.strictEqual(destroyBody, true)
         assert.strictEqual(res.headers['content-type'], 'application/octet-stream')
       })
+  })
+
+  it('should work with keepAlive agent', function (done) {
+    this.timeout(5000)
+    var remote = toa(function () {
+      this.body = 'hello!'
+    })
+    remote.listen()
+    var address = remote.server.address()
+
+    var socket = null
+    var agent = new http.Agent({keepAlive: true, maxSockets: 1})
+    var app = toa(function () {
+      return requestRemote.call(this)(function (_, res) {
+        if (socket) assert.strictEqual(socket, res.socket)
+        else socket = res.socket
+
+        assert.strictEqual(res.headers.connection, 'keep-alive')
+        assert.strictEqual(res.headers['content-type'], 'text/plain; charset=utf-8')
+        this.body = res
+      })
+    })
+    var server = app.listen()
+
+    thunk.all(
+      request(server).get('/').expect(200),
+      request(server).get('/').expect(200),
+      request(server).get('/').expect(200)
+    )(function (err, result) {
+      if (err) throw err
+      assert.strictEqual(result.length, 3)
+      result.forEach(function (res) {
+        assert.strictEqual(res.statusCode, 200)
+        assert.strictEqual(res.headers['content-type'], 'application/octet-stream')
+      })
+    })(done)
+
+    function requestRemote () {
+      return thunk.call(this, function (callback) {
+        var req = http.request({port: address.port, agent: agent}, function (res) {
+          res.on('error', callback)
+          res.on('data', function () {})
+          res.on('end', function () {
+            assert.strictEqual(res.statusCode, 200)
+            callback(null, res)
+          })
+        })
+        req.on('error', callback)
+        req.end()
+      })
+    }
   })
 })

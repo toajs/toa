@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file starting from version **v0.10.0**.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.6.3] - 2016-07-19
+
+### fixed
+
+- Fixed stream body.
+
 ## [1.6.2] - 2016-07-19
 
 ### fixed

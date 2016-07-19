@@ -736,11 +736,11 @@ describe('app.respond', function () {
         .expect(404)
     })
 
-    it('should not destroy stream after respond', function (done) {
+    it('should destroy stream after respond', function (done) {
       var stream = new Stream.Readable()
 
       stream.destroy = function () {
-        done(new Error('should not run'))
+        done()
       }
 
       stream._read = function () {
@@ -754,7 +754,9 @@ describe('app.respond', function () {
       request(app.listen())
         .get('/')
         .expect(200)
-        .end(done)
+        .end(function (err) {
+          if (err) done(err)
+        })
     })
 
     it('should destroy stream when response has a error', function (done) {
