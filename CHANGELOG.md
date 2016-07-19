@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file starting from version **v0.10.0**.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.6.2] - 2016-07-19
+
+### fixed
+
+- Fixed error'context.
+
+## [1.6.1] - 2016-07-18
+
+### fixed
+
+- Fixed error respond.
+
 ## [1.6.0] - 2016-07-18
 
 ### change

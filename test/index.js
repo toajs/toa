@@ -105,6 +105,8 @@ describe('app', function () {
     app.onerror = function (err) {
       assert.strictEqual(err.status, 500)
       assert.strictEqual(err.headerSent, true)
+      assert.strictEqual(err.context.request instanceof Object, true)
+      assert.strictEqual(err.context.response instanceof Object, true)
       done()
     }
 
