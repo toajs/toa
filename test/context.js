@@ -9,16 +9,16 @@ var toa = require('..')
 
 exports = module.exports = function (req, res) {
   var socket = new Stream.Duplex()
-  req = req || {
+  req = merge({
     headers: {},
     socket: socket,
     __proto__: Stream.Readable.prototype
-  }
-  res = res || {
+  }, req)
+  res = merge({
     _headers: {},
     socket: socket,
     __proto__: Stream.Writable.prototype
-  }
+  }, res)
   res.getHeader = function (k) {
     return res._headers[k.toLowerCase()]
   }
@@ -41,4 +41,13 @@ exports.request = function (req, res) {
 
 exports.response = function (req, res) {
   return exports(req, res).response
+}
+
+function merge (dst, src) {
+  if (src) {
+    Object.keys(src).forEach(function (key) {
+      dst[key] = src[key]
+    })
+  }
+  return dst
 }

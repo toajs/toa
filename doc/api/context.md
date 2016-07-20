@@ -37,7 +37,7 @@ Emitted after respond() was called. Indicates that body was sent.
 #### 'finished'
 Emitted after a HTTP request closes, finishes, or errors.
 
-A context always listen `'error'` event by `ctx.onerror`. `ctx.onerror` is a immutable error handle. So you can use `ctx.emit(error)` to deal with your exception or error.
+A context always listen `'error'` event by `ctx.onerror`. `ctx.onerror` is a immutable error handle. So you can use `ctx.emit('error', error)` to deal with your exception or error.
 
 ### API
 
