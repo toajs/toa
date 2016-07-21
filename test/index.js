@@ -171,7 +171,6 @@ describe('app', function () {
   it('should work with pipeling request', function (done) {
     var socket = null
     var count = 0
-    var buf = new Buffer('GET / HTTP/1.1\r\nHost: localhost:3333\r\nConnection: keep-alive\r\n\r\n')
 
     var server = toa(function () {
       this.body = String(++count)
@@ -181,6 +180,9 @@ describe('app', function () {
     }).listen()
 
     var bufs = []
+    var port = server.address().port
+    var buf = new Buffer('GET / HTTP/1.1\r\nHost: localhost:' +
+      port + '\r\nConnection: keep-alive\r\n\r\n')
     var client = net.connect(server.address().port)
       .on('error', done)
       .on('data', function (buf) {
