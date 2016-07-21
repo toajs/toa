@@ -33,7 +33,7 @@ describe('catch stream error', function () {
     assert.strictEqual(stream.listeners('error')[0], ctx.onerror)
   })
 
-  it('should not add more listeners after multi called', function () {
+  it('should throw error when multi called', function () {
     var ctx = context()
     var stream = new Stream.Readable()
     assert.strictEqual(stream.listenerCount('error'), 0)
@@ -41,11 +41,7 @@ describe('catch stream error', function () {
     assert.strictEqual(stream.listenerCount('error'), 1)
 
     ctx.body = stream
-    ctx.body = stream
-    assert.strictEqual(stream.listenerCount('error'), 1)
-    assert.strictEqual(stream.listeners('error')[0], stream.toaCleanHandle)
-
-    ctx.catchStream(stream)
+    assert.throws(function () { ctx.catchStream(stream) })
     assert.strictEqual(stream.listenerCount('error'), 1)
     assert.strictEqual(stream.listeners('error')[0], stream.toaCleanHandle)
 
@@ -57,9 +53,9 @@ describe('catch stream error', function () {
   it('should respond success', function () {
     var app = toa(function () {
       this.type = 'text'
-      this.body = this.catchStream(fs.createReadStream(path.join(__dirname, 'catchStream.js'), {
+      this.body = fs.createReadStream(path.join(__dirname, 'catchStream.js'), {
         encoding: 'utf8'
-      }))
+      })
     })
 
     return request(app.listen())
@@ -70,9 +66,9 @@ describe('catch stream error', function () {
   it('should respond 404', function () {
     var app = toa(function () {
       this.type = 'text'
-      this.body = this.catchStream(fs.createReadStream(path.join(__dirname, 'none.js'), {
+      this.body = fs.createReadStream(path.join(__dirname, 'none.js'), {
         encoding: 'utf8'
-      }))
+      })
     })
 
     return request(app.listen())

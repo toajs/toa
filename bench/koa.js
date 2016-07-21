@@ -11,7 +11,6 @@ process.stdout.write('  koa, ' + n + ' middleware:')
 
 while (n--) {
   app.use(function * (next) {
-    yield (done) => setImmediate(done) // fake task
     yield * next
   })
 }

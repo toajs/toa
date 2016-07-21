@@ -207,13 +207,17 @@ Many of the context's accessors and methods simply delegate to their `ctx.reques
 
 ### Events
 
+#### 'close'
+Emitted after a HTTP request closed, indicates that the socket has been close.
+
 #### 'end'
-Emitted after respond() was called. Indicates that body was sent.
+Emitted after respond() was called, indicates that body was sent.
 
-#### 'finished'
-Emitted after a HTTP request closes, finishes, or errors.
+#### 'finish'
+Emitted after a HTTP response finished.
 
-A context always listen `'error'` event by `ctx.onerror`. `ctx.onerror` is a immutable error handle. So you can use `ctx.emit(error)` to deal with your exception or error.
+#### 'error'
+A context always listen `'error'` event by `ctx.onerror`. `ctx.onerror` is a immutable error handle. So you can use `ctx.emit('error', error)` to deal with your exception or error.
 
 ### API
 

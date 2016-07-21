@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file starting from version **v0.10.0**.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.7.0] - 2016-07-21
+
+### change
+
+- Improve code, classify context, request and response.
+- Change context "finished" event to "finishe" event and "close" event.
+
 ## [1.6.5] - 2016-07-21
 
 ### change

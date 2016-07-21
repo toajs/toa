@@ -19,16 +19,20 @@ var fs = require('fs')
 describe('app', function () {
   it('should finished when socket errors', function (done) {
     var app = toa(function () {
+      this.on('close', function () {
+        assert.strictEqual(this._finished, false)
+        assert.strictEqual(this.headerSent, false)
+        app.server.close(done)
+      })
+      this.on('finish', function () {
+        throw new Error('should not run')
+      })
       this.socket.emit('error', new Error('boom'))
       return this.thunk.delay(100)
     })
 
-    app.onerror = function (err) {
-      assert.strictEqual(err.message, 'socket was closed!')
-      assert.strictEqual(err.headerSent, false)
-      assert.ok(err.context.request)
-      assert.ok(err.context.response)
-      app.server.close(done)
+    app.onerror = function () {
+      throw new Error('should not run')
     }
 
     request(app.listen())

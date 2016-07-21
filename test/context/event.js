@@ -57,9 +57,7 @@ describe('context event', function () {
         throw new Error('some error')
       })
 
-      app.onerror = function (err) {
-        console.log(err)
-      }
+      app.onerror = function () {}
 
       request(app.listen())
         .get('/')
@@ -94,13 +92,13 @@ describe('context event', function () {
     })
   })
 
-  describe('"finished" event', function () {
-    it('should emit "finished"', function (done) {
-      var finished = false
+  describe('"finish" event', function () {
+    it('should emit "finish"', function (done) {
+      var finished = null
       var app = toa(function () {
         this.body = 'test'
-        this.on('finished', function () {
-          finished = !finished
+        this.on('finish', function () {
+          finished = this._finished
         })
       })
 
@@ -114,11 +112,11 @@ describe('context event', function () {
         })
     })
 
-    it('should emit "finished" while 404', function (done) {
-      var finished = false
+    it('should emit "finish" while 404', function (done) {
+      var finished = null
       var app = toa(function () {
-        this.on('finished', function () {
-          finished = !finished
+        this.on('finish', function () {
+          finished = this._finished
         })
         this.throw(404)
       })
@@ -133,18 +131,16 @@ describe('context event', function () {
         })
     })
 
-    it('should emit "finished" while any error', function (done) {
-      var finished = false
+    it('should emit "finish" while any error', function (done) {
+      var finished = null
       var app = toa(function () {
-        this.on('finished', function () {
-          finished = !finished
+        this.on('finish', function () {
+          finished = this._finished
         })
         throw new Error('some error')
       })
 
-      app.onerror = function (err) {
-        console.log(err)
-      }
+      app.onerror = function () {}
 
       request(app.listen())
         .get('/')
@@ -156,13 +152,13 @@ describe('context event', function () {
         })
     })
 
-    it('should emit "finished" after "end"', function (done) {
+    it('should emit "finish" after "end"', function (done) {
       var ended = false
-      var finished = false
+      var finished = null
       var app = toa(function () {
-        this.on('finished', function () {
+        this.on('finish', function () {
           assert.strictEqual(ended, true)
-          finished = !finished
+          finished = this._finished
         })
         this.on('end', function () {
           ended = !ended
