@@ -677,6 +677,9 @@ describe('app.respond', function () {
       var app = toa(function () {
         this.body = fs.createReadStream('package.json')
         this.set('content-type', 'application/json; charset=utf-8')
+        this.on('end', function () {
+          assert.strictEqual(this.headerSent, true)
+        })
       })
 
       return request(app.listen())
@@ -746,6 +749,9 @@ describe('app.respond', function () {
       var app = toa(function () {
         this.set('content-type', 'application/json; charset=utf-8')
         this.body = fs.createReadStream('does not exist')
+        this.on('end', function () {
+          assert.strictEqual(this.headerSent, true)
+        })
       })
 
       return request(app.listen())

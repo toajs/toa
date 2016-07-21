@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file starting from version **v0.10.0**.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.7.1] - 2016-07-21
+
+### fixed
+
+- When context emit "end" event, context.headerSent should be true (about stream body).
+
 ## [1.7.0] - 2016-07-21
 
 ### change
