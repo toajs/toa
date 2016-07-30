@@ -240,6 +240,50 @@ describe('app.use(fn)', function () {
         assert.deepEqual(res.body, [1, 2, 3, 4])
       })
   })
+
+  it('should support more middleware function styles', function () {
+    var app = toa()
+
+    app.use(function (next) {
+      this.state.count = 0
+      next()
+    })
+
+    app.use(function () {
+      this.state.count++
+    })
+
+    app.use(function () {
+      this.state.count++
+      return function (done) {
+        var ctx = this
+        setTimeout(function () {
+          ctx.state.count++
+          done()
+        })
+      }
+    })
+
+    app.use(function () {
+      var ctx = this
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+          ctx.state.count++
+          resolve()
+        })
+      })
+    })
+
+    app.use(function () {
+      this.body = this.state
+    })
+
+    return request(app.listen())
+      .get('/')
+      .expect(function (res) {
+        assert.deepEqual(res.body, {count: 4})
+      })
+  })
 })
 
 describe('app.onerror(err)', function () {
@@ -479,7 +523,7 @@ describe('app.respond', function () {
         return request(app.listen())
           .get('/')
           .expect(400)
-          .expect('content-length', 11)
+          .expect('content-length', '11')
           .expect('Bad Request')
       })
     })
