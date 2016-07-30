@@ -2,6 +2,8 @@ Toa
 ====
 简洁而强大的 web 框架。
 
+![Toa](https://raw.githubusercontent.com/toajs/toa/master/toa.png)
+
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![js-standard-style][js-standard-image]][js-standard-url]
@@ -9,6 +11,42 @@ Toa
 [![Downloads][downloads-image]][downloads-url]
 
 ## Thanks to [Koa](https://github.com/koajs/koa) and it's authors
+
+## Demo
+
+```js
+const Toa = require('toa')
+const app = Toa(function () {
+  // this function will run after all middlewares
+  this.body = this.state
+})
+// support sync function middleware
+app.use(function () {
+  this.state.syncFn = 'support!'
+})
+// support thunk function middleware
+app.use(function (next) {
+  this.state.thunkFn = 'support!'
+  setTimeout(next, 10)
+})
+// support generator function middleware
+app.use(function * () {
+  this.state.generatorFn = yield Promise.resolve('support!')
+})
+// support async function middleware in babel or Node.js v7~
+// babel-node --presets es2015 --plugins transform-async-to-generator example/simple.js
+app.use(async function () {
+  this.state.asyncFn = await Promise.resolve('support!')
+})
+
+app.listen(3000)
+```
+
+## Install
+
+````
+npm install toa
+````
 
 ## Toa 简介
 
@@ -48,22 +86,6 @@ Toa
 - [toa-ratelimit](https://github.com/toajs/toa-ratelimit) Smart rate limiter module for toa.
 - [toa-cookie-session](https://github.com/toajs/toa-cookie-session) Cookie session middleware for toa.
 
-## 安装 Toa
-
-````
-npm install toa
-````
-
-## Demo
-
-```js
-var Toa = require('toa')
-var app = Toa(function () {
-  this.body = 'Hello World!\n-- toa'
-})
-
-app.listen(3000)
-```
 ------
 
 ## [Bench](https://github.com/toajs/toa/tree/master/bench)

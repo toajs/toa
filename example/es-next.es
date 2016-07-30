@@ -4,6 +4,7 @@
 // **License:** MIT
 
 // babel-node --presets es2015 --plugins transform-async-to-generator example/es-next.es
+// or wait for Node.js v7~
 
 import ilog from 'ilog'
 import Toa from '..'
