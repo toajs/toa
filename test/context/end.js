@@ -64,4 +64,27 @@ describe('context end', function () {
         assert.strictEqual(res.res.statusMessage || res.res.text, 'nested thunks')
       })
   })
+
+  it('should error if called twice', function () {
+    var error = null
+    var app = toa(function () {
+      this.onPreEnd = function (done) {
+        this.end('end in preEnd')
+        done()
+      }
+      this.end('end in body')
+    })
+    app.onerror = function (err) {
+      error = err
+    }
+
+    return request(app.listen())
+      .get('/')
+      .expect(500)
+      .expect(function (res) {
+        assert.ok(error instanceof Error)
+        assert.strictEqual(error.code, 'SIGSTOP')
+        assert.strictEqual(res.res.statusMessage || res.res.text, 'Internal Server Error')
+      })
+  })
 })

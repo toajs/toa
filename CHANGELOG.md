@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file starting from version **v0.10.0**.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.8.2] - 2016-08-01
+
+### change
+
+- Improve code.
+- Fixed ctx.end().
 
 ## [1.8.1] - 2016-07-30
 
