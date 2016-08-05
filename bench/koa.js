@@ -1,6 +1,6 @@
 'use strict'
 // **License:** MIT
-// wrk -t10 -c1000 -d30s http://127.0.0.1:3000
+// wrk -t10 -c1000 -d30s http://127.0.0.1:3333
 
 const koa = require('koa')
 const app = koa()

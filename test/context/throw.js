@@ -7,6 +7,8 @@
 /*global describe, it */
 
 var assert = require('assert')
+var request = require('supertest')
+var toa = require('../..')
 var context = require('../context')
 
 describe('ctx.throw(msg)', function () {
@@ -220,5 +222,30 @@ describe('ctx.throw(err, props)', function () {
       assert.strictEqual(err.prop, true)
       done()
     }
+  })
+})
+
+describe('ctx.throw with custom ctx.createError', function () {
+  it('should use custom ctx.createError', function (done) {
+    var app = toa(function () {
+      this.throw(500)
+    })
+    var _createError = app.context.createError
+
+    app.context.createError = function () {
+      var err = _createError.apply(null, arguments)
+      err.url = this.originalUrl
+      return err
+    }
+
+    app.onerror = function (err) {
+      assert.strictEqual(err.status, 500)
+      assert.strictEqual(err.url, '/test-error')
+      done()
+    }
+
+    request(app.listen()).get('/test-error').end(function (err) {
+      if (err) done(err)
+    })
   })
 })

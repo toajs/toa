@@ -1,6 +1,6 @@
 'use strict'
 // **License:** MIT
-// wrk -t10 -c1000 -d20s http://127.0.0.1:3000
+// wrk -t10 -c1000 -d30s http://127.0.0.1:3000
 
 const http = require('http')
 const app = http.createServer(function (req, res) {
