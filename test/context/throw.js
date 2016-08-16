@@ -4,14 +4,14 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var request = require('supertest')
 var toa = require('../..')
 var context = require('../context')
 
-describe('ctx.throw(msg)', function () {
+suite('ctx.throw(msg)', function () {
   it('should set .status to 500', function (done) {
     var ctx = context()
 
@@ -25,7 +25,7 @@ describe('ctx.throw(msg)', function () {
   })
 })
 
-describe('ctx.throw(err)', function () {
+suite('ctx.throw(err)', function () {
   it('should set .status to 500', function (done) {
     var ctx = context()
     var err = new Error('test')
@@ -41,7 +41,7 @@ describe('ctx.throw(err)', function () {
   })
 })
 
-describe('ctx.throw(err, status)', function () {
+suite('ctx.throw(err, status)', function () {
   it('should throw the error and set .status', function (done) {
     var ctx = context()
     var error = new Error('test')
@@ -57,7 +57,7 @@ describe('ctx.throw(err, status)', function () {
   })
 })
 
-describe('ctx.throw(status, err)', function () {
+suite('ctx.throw(status, err)', function () {
   it('should throw the error and set .status', function (done) {
     var ctx = context()
     var error = new Error('test')
@@ -73,7 +73,7 @@ describe('ctx.throw(status, err)', function () {
   })
 })
 
-describe('ctx.throw(msg, status)', function () {
+suite('ctx.throw(msg, status)', function () {
   it('should throw an error', function (done) {
     var ctx = context()
 
@@ -88,7 +88,7 @@ describe('ctx.throw(msg, status)', function () {
   })
 })
 
-describe('ctx.throw(status, msg)', function () {
+suite('ctx.throw(status, msg)', function () {
   it('should throw an error', function (done) {
     var ctx = context()
 
@@ -103,7 +103,7 @@ describe('ctx.throw(status, msg)', function () {
   })
 })
 
-describe('ctx.throw(status)', function () {
+suite('ctx.throw(status)', function () {
   it('should throw an error', function (done) {
     var ctx = context()
 
@@ -117,7 +117,7 @@ describe('ctx.throw(status)', function () {
     }
   })
 
-  describe('when not valid status', function () {
+  suite('when not valid status', function () {
     it('should not expose', function (done) {
       var ctx = context()
 
@@ -134,7 +134,7 @@ describe('ctx.throw(status)', function () {
   })
 })
 
-describe('ctx.throw(status, msg, props)', function () {
+suite('ctx.throw(status, msg, props)', function () {
   it('should mixin props', function (done) {
     var ctx = context()
 
@@ -151,7 +151,7 @@ describe('ctx.throw(status, msg, props)', function () {
     }
   })
 
-  describe('when props include status', function () {
+  suite('when props include status', function () {
     it('should be ignored', function (done) {
       var ctx = context()
 
@@ -171,7 +171,7 @@ describe('ctx.throw(status, msg, props)', function () {
   })
 })
 
-describe('ctx.throw(msg, props)', function () {
+suite('ctx.throw(msg, props)', function () {
   it('should mixin props', function (done) {
     var ctx = context()
 
@@ -189,7 +189,7 @@ describe('ctx.throw(msg, props)', function () {
   })
 })
 
-describe('ctx.throw(status, props)', function () {
+suite('ctx.throw(status, props)', function () {
   it('should mixin props', function (done) {
     var ctx = context()
 
@@ -207,7 +207,7 @@ describe('ctx.throw(status, props)', function () {
   })
 })
 
-describe('ctx.throw(err, props)', function () {
+suite('ctx.throw(err, props)', function () {
   it('should mixin props', function (done) {
     var ctx = context()
 
@@ -225,7 +225,7 @@ describe('ctx.throw(err, props)', function () {
   })
 })
 
-describe('ctx.throw with custom ctx.createError', function () {
+suite('ctx.throw with custom ctx.createError', function () {
   it('should use custom ctx.createError', function (done) {
     var app = toa(function () {
       this.throw(500)

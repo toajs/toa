@@ -4,13 +4,13 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var request = require('supertest')
 var toa = require('../..')
 
-describe('ctx.cookies.set()', function () {
+suite('ctx.cookies.set()', function () {
   it('should set an unsigned cookie', function () {
     var app = toa()
 
@@ -30,8 +30,8 @@ describe('ctx.cookies.set()', function () {
       })
   })
 
-  describe('with .signed', function () {
-    describe('when no .keys are set', function () {
+  suite('with .signed', function () {
+    suite('when no .keys are set', function () {
       it('should error', function () {
         var app = toa()
         app.keys = null

@@ -4,14 +4,14 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var response = require('../context').response
 var fs = require('fs')
 
-describe('res.body=', function () {
-  describe('when Content-Type is set', function () {
+suite('res.body=', function () {
+  suite('when Content-Type is set', function () {
     it('should not override', function () {
       var res = response()
       res.type = 'png'
@@ -19,7 +19,7 @@ describe('res.body=', function () {
       assert.strictEqual(res.header['content-type'], 'image/png')
     })
 
-    describe('when body is an object', function () {
+    suite('when body is an object', function () {
       it('should override as json', function () {
         var res = response()
 
@@ -41,7 +41,7 @@ describe('res.body=', function () {
     })
   })
 
-  describe('when a string is given', function () {
+  suite('when a string is given', function () {
     it('should default to text', function () {
       var res = response()
       res.body = 'Tobi'
@@ -54,7 +54,7 @@ describe('res.body=', function () {
       assert.strictEqual(res.header['content-length'], '4')
     })
 
-    describe('and contains a non-leading <', function () {
+    suite('and contains a non-leading <', function () {
       it('should default to text', function () {
         var res = response()
         res.body = 'aklsdjf < klajsdlfjasd'
@@ -63,7 +63,7 @@ describe('res.body=', function () {
     })
   })
 
-  describe('when an html string is given', function () {
+  suite('when an html string is given', function () {
     it('should default to html', function () {
       var res = response()
       res.body = '<h1>Tobi</h1>'
@@ -85,7 +85,7 @@ describe('res.body=', function () {
       assert.strictEqual(res.length, 2 * Buffer.byteLength(string))
     })
 
-    describe('when it contains leading whitespace', function () {
+    suite('when it contains leading whitespace', function () {
       it('should default to html', function () {
         var res = response()
         res.body = '    <h1>Tobi</h1>'
@@ -94,7 +94,7 @@ describe('res.body=', function () {
     })
   })
 
-  describe('when an xml string is given', function () {
+  suite('when an xml string is given', function () {
     it('should default to html', function () {
       /**
        * This test is to show that we're not going
@@ -109,7 +109,7 @@ describe('res.body=', function () {
     })
   })
 
-  describe('when a stream is given', function () {
+  suite('when a stream is given', function () {
     it('should default to an octet stream', function () {
       var res = response()
       res.body = fs.createReadStream('LICENSE')
@@ -117,7 +117,7 @@ describe('res.body=', function () {
     })
   })
 
-  describe('when a buffer is given', function () {
+  suite('when a buffer is given', function () {
     it('should default to an octet stream', function () {
       var res = response()
       res.body = new Buffer('hey')
@@ -131,7 +131,7 @@ describe('res.body=', function () {
     })
   })
 
-  describe('when an object is given', function () {
+  suite('when an object is given', function () {
     it('should default to json', function () {
       var res = response()
       res.body = {

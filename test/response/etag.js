@@ -4,12 +4,12 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var response = require('../context').response
 
-describe('res.etag=', function () {
+suite('res.etag=', function () {
   it('should not modify an etag with quotes', function () {
     var res = response()
     res.etag = '"asdf"'
@@ -29,7 +29,7 @@ describe('res.etag=', function () {
   })
 })
 
-describe('res.etag', function () {
+suite('res.etag', function () {
   it('should return etag', function () {
     var res = response()
     res.etag = '"asdf"'

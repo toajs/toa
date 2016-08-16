@@ -4,13 +4,13 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var response = require('../context').response
 
-describe('res.inspect()', function () {
-  describe('with no response.res present', function () {
+suite('res.inspect()', function () {
+  suite('with no response.res present', function () {
     it('should return null', function () {
       var res = response()
       res.body = 'hello'

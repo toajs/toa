@@ -4,7 +4,7 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var Stream = require('stream')
 var request = require('supertest')
@@ -12,7 +12,7 @@ var assert = require('assert')
 var toa = require('../../')
 var context = require('../context')
 
-describe('ctx.href', function () {
+suite('ctx.href', function () {
   it('should return the full request url', function () {
     var socket = new Stream.Duplex()
     var req = {

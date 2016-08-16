@@ -4,13 +4,13 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var context = require('../context')
 
-describe('ctx.fresh', function () {
-  describe('the request method is not GET and HEAD', function () {
+suite('ctx.fresh', function () {
+  suite('the request method is not GET and HEAD', function () {
     it('should return false', function () {
       var ctx = context()
       ctx.req.method = 'POST'
@@ -18,7 +18,7 @@ describe('ctx.fresh', function () {
     })
   })
 
-  describe('the response is non-2xx', function () {
+  suite('the response is non-2xx', function () {
     it('should return false', function () {
       var ctx = context()
       ctx.status = 404
@@ -29,8 +29,8 @@ describe('ctx.fresh', function () {
     })
   })
 
-  describe('the response is 2xx', function () {
-    describe('and etag matches', function () {
+  suite('the response is 2xx', function () {
+    suite('and etag matches', function () {
       it('should return true', function () {
         var ctx = context()
         ctx.status = 200
@@ -41,7 +41,7 @@ describe('ctx.fresh', function () {
       })
     })
 
-    describe('and etag do not match', function () {
+    suite('and etag do not match', function () {
       it('should return false', function () {
         var ctx = context()
         ctx.status = 200

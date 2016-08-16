@@ -2,13 +2,13 @@
 // **Github:** https://github.com/toajs/toa
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var request = require('supertest')
 var toa = require('../..')
 
-describe('context onPreEnd', function () {
+suite('context onPreEnd', function () {
   it('should run onPreEnd before context end', function (done) {
     var count = 0
     var app = toa(function () {

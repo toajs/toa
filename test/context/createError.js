@@ -4,12 +4,12 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var context = require('../context')
 
-describe('ctx.createError(msg)', function () {
+suite('ctx.createError(msg)', function () {
   it('should set .status to 500', function () {
     var ctx = context()
 
@@ -19,7 +19,7 @@ describe('ctx.createError(msg)', function () {
   })
 })
 
-describe('ctx.createError(err)', function () {
+suite('ctx.createError(err)', function () {
   it('should set .status to 500', function () {
     var ctx = context()
     var error = new Error('test')
@@ -31,7 +31,7 @@ describe('ctx.createError(err)', function () {
   })
 })
 
-describe('ctx.createError(err, status)', function () {
+suite('ctx.createError(err, status)', function () {
   it('should create the error and set .status', function () {
     var ctx = context()
     var error = new Error('test')
@@ -43,7 +43,7 @@ describe('ctx.createError(err, status)', function () {
   })
 })
 
-describe('ctx.createError(status, err)', function () {
+suite('ctx.createError(status, err)', function () {
   it('should create the error and set .status', function () {
     var ctx = context()
     var error = new Error('test')
@@ -55,7 +55,7 @@ describe('ctx.createError(status, err)', function () {
   })
 })
 
-describe('ctx.createError(msg, status)', function () {
+suite('ctx.createError(msg, status)', function () {
   it('should create an error', function () {
     var ctx = context()
 
@@ -66,7 +66,7 @@ describe('ctx.createError(msg, status)', function () {
   })
 })
 
-describe('ctx.createError(status, msg)', function () {
+suite('ctx.createError(status, msg)', function () {
   it('should create an error', function () {
     var ctx = context()
 
@@ -77,7 +77,7 @@ describe('ctx.createError(status, msg)', function () {
   })
 })
 
-describe('ctx.createError(status)', function () {
+suite('ctx.createError(status)', function () {
   it('should create an error', function () {
     var ctx = context()
 
@@ -87,7 +87,7 @@ describe('ctx.createError(status)', function () {
     assert.strictEqual(err.expose, true)
   })
 
-  describe('when not valid status', function () {
+  suite('when not valid status', function () {
     it('should not expose', function () {
       var ctx = context()
 
@@ -100,7 +100,7 @@ describe('ctx.createError(status)', function () {
   })
 })
 
-describe('ctx.createError(status, msg, props)', function () {
+suite('ctx.createError(status, msg, props)', function () {
   it('should mixin props', function () {
     var ctx = context()
 
@@ -113,7 +113,7 @@ describe('ctx.createError(status, msg, props)', function () {
     assert.strictEqual(err.prop, true)
   })
 
-  describe('when props include status', function () {
+  suite('when props include status', function () {
     it('should be ignored', function () {
       var ctx = context()
 
@@ -129,7 +129,7 @@ describe('ctx.createError(status, msg, props)', function () {
   })
 })
 
-describe('ctx.createError(msg, props)', function () {
+suite('ctx.createError(msg, props)', function () {
   it('should mixin props', function () {
     var ctx = context()
 
@@ -143,7 +143,7 @@ describe('ctx.createError(msg, props)', function () {
   })
 })
 
-describe('ctx.createError(status, props)', function () {
+suite('ctx.createError(status, props)', function () {
   it('should mixin props', function () {
     var ctx = context()
 
@@ -157,7 +157,7 @@ describe('ctx.createError(status, props)', function () {
   })
 })
 
-describe('ctx.createError(err, props)', function () {
+suite('ctx.createError(err, props)', function () {
   it('should mixin props', function () {
     var ctx = context()
 

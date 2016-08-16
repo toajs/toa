@@ -4,19 +4,19 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var response = require('../context').response
 
-describe('res.message', function () {
+suite('res.message', function () {
   it('should return the response status message', function () {
     var res = response()
     res.status = 200
     assert.strictEqual(res.message, 'OK')
   })
 
-  describe('when res.message not present', function () {
+  suite('when res.message not present', function () {
     it('should look up in statuses', function () {
       var res = response()
       res.res.statusCode = 200
@@ -25,7 +25,7 @@ describe('res.message', function () {
   })
 })
 
-describe('res.message=', function () {
+suite('res.message=', function () {
   it('should set response status message', function () {
     var res = response()
     res.status = 200

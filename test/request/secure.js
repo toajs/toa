@@ -4,12 +4,12 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var request = require('../context').request
 
-describe('req.secure', function () {
+suite('req.secure', function () {
   it('should return true when encrypted', function () {
     var req = request()
     req.req.socket = {

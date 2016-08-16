@@ -4,12 +4,12 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var context = require('../context')
 
-describe('ctx.get(name)', function () {
+suite('ctx.get(name)', function () {
   it('should return the field value', function () {
     var ctx = context()
     ctx.req.headers.host = 'http://google.com'

@@ -4,12 +4,12 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var context = require('../context')
 
-describe('ctx.remove(name)', function () {
+suite('ctx.remove(name)', function () {
   it('should remove a field', function () {
     var ctx = context()
     ctx.set('x-foo', 'bar')

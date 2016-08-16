@@ -4,7 +4,7 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/* global describe, it */
+/* global suite, it */
 
 var net = require('net')
 var Stream = require('stream')
@@ -16,7 +16,7 @@ var http = require('http')
 var toa = require('..')
 var fs = require('fs')
 
-describe('app', function () {
+suite('app', function () {
   it('should finished when socket errors', function (done) {
     var app = toa(function () {
       this.on('close', function () {
@@ -204,7 +204,7 @@ describe('app', function () {
   })
 })
 
-describe('app.use(fn)', function () {
+suite('app.use(fn)', function () {
   it('should throw error with non-function middleware', function (done) {
     var app = toa()
     assert.throws(function () {
@@ -286,7 +286,7 @@ describe('app.use(fn)', function () {
   })
 })
 
-describe('app.onerror(err)', function () {
+suite('app.onerror(err)', function () {
   it('should do nothing if status is 404', function () {
     var app = toa()
     var err = new Error()
@@ -321,12 +321,12 @@ describe('app.onerror(err)', function () {
       app.onerror(err)
     })
 
-    assert.strictEqual(output[0].indexOf('  Error: non-error thrown: Foo\n'), 0)
+    assert.strictEqual(output[0].indexOf('  Error: non-error thrown: \'Foo\'\n'), 0)
   })
 })
 
-describe('app.respond', function () {
-  describe('when this.respond === false', function () {
+suite('app.respond', function () {
+  suite('when this.respond === false', function () {
     it('should bypass app.respond', function () {
       var app = toa(function () {
         this.body = 'Hello'
@@ -347,7 +347,7 @@ describe('app.respond', function () {
     })
   })
 
-  describe('when HEAD is used', function () {
+  suite('when HEAD is used', function () {
     it('should not respond with the body', function () {
       var app = toa(function () {
         this.body = 'Hello'
@@ -457,7 +457,7 @@ describe('app.respond', function () {
     })
   })
 
-  describe('when no middleware and no body are present', function () {
+  suite('when no middleware and no body are present', function () {
     it('should 404', function () {
       var app = toa()
 
@@ -467,7 +467,7 @@ describe('app.respond', function () {
     })
   })
 
-  describe('when res has already been written to', function () {
+  suite('when res has already been written to', function () {
     it('should not cause an app error', function (done) {
       var app = toa(function () {
         var res = this.res
@@ -513,8 +513,8 @@ describe('app.respond', function () {
     })
   })
 
-  describe('when .body is missing', function () {
-    describe('with status=400', function () {
+  suite('when .body is missing', function () {
+    suite('with status=400', function () {
       it('should respond with the associated status message', function () {
         var app = toa(function () {
           this.status = 400
@@ -528,7 +528,7 @@ describe('app.respond', function () {
       })
     })
 
-    describe('with status=204', function () {
+    suite('with status=204', function () {
       it('should respond without a body', function () {
         var app = toa(function () {
           this.status = 204
@@ -544,7 +544,7 @@ describe('app.respond', function () {
       })
     })
 
-    describe('with status=205', function () {
+    suite('with status=205', function () {
       it('should respond without a body', function () {
         var app = toa(function () {
           this.status = 205
@@ -560,7 +560,7 @@ describe('app.respond', function () {
       })
     })
 
-    describe('with status=304', function () {
+    suite('with status=304', function () {
       it('should respond without a body', function () {
         var app = toa(function () {
           this.status = 304
@@ -576,7 +576,7 @@ describe('app.respond', function () {
       })
     })
 
-    describe('with custom status=700', function () {
+    suite('with custom status=700', function () {
       it('should respond with the associated status message', function () {
         var app = toa()
         statuses['700'] = 'custom status'
@@ -596,7 +596,7 @@ describe('app.respond', function () {
       })
     })
 
-    describe('with custom statusMessage=ok', function () {
+    suite('with custom statusMessage=ok', function () {
       it('should respond with the custom status message', function () {
         var app = toa()
 
@@ -616,7 +616,7 @@ describe('app.respond', function () {
       })
     })
 
-    describe('with custom status without message', function () {
+    suite('with custom status without message', function () {
       it('should respond with the status code number', function () {
         var app = toa()
 
@@ -633,7 +633,7 @@ describe('app.respond', function () {
     })
   })
 
-  describe('when .body is a null', function () {
+  suite('when .body is a null', function () {
     it('should respond 204 by default', function () {
       var app = toa(function () {
         this.body = null
@@ -694,7 +694,7 @@ describe('app.respond', function () {
     })
   })
 
-  describe('when .body is a string', function () {
+  suite('when .body is a string', function () {
     it('should respond', function () {
       var app = toa(function () {
         this.body = 'Hello'
@@ -706,7 +706,7 @@ describe('app.respond', function () {
     })
   })
 
-  describe('when .body is a Buffer', function () {
+  suite('when .body is a Buffer', function () {
     it('should respond', function () {
       var app = toa(function () {
         this.body = new Buffer('Hello')
@@ -718,7 +718,7 @@ describe('app.respond', function () {
     })
   })
 
-  describe('when .body is a Stream', function () {
+  suite('when .body is a Stream', function () {
     it('should respond', function () {
       var app = toa(function () {
         this.body = fs.createReadStream('package.json')
@@ -875,7 +875,7 @@ describe('app.respond', function () {
     })
   })
 
-  describe('when .body is an Object', function () {
+  suite('when .body is an Object', function () {
     it('should respond with json', function () {
       var app = toa(function () {
         this.body = {
@@ -890,7 +890,7 @@ describe('app.respond', function () {
     })
   })
 
-  describe('when an error occurs', function () {
+  suite('when an error occurs', function () {
     it('should emit "error" on the app', function (done) {
       var app = toa(function () {
         throw new Error('boom')
@@ -906,7 +906,7 @@ describe('app.respond', function () {
         .end(function () {})
     })
 
-    describe('with an .expose property', function () {
+    suite('with an .expose property', function () {
       it('should expose the message', function () {
         var app = toa(function () {
           var err = new Error('sorry!')
@@ -925,7 +925,7 @@ describe('app.respond', function () {
       })
     })
 
-    describe('with a .status property', function () {
+    suite('with a .status property', function () {
       it('should respond with .status', function () {
         var app = toa(function () {
           var err = new Error('s3 explodes')
@@ -1047,7 +1047,7 @@ describe('app.respond', function () {
     })
   })
 
-  describe('when status and body property', function () {
+  suite('when status and body property', function () {
     it('should 200', function () {
       var app = toa(function () {
         this.status = 304
@@ -1079,7 +1079,7 @@ describe('app.respond', function () {
   })
 })
 
-describe('app.context', function () {
+suite('app.context', function () {
   var app1 = toa()
   app1.context.msg = 'hello'
   var app2 = toa()
@@ -1138,7 +1138,7 @@ describe('app.context', function () {
   })
 })
 
-describe('app.request', function () {
+suite('app.request', function () {
   var app1 = toa()
   app1.request.message = 'hello'
   var app2 = toa()
@@ -1168,7 +1168,7 @@ describe('app.request', function () {
   })
 })
 
-describe('app.response', function () {
+suite('app.response', function () {
   var app1 = toa()
   app1.response.msg = 'hello'
   var app2 = toa()

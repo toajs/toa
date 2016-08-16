@@ -4,12 +4,12 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var response = require('../context').response
 
-describe('res.header', function () {
+suite('res.header', function () {
   it('should return the response header object', function () {
     var res = response()
     res.set('X-Foo', 'bar')
@@ -18,7 +18,7 @@ describe('res.header', function () {
     })
   })
 
-  describe('when res._headers not present', function () {
+  suite('when res._headers not present', function () {
     it('should return empty object', function () {
       var res = response()
       res.res._headers = null

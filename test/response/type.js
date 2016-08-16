@@ -4,13 +4,13 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var context = require('../context')
 
-describe('ctx.type=', function () {
-  describe('with a mime', function () {
+suite('ctx.type=', function () {
+  suite('with a mime', function () {
     it('should set the Content-Type', function () {
       var ctx = context()
       ctx.type = 'text/plain'
@@ -19,7 +19,7 @@ describe('ctx.type=', function () {
     })
   })
 
-  describe('with an extension', function () {
+  suite('with an extension', function () {
     it('should lookup the mime', function () {
       var ctx = context()
       ctx.type = 'json'
@@ -28,7 +28,7 @@ describe('ctx.type=', function () {
     })
   })
 
-  describe('without a charset', function () {
+  suite('without a charset', function () {
     it('should default the charset', function () {
       var ctx = context()
       ctx.type = 'text/html'
@@ -37,7 +37,7 @@ describe('ctx.type=', function () {
     })
   })
 
-  describe('with a charset', function () {
+  suite('with a charset', function () {
     it('should not default the charset', function () {
       var ctx = context()
       ctx.type = 'text/html; charset=foo'
@@ -46,7 +46,7 @@ describe('ctx.type=', function () {
     })
   })
 
-  describe('with an unknown extension', function () {
+  suite('with an unknown extension', function () {
     it('should not set a content-type', function () {
       var ctx = context()
       ctx.type = 'asdf'
@@ -56,8 +56,8 @@ describe('ctx.type=', function () {
   })
 })
 
-describe('ctx.type', function () {
-  describe('with no Content-Type', function () {
+suite('ctx.type', function () {
+  suite('with no Content-Type', function () {
     it('should return ""', function () {
       var ctx = context()
       // TODO: this is lame
@@ -65,7 +65,7 @@ describe('ctx.type', function () {
     })
   })
 
-  describe('with a Content-Type', function () {
+  suite('with a Content-Type', function () {
     it('should return the mime', function () {
       var ctx = context()
       ctx.type = 'json'

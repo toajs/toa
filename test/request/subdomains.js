@@ -4,12 +4,12 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var request = require('../context').request
 
-describe('req.subdomains', function () {
+suite('req.subdomains', function () {
   it('should return subdomain array', function () {
     var req = request()
     req.header.host = 'tobi.ferrets.example.com'
@@ -20,7 +20,7 @@ describe('req.subdomains', function () {
     assert.deepEqual(req.subdomains, ['tobi'])
   })
 
-  describe('with no host present', function () {
+  suite('with no host present', function () {
     var req = request()
     assert.deepEqual(req.subdomains, [])
   })

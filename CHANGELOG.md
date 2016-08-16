@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file starting from version **v0.10.0**.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.8.4] - 2016-08-16
+
+### change
+
+- Improve error message.
+- Change `describe` to `suite` in tests
+
 ## [1.8.3] - 2016-08-05
 
 ### change

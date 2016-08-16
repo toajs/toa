@@ -4,12 +4,12 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var context = require('../context')
 
-describe('ctx.search=', function () {
+suite('ctx.search=', function () {
   it('should replace the search', function () {
     var ctx = context({
       url: '/store/shoes'
@@ -42,7 +42,7 @@ describe('ctx.search=', function () {
     assert.strictEqual(ctx.request.originalUrl, '/store/shoes')
   })
 
-  describe('when missing', function () {
+  suite('when missing', function () {
     it('should return ""', function () {
       var ctx = context({
         url: '/store/shoes'

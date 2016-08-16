@@ -4,13 +4,13 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var request = require('supertest')
 var assert = require('assert')
 var toa = require('../..')
 
-describe('ctx.state', function () {
+suite('ctx.state', function () {
   it('should provide a ctx.state namespace', function () {
     var app = toa()
 

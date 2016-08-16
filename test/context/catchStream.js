@@ -2,7 +2,7 @@
 // **Github:** https://github.com/toajs/toa
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var fs = require('fs')
 var path = require('path')
@@ -20,7 +20,7 @@ if (!Stream.prototype.listenerCount) {
   }
 }
 
-describe('catch stream error', function () {
+suite('catch stream error', function () {
   it('should auto catch stream for body', function () {
     var ctx = context()
     var stream = new Stream.Readable()

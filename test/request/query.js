@@ -4,13 +4,13 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var context = require('../context')
 
-describe('ctx.query', function () {
-  describe('when missing', function () {
+suite('ctx.query', function () {
+  suite('when missing', function () {
     it('should return an empty object', function () {
       var ctx = context({
         url: '/'
@@ -33,7 +33,7 @@ describe('ctx.query', function () {
   })
 })
 
-describe('ctx.query=', function () {
+suite('ctx.query=', function () {
   it('should stringify and replace the querystring and search', function () {
     var ctx = context({
       url: '/store/shoes'

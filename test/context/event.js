@@ -2,14 +2,14 @@
 // **Github:** https://github.com/toajs/toa
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var request = require('supertest')
 var toa = require('../..')
 
-describe('context event', function () {
-  describe('"end" event', function () {
+suite('context event', function () {
+  suite('"end" event', function () {
     it('should emit "end"', function (done) {
       var resEnd = false
       var app = toa(function () {
@@ -92,7 +92,7 @@ describe('context event', function () {
     })
   })
 
-  describe('"finish" event', function () {
+  suite('"finish" event', function () {
     it('should emit "finish"', function (done) {
       var finished = null
       var app = toa(function () {

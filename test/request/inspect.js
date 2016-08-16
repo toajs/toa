@@ -4,13 +4,13 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var request = require('../context').request
 
-describe('req.inspect()', function () {
-  describe('with no request.req present', function () {
+suite('req.inspect()', function () {
+  suite('with no request.req present', function () {
     it('should return null', function () {
       var req = request()
       req.method = 'GET'

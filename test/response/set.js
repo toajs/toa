@@ -4,12 +4,12 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var context = require('../context')
 
-describe('ctx.set(name, val)', function () {
+suite('ctx.set(name, val)', function () {
   it('should set a field value', function () {
     var ctx = context()
     ctx.set('x-foo', 'bar')
@@ -29,7 +29,7 @@ describe('ctx.set(name, val)', function () {
   })
 })
 
-describe('ctx.set(object)', function () {
+suite('ctx.set(object)', function () {
   it('should set multiple fields', function () {
     var ctx = context()
 

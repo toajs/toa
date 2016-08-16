@@ -4,13 +4,13 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var request = require('supertest')
 var toa = require('../..')
 
-describe('catch error', function () {
+suite('catch error', function () {
   it('should respond', function () {
     var app = toa()
 
@@ -51,8 +51,8 @@ describe('catch error', function () {
       })
   })
 
-  describe('when invalid err.status', function () {
-    describe('not number', function () {
+  suite('when invalid err.status', function () {
+    suite('not number', function () {
       it('should respond 500', function () {
         var app = toa()
 
@@ -73,7 +73,7 @@ describe('catch error', function () {
       })
     })
 
-    describe('not http status code', function () {
+    suite('not http status code', function () {
       it('should respond 500', function () {
         var app = toa()
 

@@ -4,13 +4,13 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var request = require('../context').request
 
-describe('req.ip', function () {
-  describe('with req.ips present', function () {
+suite('req.ip', function () {
+  suite('with req.ips present', function () {
     it('should return req.ips[0]', function () {
       var req = request()
       req.ctx.config.proxy = true
@@ -20,7 +20,7 @@ describe('req.ip', function () {
     })
   })
 
-  describe('with no req.ips present', function () {
+  suite('with no req.ips present', function () {
     it('should return req.socket.removeAddress', function () {
       var req = request()
       req.socket.remoteAddress = '127.0.0.2'

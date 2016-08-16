@@ -2,14 +2,14 @@
 // **Github:** https://github.com/toajs/toa
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var thunks = require('thunks')
 var request = require('supertest')
 var toa = require('../..')
 
-describe('context end', function () {
+suite('context end', function () {
   it('should respond body with context.end', function () {
     var app = toa(function () {
       this.body = 'Good job.'

@@ -4,13 +4,13 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var context = require('../context')
 var parseurl = require('parseurl')
 
-describe('ctx.querystring=', function () {
+suite('ctx.querystring=', function () {
   it('should replace the querystring', function () {
     var ctx = context({
       url: '/store/shoes'

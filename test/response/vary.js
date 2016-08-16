@@ -4,13 +4,13 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var context = require('../context')
 
-describe('ctx.vary(field)', function () {
-  describe('when Vary is not set', function () {
+suite('ctx.vary(field)', function () {
+  suite('when Vary is not set', function () {
     it('should set it', function () {
       var ctx = context()
       ctx.vary('Accept')
@@ -18,7 +18,7 @@ describe('ctx.vary(field)', function () {
     })
   })
 
-  describe('when Vary is set', function () {
+  suite('when Vary is set', function () {
     it('should append', function () {
       var ctx = context()
       ctx.vary('Accept')
@@ -27,7 +27,7 @@ describe('ctx.vary(field)', function () {
     })
   })
 
-  describe('when Vary already contains the value', function () {
+  suite('when Vary already contains the value', function () {
     it('should not append', function () {
       var ctx = context()
       ctx.vary('Accept')

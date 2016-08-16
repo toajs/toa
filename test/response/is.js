@@ -4,12 +4,12 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var context = require('../context')
 
-describe('response.is(type)', function () {
+suite('response.is(type)', function () {
   it('should ignore params', function () {
     var res = context().response
     res.type = 'text/html; charset=utf-8'
@@ -17,7 +17,7 @@ describe('response.is(type)', function () {
     assert.strictEqual(res.is('text/*'), 'text/html')
   })
 
-  describe('when no type is set', function () {
+  suite('when no type is set', function () {
     it('should return false', function () {
       var res = context().response
 
@@ -26,7 +26,7 @@ describe('response.is(type)', function () {
     })
   })
 
-  describe('when given no types', function () {
+  suite('when given no types', function () {
     it('should return the type', function () {
       var res = context().response
       res.type = 'text/html; charset=utf-8'
@@ -35,7 +35,7 @@ describe('response.is(type)', function () {
     })
   })
 
-  describe('given one type', function () {
+  suite('given one type', function () {
     it('should return the type or false', function () {
       var res = context().response
       res.type = 'image/png'
@@ -54,7 +54,7 @@ describe('response.is(type)', function () {
     })
   })
 
-  describe('given multiple types', function () {
+  suite('given multiple types', function () {
     it('should return the first match or false', function () {
       var res = context().response
       res.type = 'image/png'
@@ -78,7 +78,7 @@ describe('response.is(type)', function () {
     })
   })
 
-  describe('when Content-Type: application/x-www-form-urlencoded', function () {
+  suite('when Content-Type: application/x-www-form-urlencoded', function () {
     it('should match "urlencoded"', function () {
       var res = context().response
       res.type = 'application/x-www-form-urlencoded'

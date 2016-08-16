@@ -4,13 +4,13 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var request = require('../context').request
 
-describe('req.protocol', function () {
-  describe('when encrypted', function () {
+suite('req.protocol', function () {
+  suite('when encrypted', function () {
     it('should return "https"', function () {
       var req = request()
       req.req.socket = {
@@ -20,7 +20,7 @@ describe('req.protocol', function () {
     })
   })
 
-  describe('when unencrypted', function () {
+  suite('when unencrypted', function () {
     it('should return "http"', function () {
       var req = request()
       req.req.socket = {}
@@ -28,8 +28,8 @@ describe('req.protocol', function () {
     })
   })
 
-  describe('when X-Forwarded-Proto is set', function () {
-    describe('and proxy is trusted', function () {
+  suite('when X-Forwarded-Proto is set', function () {
+    suite('and proxy is trusted', function () {
       it('should be used', function () {
         var req = request()
         req.ctx.config.proxy = true
@@ -38,7 +38,7 @@ describe('req.protocol', function () {
         assert.strictEqual(req.protocol, 'https')
       })
 
-      describe('and X-Forwarded-Proto is empty', function () {
+      suite('and X-Forwarded-Proto is empty', function () {
         it('should return "http"', function () {
           var req = request()
           req.ctx.config.proxy = true
@@ -49,7 +49,7 @@ describe('req.protocol', function () {
       })
     })
 
-    describe('and proxy is not trusted', function () {
+    suite('and proxy is not trusted', function () {
       it('should not be used', function () {
         var req = request()
         req.req.socket = {}

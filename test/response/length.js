@@ -4,14 +4,14 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var response = require('../context').response
 var fs = require('fs')
 
-describe('res.length', function () {
-  describe('when Content-Length is defined', function () {
+suite('res.length', function () {
+  suite('when Content-Length is defined', function () {
     it('should return a number', function () {
       var res = response()
       res.header['content-length'] = '120'
@@ -20,8 +20,8 @@ describe('res.length', function () {
   })
 })
 
-describe('res.length', function () {
-  describe('when Content-Length is defined', function () {
+suite('res.length', function () {
+  suite('when Content-Length is defined', function () {
     it('should return a number', function () {
       var res = response()
       res.set('Content-Length', '1024')
@@ -29,8 +29,8 @@ describe('res.length', function () {
     })
   })
 
-  describe('when Content-Length is not defined', function () {
-    describe('and a .body is set', function () {
+  suite('when Content-Length is not defined', function () {
+    suite('and a .body is set', function () {
       it('should return a number', function () {
         var res = response()
 
@@ -67,7 +67,7 @@ describe('res.length', function () {
       })
     })
 
-    describe('and .body is not', function () {
+    suite('and .body is not', function () {
       it('should return undefined', function () {
         var res = response()
         assert.strictEqual(res.length == null, true)

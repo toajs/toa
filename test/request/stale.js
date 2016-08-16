@@ -4,12 +4,12 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var context = require('../context')
 
-describe('req.stale', function () {
+suite('req.stale', function () {
   it('should be the inverse of req.fresh', function () {
     var ctx = context()
     ctx.status = 200

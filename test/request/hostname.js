@@ -4,27 +4,27 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var request = require('../context').request
 
-describe('req.hostname', function () {
+suite('req.hostname', function () {
   it('should return hostname void of port', function () {
     var req = request()
     req.header.host = 'foo.com:3000'
     assert.strictEqual(req.hostname, 'foo.com')
   })
 
-  describe('with no host present', function () {
+  suite('with no host present', function () {
     it('should return null', function () {
       var req = request()
       assert.strictEqual(req.hostname, '')
     })
   })
 
-  describe('when X-Forwarded-Host is present', function () {
-    describe('and proxy is not trusted', function () {
+  suite('when X-Forwarded-Host is present', function () {
+    suite('and proxy is not trusted', function () {
       it('should be ignored', function () {
         var req = request()
         req.header['x-forwarded-host'] = 'bar.com'
@@ -33,7 +33,7 @@ describe('req.hostname', function () {
       })
     })
 
-    describe('and proxy is trusted', function () {
+    suite('and proxy is trusted', function () {
       it('should be used', function () {
         var req = request()
         req.ctx.config.proxy = true

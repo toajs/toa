@@ -4,12 +4,12 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var context = require('../context')
 var assert = require('assert')
 
-describe('ctx.is(type)', function () {
+suite('ctx.is(type)', function () {
   it('should ignore params', function () {
     var ctx = context()
     ctx.header['content-type'] = 'text/html; charset=utf-8'
@@ -18,7 +18,7 @@ describe('ctx.is(type)', function () {
     assert.strictEqual(ctx.is('text/*'), 'text/html')
   })
 
-  describe('when no body is given', function () {
+  suite('when no body is given', function () {
     it('should return null', function () {
       var ctx = context()
 
@@ -28,7 +28,7 @@ describe('ctx.is(type)', function () {
     })
   })
 
-  describe('when no content type is given', function () {
+  suite('when no content type is given', function () {
     it('should return false', function () {
       var ctx = context()
       ctx.header['transfer-encoding'] = 'chunked'
@@ -39,7 +39,7 @@ describe('ctx.is(type)', function () {
     })
   })
 
-  describe('give no types', function () {
+  suite('give no types', function () {
     it('should return the mime type', function () {
       var ctx = context()
       ctx.header['content-type'] = 'image/png'
@@ -49,7 +49,7 @@ describe('ctx.is(type)', function () {
     })
   })
 
-  describe('given one type', function () {
+  suite('given one type', function () {
     it('should return the type or false', function () {
       var ctx = context()
       ctx.header['content-type'] = 'image/png'
@@ -69,7 +69,7 @@ describe('ctx.is(type)', function () {
     })
   })
 
-  describe('given multiple types', function () {
+  suite('given multiple types', function () {
     it('should return the first match or false', function () {
       var ctx = context()
       ctx.header['content-type'] = 'image/png'
@@ -94,7 +94,7 @@ describe('ctx.is(type)', function () {
     })
   })
 
-  describe('when Content-Type: application/x-www-form-urlencoded', function () {
+  suite('when Content-Type: application/x-www-form-urlencoded', function () {
     it('should match "urlencoded"', function () {
       var ctx = context()
       ctx.header['content-type'] = 'application/x-www-form-urlencoded'

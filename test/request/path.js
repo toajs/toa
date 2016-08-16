@@ -4,13 +4,13 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var context = require('../context')
 var parseurl = require('parseurl')
 
-describe('ctx.path', function () {
+suite('ctx.path', function () {
   it('should return the pathname', function () {
     var ctx = context()
     ctx.url = '/login?next=/dashboard'
@@ -18,7 +18,7 @@ describe('ctx.path', function () {
   })
 })
 
-describe('ctx.path=', function () {
+suite('ctx.path=', function () {
   it('should set the pathname', function () {
     var ctx = context()
     ctx.url = '/login?next=/dashboard'

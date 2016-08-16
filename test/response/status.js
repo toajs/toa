@@ -4,7 +4,7 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it, before */
+/*global suite, it, before */
 
 var assert = require('assert')
 var response = require('../context').response
@@ -12,9 +12,9 @@ var request = require('supertest')
 var statuses = require('statuses')
 var toa = require('../..')
 
-describe('res.status=', function () {
-  describe('when a status code', function () {
-    describe('and valid', function () {
+suite('res.status=', function () {
+  suite('when a status code', function () {
+    suite('and valid', function () {
       it('should set the status', function () {
         var res = response()
         res.status = 403
@@ -28,7 +28,7 @@ describe('res.status=', function () {
       })
     })
 
-    describe('and invalid', function () {
+    suite('and invalid', function () {
       it('should throw', function () {
         assert.throws(function () {
           response().status = 999
@@ -36,7 +36,7 @@ describe('res.status=', function () {
       })
     })
 
-    describe('and custom status', function () {
+    suite('and custom status', function () {
       before(function () {
         statuses['700'] = 'custom status'
       })
@@ -55,7 +55,7 @@ describe('res.status=', function () {
     })
   })
 
-  describe('when a status string', function () {
+  suite('when a status string', function () {
     it('should throw', function () {
       assert.throws(function () {
         response().status = 'forbidden'
@@ -118,15 +118,15 @@ describe('res.status=', function () {
     })
   }
 
-  describe('when 204', function () {
+  suite('when 204', function () {
     strip(204)
   })
 
-  describe('when 205', function () {
+  suite('when 205', function () {
     strip(205)
   })
 
-  describe('when 304', function () {
+  suite('when 304', function () {
     strip(304)
   })
 })

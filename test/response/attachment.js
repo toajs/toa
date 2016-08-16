@@ -4,15 +4,15 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var context = require('../context')
 var request = require('supertest')
 var toa = require('../..')
 
-describe('ctx.attachment([filename])', function () {
-  describe('when given a filename', function () {
+suite('ctx.attachment([filename])', function () {
+  suite('when given a filename', function () {
     it('should set the filename param', function () {
       var ctx = context()
       ctx.attachment('path/to/tobi.png')
@@ -21,7 +21,7 @@ describe('ctx.attachment([filename])', function () {
     })
   })
 
-  describe('when omitting filename', function () {
+  suite('when omitting filename', function () {
     it('should not set filename param', function () {
       var ctx = context()
       ctx.attachment()
@@ -29,7 +29,7 @@ describe('ctx.attachment([filename])', function () {
     })
   })
 
-  describe('when given a no-ascii filename', function () {
+  suite('when given a no-ascii filename', function () {
     it('should set the encodeURI filename param', function () {
       var ctx = context()
       ctx.attachment('path/to/include-no-ascii-char-中文名-ok.png')

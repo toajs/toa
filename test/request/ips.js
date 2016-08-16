@@ -4,14 +4,14 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var request = require('../context').request
 
-describe('req.ips', function () {
-  describe('when X-Forwarded-For is present', function () {
-    describe('and proxy is not trusted', function () {
+suite('req.ips', function () {
+  suite('when X-Forwarded-For is present', function () {
+    suite('and proxy is not trusted', function () {
       it('should be ignored', function () {
         var req = request()
         req.ctx.config.proxy = false
@@ -20,7 +20,7 @@ describe('req.ips', function () {
       })
     })
 
-    describe('and proxy is trusted', function () {
+    suite('and proxy is trusted', function () {
       it('should be used', function () {
         var req = request()
         req.ctx.config.proxy = true

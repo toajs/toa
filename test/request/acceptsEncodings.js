@@ -4,14 +4,14 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var context = require('../context')
 
-describe('ctx.acceptsEncodings()', function () {
-  describe('with no arguments', function () {
-    describe('when Accept-Encoding is populated', function () {
+suite('ctx.acceptsEncodings()', function () {
+  suite('with no arguments', function () {
+    suite('when Accept-Encoding is populated', function () {
       it('should return accepted types', function () {
         var ctx = context()
         ctx.req.headers['accept-encoding'] = 'gzip, compress;q=0.2'
@@ -20,7 +20,7 @@ describe('ctx.acceptsEncodings()', function () {
       })
     })
 
-    describe('when Accept-Encoding is not populated', function () {
+    suite('when Accept-Encoding is not populated', function () {
       it('should return identity', function () {
         var ctx = context()
         assert.deepEqual(ctx.acceptsEncodings(), ['identity'])
@@ -29,7 +29,7 @@ describe('ctx.acceptsEncodings()', function () {
     })
   })
 
-  describe('with multiple arguments', function () {
+  suite('with multiple arguments', function () {
     it('should return the best fit', function () {
       var ctx = context()
       ctx.req.headers['accept-encoding'] = 'gzip, compress;q=0.2'
@@ -38,7 +38,7 @@ describe('ctx.acceptsEncodings()', function () {
     })
   })
 
-  describe('with an array', function () {
+  suite('with an array', function () {
     it('should return the best fit', function () {
       var ctx = context()
       ctx.req.headers['accept-encoding'] = 'gzip, compress;q=0.2'

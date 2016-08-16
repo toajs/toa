@@ -4,12 +4,12 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var response = require('../context').response
 
-describe('res.lastModified', function () {
+suite('res.lastModified', function () {
   it('should set the header as a UTCString', function () {
     var res = response()
     var date = new Date()
@@ -32,7 +32,7 @@ describe('res.lastModified', function () {
     assert.strictEqual((res.lastModified.getTime() / 1000), Math.floor(date.getTime() / 1000))
   })
 
-  describe('when lastModified not set', function () {
+  suite('when lastModified not set', function () {
     it('should get undefined', function () {
       var res = response()
       assert.strictEqual(res.lastModified == null, true)

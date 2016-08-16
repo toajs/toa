@@ -4,14 +4,14 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var context = require('../context')
 
-describe('ctx.acceptsLanguages(langs)', function () {
-  describe('with no arguments', function () {
-    describe('when Accept-Language is populated', function () {
+suite('ctx.acceptsLanguages(langs)', function () {
+  suite('with no arguments', function () {
+    suite('when Accept-Language is populated', function () {
       it('should return accepted types', function () {
         var ctx = context()
         ctx.req.headers['accept-language'] = 'en;q=0.8, es, pt'
@@ -20,9 +20,9 @@ describe('ctx.acceptsLanguages(langs)', function () {
     })
   })
 
-  describe('with multiple arguments', function () {
-    describe('when Accept-Language is populated', function () {
-      describe('if any types types match', function () {
+  suite('with multiple arguments', function () {
+    suite('when Accept-Language is populated', function () {
+      suite('if any types types match', function () {
         it('should return the best fit', function () {
           var ctx = context()
           ctx.req.headers['accept-language'] = 'en;q=0.8, es, pt'
@@ -30,7 +30,7 @@ describe('ctx.acceptsLanguages(langs)', function () {
         })
       })
 
-      describe('if no types match', function () {
+      suite('if no types match', function () {
         it('should return false', function () {
           var ctx = context()
           ctx.req.headers['accept-language'] = 'en;q=0.8, es, pt'
@@ -39,7 +39,7 @@ describe('ctx.acceptsLanguages(langs)', function () {
       })
     })
 
-    describe('when Accept-Language is not populated', function () {
+    suite('when Accept-Language is not populated', function () {
       it('should return the first type', function () {
         var ctx = context()
         assert.strictEqual(ctx.acceptsLanguages('es', 'en'), 'es')
@@ -47,7 +47,7 @@ describe('ctx.acceptsLanguages(langs)', function () {
     })
   })
 
-  describe('with an array', function () {
+  suite('with an array', function () {
     it('should return the best fit', function () {
       var ctx = context()
       ctx.req.headers['accept-language'] = 'en;q=0.8, es, pt'

@@ -4,14 +4,14 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var context = require('../context')
 
-describe('ctx.acceptsCharsets()', function () {
-  describe('with no arguments', function () {
-    describe('when Accept-Charset is populated', function () {
+suite('ctx.acceptsCharsets()', function () {
+  suite('with no arguments', function () {
+    suite('when Accept-Charset is populated', function () {
       it('should return accepted types', function () {
         var ctx = context()
         ctx.req.headers['accept-charset'] = 'utf-8, iso-8859-1;q=0.2, utf-7;q=0.5'
@@ -20,9 +20,9 @@ describe('ctx.acceptsCharsets()', function () {
     })
   })
 
-  describe('with multiple arguments', function () {
-    describe('when Accept-Charset is populated', function () {
-      describe('if any types match', function () {
+  suite('with multiple arguments', function () {
+    suite('when Accept-Charset is populated', function () {
+      suite('if any types match', function () {
         it('should return the best fit', function () {
           var ctx = context()
           ctx.req.headers['accept-charset'] = 'utf-8, iso-8859-1;q=0.2, utf-7;q=0.5'
@@ -30,7 +30,7 @@ describe('ctx.acceptsCharsets()', function () {
         })
       })
 
-      describe('if no types match', function () {
+      suite('if no types match', function () {
         it('should return false', function () {
           var ctx = context()
           ctx.req.headers['accept-charset'] = 'utf-8, iso-8859-1;q=0.2, utf-7;q=0.5'
@@ -39,7 +39,7 @@ describe('ctx.acceptsCharsets()', function () {
       })
     })
 
-    describe('when Accept-Charset is not populated', function () {
+    suite('when Accept-Charset is not populated', function () {
       it('should return the first type', function () {
         var ctx = context()
         assert.strictEqual(ctx.acceptsCharsets('utf-7', 'utf-8'), 'utf-7')
@@ -47,7 +47,7 @@ describe('ctx.acceptsCharsets()', function () {
     })
   })
 
-  describe('with an array', function () {
+  suite('with an array', function () {
     it('should return the best fit', function () {
       var ctx = context()
       ctx.req.headers['accept-charset'] = 'utf-8, iso-8859-1;q=0.2, utf-7;q=0.5'

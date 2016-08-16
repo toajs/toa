@@ -4,12 +4,12 @@
 // modified from https://github.com/koajs/koa/tree/master/test
 //
 // **License:** MIT
-/*global describe, it */
+/*global suite, it */
 
 var assert = require('assert')
 var context = require('../context')
 
-describe('ctx.assert(value, status)', function () {
+suite('ctx.assert(value, status)', function () {
   it('should throw an error', function () {
     var ctx = context()
 
