@@ -15,10 +15,9 @@ while (n--) {
   })
 }
 
-var body = new Buffer('Hello World')
 app.use(function (req, res) {
   res.setHeader('Content-Type', 'text/plain; charset=utf-8')
-  res.end(body)
+  res.end('Hello World')
 })
 
 app.listen(port)

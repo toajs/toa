@@ -15,9 +15,8 @@ while (n--) {
   })
 }
 
-var body = new Buffer('Hello World')
 app.use(function * () {
-  this.body = body
+  this.body = 'Hello World'
 })
 
 app.listen(port)
