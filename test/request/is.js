@@ -1,16 +1,11 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// modified from https://github.com/koajs/koa/tree/master/test
-//
-// **License:** MIT
-/*global suite, it */
 
+var tman = require('tman')
 var context = require('../context')
 var assert = require('assert')
 
-suite('ctx.is(type)', function () {
-  it('should ignore params', function () {
+tman.suite('ctx.is(type)', function () {
+  tman.it('should ignore params', function () {
     var ctx = context()
     ctx.header['content-type'] = 'text/html; charset=utf-8'
     ctx.header['transfer-encoding'] = 'chunked'
@@ -18,8 +13,8 @@ suite('ctx.is(type)', function () {
     assert.strictEqual(ctx.is('text/*'), 'text/html')
   })
 
-  suite('when no body is given', function () {
-    it('should return null', function () {
+  tman.suite('when no body is given', function () {
+    tman.it('should return null', function () {
       var ctx = context()
 
       assert.strictEqual(ctx.is() == null, true)
@@ -28,8 +23,8 @@ suite('ctx.is(type)', function () {
     })
   })
 
-  suite('when no content type is given', function () {
-    it('should return false', function () {
+  tman.suite('when no content type is given', function () {
+    tman.it('should return false', function () {
       var ctx = context()
       ctx.header['transfer-encoding'] = 'chunked'
 
@@ -39,8 +34,8 @@ suite('ctx.is(type)', function () {
     })
   })
 
-  suite('give no types', function () {
-    it('should return the mime type', function () {
+  tman.suite('give no types', function () {
+    tman.it('should return the mime type', function () {
       var ctx = context()
       ctx.header['content-type'] = 'image/png'
       ctx.header['transfer-encoding'] = 'chunked'
@@ -49,8 +44,8 @@ suite('ctx.is(type)', function () {
     })
   })
 
-  suite('given one type', function () {
-    it('should return the type or false', function () {
+  tman.suite('given one type', function () {
+    tman.it('should return the type or false', function () {
       var ctx = context()
       ctx.header['content-type'] = 'image/png'
       ctx.header['transfer-encoding'] = 'chunked'
@@ -69,8 +64,8 @@ suite('ctx.is(type)', function () {
     })
   })
 
-  suite('given multiple types', function () {
-    it('should return the first match or false', function () {
+  tman.suite('given multiple types', function () {
+    tman.it('should return the first match or false', function () {
       var ctx = context()
       ctx.header['content-type'] = 'image/png'
       ctx.header['transfer-encoding'] = 'chunked'
@@ -94,8 +89,8 @@ suite('ctx.is(type)', function () {
     })
   })
 
-  suite('when Content-Type: application/x-www-form-urlencoded', function () {
-    it('should match "urlencoded"', function () {
+  tman.suite('when Content-Type: application/x-www-form-urlencoded', function () {
+    tman.it('should match "urlencoded"', function () {
       var ctx = context()
       ctx.header['content-type'] = 'application/x-www-form-urlencoded'
       ctx.header['transfer-encoding'] = 'chunked'

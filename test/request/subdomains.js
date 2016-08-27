@@ -1,16 +1,11 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// modified from https://github.com/koajs/koa/tree/master/test
-//
-// **License:** MIT
-/*global suite, it */
 
+var tman = require('tman')
 var assert = require('assert')
 var request = require('../context').request
 
-suite('req.subdomains', function () {
-  it('should return subdomain array', function () {
+tman.suite('req.subdomains', function () {
+  tman.it('should return subdomain array', function () {
     var req = request()
     req.header.host = 'tobi.ferrets.example.com'
     req.ctx.config.subdomainOffset = 2
@@ -20,7 +15,7 @@ suite('req.subdomains', function () {
     assert.deepEqual(req.subdomains, ['tobi'])
   })
 
-  suite('with no host present', function () {
+  tman.it('with no host present', function () {
     var req = request()
     assert.deepEqual(req.subdomains, [])
   })

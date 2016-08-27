@@ -1,7 +1,4 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// **License:** MIT
 
 var Stream = require('stream')
 var toa = require('..')

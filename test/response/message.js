@@ -1,23 +1,18 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// modified from https://github.com/koajs/koa/tree/master/test
-//
-// **License:** MIT
-/*global suite, it */
 
+var tman = require('tman')
 var assert = require('assert')
 var response = require('../context').response
 
-suite('res.message', function () {
-  it('should return the response status message', function () {
+tman.suite('res.message', function () {
+  tman.it('should return the response status message', function () {
     var res = response()
     res.status = 200
     assert.strictEqual(res.message, 'OK')
   })
 
-  suite('when res.message not present', function () {
-    it('should look up in statuses', function () {
+  tman.suite('when res.message not present', function () {
+    tman.it('should look up in statuses', function () {
       var res = response()
       res.res.statusCode = 200
       assert.strictEqual(res.message, 'OK')
@@ -25,8 +20,8 @@ suite('res.message', function () {
   })
 })
 
-suite('res.message=', function () {
-  it('should set response status message', function () {
+tman.suite('res.message=', function () {
+  tman.it('should set response status message', function () {
     var res = response()
     res.status = 200
     res.message = 'ok'

@@ -1,15 +1,12 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// **License:** MIT
-/*global suite, it */
 
+var tman = require('tman')
 var assert = require('assert')
 var request = require('supertest')
 var toa = require('../..')
 
-suite('context onPreEnd', function () {
-  it('should run onPreEnd before context end', function (done) {
+tman.suite('context onPreEnd', function () {
+  tman.it('should run onPreEnd before context end', function (done) {
     var count = 0
     var app = toa(function () {
       this.body = 'test'
@@ -40,7 +37,7 @@ suite('context onPreEnd', function () {
       })
   })
 
-  it('should add one more onPreEnd handler', function (done) {
+  tman.it('should add one more onPreEnd handler', function (done) {
     var count = 0
     var app = toa(function () {
       this.body = 'test'

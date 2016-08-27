@@ -1,16 +1,13 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// **License:** MIT
-/*global suite, it */
 
+var tman = require('tman')
 var assert = require('assert')
 var thunks = require('thunks')
 var request = require('supertest')
 var toa = require('../..')
 
-suite('context end', function () {
-  it('should respond body with context.end', function () {
+tman.suite('context end', function () {
+  tman.it('should respond body with context.end', function () {
     var app = toa(function () {
       this.body = 'Good job.'
       return this.thunk()(function () {
@@ -27,7 +24,7 @@ suite('context end', function () {
       .expect('Good job.')
   })
 
-  it('should not overwrite response body with context.end', function () {
+  tman.it('should not overwrite response body with context.end', function () {
     var app = toa(function () {
       return this.thunk()(function () {
         this.body = 'Good job.'
@@ -44,7 +41,7 @@ suite('context end', function () {
       .expect('Good job.')
   })
 
-  it('should work in nested thunks', function () {
+  tman.it('should work in nested thunks', function () {
     var thunk = thunks()
     var app = toa(function () {
       return this.thunk()(function () {
@@ -65,7 +62,7 @@ suite('context end', function () {
       })
   })
 
-  it('should error if called twice', function () {
+  tman.it('should error if called twice', function () {
     var error = null
     var app = toa(function () {
       this.onPreEnd = function (done) {

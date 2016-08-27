@@ -1,16 +1,11 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// modified from https://github.com/koajs/koa/tree/master/test
-//
-// **License:** MIT
-/*global suite, it */
 
+var tman = require('tman')
 var assert = require('assert')
 var context = require('../context')
 
-suite('ctx.append(name, val)', function () {
-  it('should append multiple headers', function () {
+tman.suite('ctx.append(name, val)', function () {
+  tman.it('should append multiple headers', function () {
     var ctx = context()
 
     ctx.append('x-foo', 'bar1')
@@ -18,7 +13,7 @@ suite('ctx.append(name, val)', function () {
     assert.deepEqual(ctx.response.header['x-foo'], ['bar1', 'bar2'])
   })
 
-  it('should accept array of values', function () {
+  tman.it('should accept array of values', function () {
     var ctx = context()
 
     ctx.append('Set-Cookie', ['foo=bar', 'fizz=buzz'])
@@ -28,7 +23,7 @@ suite('ctx.append(name, val)', function () {
     assert.deepEqual(ctx.response.header['set-cookie'], ['foo=bar', 'fizz=buzz', 'name=zhang', 'age=30'])
   })
 
-  it('should get reset by res.set(field, val)', function () {
+  tman.it('should get reset by res.set(field, val)', function () {
     var ctx = context()
 
     ctx.append('Link', '<http://localhost/>')
@@ -37,7 +32,7 @@ suite('ctx.append(name, val)', function () {
     assert.strictEqual(ctx.response.header.link, '<http://127.0.0.1/>')
   })
 
-  it('should work with res.set(field, val) first', function () {
+  tman.it('should work with res.set(field, val) first', function () {
     var ctx = context()
 
     ctx.set('Link', '<http://localhost/>')

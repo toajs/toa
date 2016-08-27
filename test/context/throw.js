@@ -1,18 +1,13 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// modified from https://github.com/koajs/koa/tree/master/test
-//
-// **License:** MIT
-/*global suite, it */
 
+var tman = require('tman')
 var assert = require('assert')
 var request = require('supertest')
 var toa = require('../..')
 var context = require('../context')
 
-suite('ctx.throw(msg)', function () {
-  it('should set .status to 500', function (done) {
+tman.suite('ctx.throw(msg)', function () {
+  tman.it('should set .status to 500', function (done) {
     var ctx = context()
 
     try {
@@ -25,8 +20,8 @@ suite('ctx.throw(msg)', function () {
   })
 })
 
-suite('ctx.throw(err)', function () {
-  it('should set .status to 500', function (done) {
+tman.suite('ctx.throw(err)', function () {
+  tman.it('should set .status to 500', function (done) {
     var ctx = context()
     var err = new Error('test')
 
@@ -41,8 +36,8 @@ suite('ctx.throw(err)', function () {
   })
 })
 
-suite('ctx.throw(err, status)', function () {
-  it('should throw the error and set .status', function (done) {
+tman.suite('ctx.throw(err, status)', function () {
+  tman.it('should throw the error and set .status', function (done) {
     var ctx = context()
     var error = new Error('test')
 
@@ -57,8 +52,8 @@ suite('ctx.throw(err, status)', function () {
   })
 })
 
-suite('ctx.throw(status, err)', function () {
-  it('should throw the error and set .status', function (done) {
+tman.suite('ctx.throw(status, err)', function () {
+  tman.it('should throw the error and set .status', function (done) {
     var ctx = context()
     var error = new Error('test')
 
@@ -73,8 +68,8 @@ suite('ctx.throw(status, err)', function () {
   })
 })
 
-suite('ctx.throw(msg, status)', function () {
-  it('should throw an error', function (done) {
+tman.suite('ctx.throw(msg, status)', function () {
+  tman.it('should throw an error', function (done) {
     var ctx = context()
 
     try {
@@ -88,8 +83,8 @@ suite('ctx.throw(msg, status)', function () {
   })
 })
 
-suite('ctx.throw(status, msg)', function () {
-  it('should throw an error', function (done) {
+tman.suite('ctx.throw(status, msg)', function () {
+  tman.it('should throw an error', function (done) {
     var ctx = context()
 
     try {
@@ -103,8 +98,8 @@ suite('ctx.throw(status, msg)', function () {
   })
 })
 
-suite('ctx.throw(status)', function () {
-  it('should throw an error', function (done) {
+tman.suite('ctx.throw(status)', function () {
+  tman.it('should throw an error', function (done) {
     var ctx = context()
 
     try {
@@ -117,8 +112,8 @@ suite('ctx.throw(status)', function () {
     }
   })
 
-  suite('when not valid status', function () {
-    it('should not expose', function (done) {
+  tman.suite('when not valid status', function () {
+    tman.it('should not expose', function (done) {
       var ctx = context()
 
       try {
@@ -134,8 +129,8 @@ suite('ctx.throw(status)', function () {
   })
 })
 
-suite('ctx.throw(status, msg, props)', function () {
-  it('should mixin props', function (done) {
+tman.suite('ctx.throw(status, msg, props)', function () {
+  tman.it('should mixin props', function (done) {
     var ctx = context()
 
     try {
@@ -151,8 +146,8 @@ suite('ctx.throw(status, msg, props)', function () {
     }
   })
 
-  suite('when props include status', function () {
-    it('should be ignored', function (done) {
+  tman.suite('when props include status', function () {
+    tman.it('should be ignored', function (done) {
       var ctx = context()
 
       try {
@@ -171,8 +166,8 @@ suite('ctx.throw(status, msg, props)', function () {
   })
 })
 
-suite('ctx.throw(msg, props)', function () {
-  it('should mixin props', function (done) {
+tman.suite('ctx.throw(msg, props)', function () {
+  tman.it('should mixin props', function (done) {
     var ctx = context()
 
     try {
@@ -189,8 +184,8 @@ suite('ctx.throw(msg, props)', function () {
   })
 })
 
-suite('ctx.throw(status, props)', function () {
-  it('should mixin props', function (done) {
+tman.suite('ctx.throw(status, props)', function () {
+  tman.it('should mixin props', function (done) {
     var ctx = context()
 
     try {
@@ -207,8 +202,8 @@ suite('ctx.throw(status, props)', function () {
   })
 })
 
-suite('ctx.throw(err, props)', function () {
-  it('should mixin props', function (done) {
+tman.suite('ctx.throw(err, props)', function () {
+  tman.it('should mixin props', function (done) {
     var ctx = context()
 
     try {
@@ -225,8 +220,8 @@ suite('ctx.throw(err, props)', function () {
   })
 })
 
-suite('ctx.throw with custom ctx.createError', function () {
-  it('should use custom ctx.createError', function (done) {
+tman.suite('ctx.throw with custom ctx.createError', function () {
+  tman.it('should use custom ctx.createError', function (done) {
     var app = toa(function () {
       this.throw(500)
     })

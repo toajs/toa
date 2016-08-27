@@ -1,16 +1,11 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// modified from https://github.com/koajs/koa/tree/master/test
-//
-// **License:** MIT
-/*global suite, it */
 
+var tman = require('tman')
 var assert = require('assert')
 var context = require('../context')
 
-suite('ctx.toJSON()', function () {
-  it('should return a json representation', function () {
+tman.suite('ctx.toJSON()', function () {
+  tman.it('should return a json representation', function () {
     var ctx = context()
 
     ctx.req.method = 'POST'

@@ -1,16 +1,11 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// modified from https://github.com/koajs/koa/tree/master/test
-//
-// **License:** MIT
-/*global suite, it */
 
+var tman = require('tman')
 var assert = require('assert')
 var context = require('../context')
 
-suite('ctx.createError(msg)', function () {
-  it('should set .status to 500', function () {
+tman.suite('ctx.createError(msg)', function () {
+  tman.it('should set .status to 500', function () {
     var ctx = context()
 
     var err = ctx.createError('boom')
@@ -19,8 +14,8 @@ suite('ctx.createError(msg)', function () {
   })
 })
 
-suite('ctx.createError(err)', function () {
-  it('should set .status to 500', function () {
+tman.suite('ctx.createError(err)', function () {
+  tman.it('should set .status to 500', function () {
     var ctx = context()
     var error = new Error('test')
 
@@ -31,8 +26,8 @@ suite('ctx.createError(err)', function () {
   })
 })
 
-suite('ctx.createError(err, status)', function () {
-  it('should create the error and set .status', function () {
+tman.suite('ctx.createError(err, status)', function () {
+  tman.it('should create the error and set .status', function () {
     var ctx = context()
     var error = new Error('test')
 
@@ -43,8 +38,8 @@ suite('ctx.createError(err, status)', function () {
   })
 })
 
-suite('ctx.createError(status, err)', function () {
-  it('should create the error and set .status', function () {
+tman.suite('ctx.createError(status, err)', function () {
+  tman.it('should create the error and set .status', function () {
     var ctx = context()
     var error = new Error('test')
 
@@ -55,8 +50,8 @@ suite('ctx.createError(status, err)', function () {
   })
 })
 
-suite('ctx.createError(msg, status)', function () {
-  it('should create an error', function () {
+tman.suite('ctx.createError(msg, status)', function () {
+  tman.it('should create an error', function () {
     var ctx = context()
 
     var err = ctx.createError('name required', 400)
@@ -66,8 +61,8 @@ suite('ctx.createError(msg, status)', function () {
   })
 })
 
-suite('ctx.createError(status, msg)', function () {
-  it('should create an error', function () {
+tman.suite('ctx.createError(status, msg)', function () {
+  tman.it('should create an error', function () {
     var ctx = context()
 
     var err = ctx.createError(400, 'name required')
@@ -77,8 +72,8 @@ suite('ctx.createError(status, msg)', function () {
   })
 })
 
-suite('ctx.createError(status)', function () {
-  it('should create an error', function () {
+tman.suite('ctx.createError(status)', function () {
+  tman.it('should create an error', function () {
     var ctx = context()
 
     var err = ctx.createError(400)
@@ -87,8 +82,8 @@ suite('ctx.createError(status)', function () {
     assert.strictEqual(err.expose, true)
   })
 
-  suite('when not valid status', function () {
-    it('should not expose', function () {
+  tman.suite('when not valid status', function () {
+    tman.it('should not expose', function () {
       var ctx = context()
 
       var error = new Error('some error')
@@ -100,8 +95,8 @@ suite('ctx.createError(status)', function () {
   })
 })
 
-suite('ctx.createError(status, msg, props)', function () {
-  it('should mixin props', function () {
+tman.suite('ctx.createError(status, msg, props)', function () {
+  tman.it('should mixin props', function () {
     var ctx = context()
 
     var err = ctx.createError(400, 'msg', {
@@ -113,8 +108,8 @@ suite('ctx.createError(status, msg, props)', function () {
     assert.strictEqual(err.prop, true)
   })
 
-  suite('when props include status', function () {
-    it('should be ignored', function () {
+  tman.suite('when props include status', function () {
+    tman.it('should be ignored', function () {
       var ctx = context()
 
       var err = ctx.createError(400, 'msg', {
@@ -129,8 +124,8 @@ suite('ctx.createError(status, msg, props)', function () {
   })
 })
 
-suite('ctx.createError(msg, props)', function () {
-  it('should mixin props', function () {
+tman.suite('ctx.createError(msg, props)', function () {
+  tman.it('should mixin props', function () {
     var ctx = context()
 
     var err = ctx.createError('msg', {
@@ -143,8 +138,8 @@ suite('ctx.createError(msg, props)', function () {
   })
 })
 
-suite('ctx.createError(status, props)', function () {
-  it('should mixin props', function () {
+tman.suite('ctx.createError(status, props)', function () {
+  tman.it('should mixin props', function () {
     var ctx = context()
 
     var err = ctx.createError(400, {
@@ -157,8 +152,8 @@ suite('ctx.createError(status, props)', function () {
   })
 })
 
-suite('ctx.createError(err, props)', function () {
-  it('should mixin props', function () {
+tman.suite('ctx.createError(err, props)', function () {
+  tman.it('should mixin props', function () {
     var ctx = context()
 
     var err = ctx.createError(new Error('test'), {

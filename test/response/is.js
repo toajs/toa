@@ -1,24 +1,19 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// modified from https://github.com/koajs/koa/tree/master/test
-//
-// **License:** MIT
-/*global suite, it */
 
+var tman = require('tman')
 var assert = require('assert')
 var context = require('../context')
 
-suite('response.is(type)', function () {
-  it('should ignore params', function () {
+tman.suite('response.is(type)', function () {
+  tman.it('should ignore params', function () {
     var res = context().response
     res.type = 'text/html; charset=utf-8'
 
     assert.strictEqual(res.is('text/*'), 'text/html')
   })
 
-  suite('when no type is set', function () {
-    it('should return false', function () {
+  tman.suite('when no type is set', function () {
+    tman.it('should return false', function () {
       var res = context().response
 
       assert.strictEqual(res.is(), false)
@@ -26,8 +21,8 @@ suite('response.is(type)', function () {
     })
   })
 
-  suite('when given no types', function () {
-    it('should return the type', function () {
+  tman.suite('when given no types', function () {
+    tman.it('should return the type', function () {
       var res = context().response
       res.type = 'text/html; charset=utf-8'
 
@@ -35,8 +30,8 @@ suite('response.is(type)', function () {
     })
   })
 
-  suite('given one type', function () {
-    it('should return the type or false', function () {
+  tman.suite('given one type', function () {
+    tman.it('should return the type or false', function () {
       var res = context().response
       res.type = 'image/png'
 
@@ -54,8 +49,8 @@ suite('response.is(type)', function () {
     })
   })
 
-  suite('given multiple types', function () {
-    it('should return the first match or false', function () {
+  tman.suite('given multiple types', function () {
+    tman.it('should return the first match or false', function () {
       var res = context().response
       res.type = 'image/png'
 
@@ -78,8 +73,8 @@ suite('response.is(type)', function () {
     })
   })
 
-  suite('when Content-Type: application/x-www-form-urlencoded', function () {
-    it('should match "urlencoded"', function () {
+  tman.suite('when Content-Type: application/x-www-form-urlencoded', function () {
+    tman.it('should match "urlencoded"', function () {
       var res = context().response
       res.type = 'application/x-www-form-urlencoded'
 

@@ -1,12 +1,9 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// **License:** MIT
-/*global suite, it */
 
 var fs = require('fs')
 var path = require('path')
 var http = require('http')
+var tman = require('tman')
 var thunk = require('thunks')()
 var Stream = require('stream')
 var assert = require('assert')
@@ -20,8 +17,8 @@ if (!Stream.prototype.listenerCount) {
   }
 }
 
-suite('catch stream error', function () {
-  it('should auto catch stream for body', function () {
+tman.suite('catch stream error', function () {
+  tman.it('should auto catch stream for body', function () {
     var ctx = context()
     var stream = new Stream.Readable()
     assert.strictEqual(stream.listenerCount('error'), 0)
@@ -33,7 +30,7 @@ suite('catch stream error', function () {
     assert.strictEqual(stream.listeners('error')[0], ctx.onerror)
   })
 
-  it('should throw error when multi called', function () {
+  tman.it('should throw error when multi called', function () {
     var ctx = context()
     var stream = new Stream.Readable()
     assert.strictEqual(stream.listenerCount('error'), 0)
@@ -50,7 +47,7 @@ suite('catch stream error', function () {
     assert.strictEqual(stream.listeners('error')[0], ctx.onerror)
   })
 
-  it('should respond success', function () {
+  tman.it('should respond success', function () {
     var app = toa(function () {
       this.type = 'text'
       this.body = fs.createReadStream(path.join(__dirname, 'catchStream.js'), {
@@ -63,7 +60,7 @@ suite('catch stream error', function () {
       .expect(200)
   })
 
-  it('should respond 404', function () {
+  tman.it('should respond 404', function () {
     var app = toa(function () {
       this.type = 'text'
       this.body = fs.createReadStream(path.join(__dirname, 'none.js'), {
@@ -79,7 +76,7 @@ suite('catch stream error', function () {
       })
   })
 
-  it('should destroy stream when request interrupted', function () {
+  tman.it('should destroy stream when request interrupted', function () {
     var destroyBody = false
     var app = toa(function () {
       var body = new Stream.PassThrough()
@@ -105,7 +102,7 @@ suite('catch stream error', function () {
       })
   })
 
-  it('should work with keepAlive agent', function (done) {
+  tman.it('should work with keepAlive agent', function (done) {
     this.timeout(5000)
     var remote = toa(function () {
       this.body = 'hello!'

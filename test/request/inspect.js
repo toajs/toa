@@ -1,17 +1,12 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// modified from https://github.com/koajs/koa/tree/master/test
-//
-// **License:** MIT
-/*global suite, it */
 
+var tman = require('tman')
 var assert = require('assert')
 var request = require('../context').request
 
-suite('req.inspect()', function () {
-  suite('with no request.req present', function () {
-    it('should return null', function () {
+tman.suite('req.inspect()', function () {
+  tman.suite('with no request.req present', function () {
+    tman.it('should return null', function () {
       var req = request()
       req.method = 'GET'
       delete req.req
@@ -19,7 +14,7 @@ suite('req.inspect()', function () {
     })
   })
 
-  it('should return a json representation', function () {
+  tman.it('should return a json representation', function () {
     var req = request()
     req.method = 'GET'
     req.url = 'example.com'

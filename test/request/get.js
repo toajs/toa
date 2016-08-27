@@ -1,16 +1,11 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// modified from https://github.com/koajs/koa/tree/master/test
-//
-// **License:** MIT
-/*global suite, it */
 
+var tman = require('tman')
 var assert = require('assert')
 var context = require('../context')
 
-suite('ctx.get(name)', function () {
-  it('should return the field value', function () {
+tman.suite('ctx.get(name)', function () {
+  tman.it('should return the field value', function () {
     var ctx = context()
     ctx.req.headers.host = 'http://google.com'
     ctx.req.headers.referer = 'http://google.com'

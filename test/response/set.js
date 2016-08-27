@@ -1,36 +1,31 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// modified from https://github.com/koajs/koa/tree/master/test
-//
-// **License:** MIT
-/*global suite, it */
 
+var tman = require('tman')
 var assert = require('assert')
 var context = require('../context')
 
-suite('ctx.set(name, val)', function () {
-  it('should set a field value', function () {
+tman.suite('ctx.set(name, val)', function () {
+  tman.it('should set a field value', function () {
     var ctx = context()
     ctx.set('x-foo', 'bar')
     assert.strictEqual(ctx.response.header['x-foo'], 'bar')
   })
 
-  it('should coerce to a string', function () {
+  tman.it('should coerce to a string', function () {
     var ctx = context()
     ctx.set('x-foo', 5)
     assert.strictEqual(ctx.response.header['x-foo'], '5')
   })
 
-  it('should set a field value of array', function () {
+  tman.it('should set a field value of array', function () {
     var ctx = context()
     ctx.set('x-foo', ['foo', 'bar'])
     assert.deepEqual(ctx.response.header['x-foo'], ['foo', 'bar'])
   })
 })
 
-suite('ctx.set(object)', function () {
-  it('should set multiple fields', function () {
+tman.suite('ctx.set(object)', function () {
+  tman.it('should set multiple fields', function () {
     var ctx = context()
 
     ctx.set({

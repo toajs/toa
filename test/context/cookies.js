@@ -1,17 +1,12 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// modified from https://github.com/koajs/koa/tree/master/test
-//
-// **License:** MIT
-/*global suite, it */
 
+var tman = require('tman')
 var assert = require('assert')
 var request = require('supertest')
 var toa = require('../..')
 
-suite('ctx.cookies.set()', function () {
-  it('should set an unsigned cookie', function () {
+tman.suite('ctx.cookies.set()', function () {
+  tman.it('should set an unsigned cookie', function () {
     var app = toa()
 
     app.use(function (next) {
@@ -30,9 +25,9 @@ suite('ctx.cookies.set()', function () {
       })
   })
 
-  suite('with .signed', function () {
-    suite('when no .keys are set', function () {
-      it('should error', function () {
+  tman.suite('with .signed', function () {
+    tman.suite('when no .keys are set', function () {
+      tman.it('should error', function () {
         var app = toa()
         app.keys = null
 
@@ -53,7 +48,7 @@ suite('ctx.cookies.set()', function () {
       })
     })
 
-    it('should send a signed cookie', function () {
+    tman.it('should send a signed cookie', function () {
       var app = toa()
       app.keys = ['toa']
 

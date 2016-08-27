@@ -1,16 +1,11 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// modified from https://github.com/koajs/koa/tree/master/test
-//
-// **License:** MIT
-/*global suite, it */
 
+var tman = require('tman')
 var assert = require('assert')
 var context = require('../context')
 
-suite('ctx.assert(value, status)', function () {
-  it('should throw an error', function () {
+tman.suite('ctx.assert(value, status)', function () {
+  tman.it('should throw an error', function () {
     var ctx = context()
 
     try {

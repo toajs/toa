@@ -1,16 +1,11 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// modified from https://github.com/koajs/koa/tree/master/test
-//
-// **License:** MIT
-/*global suite, it */
 
+var tman = require('tman')
 var assert = require('assert')
 var context = require('../context')
 
-suite('ctx.search=', function () {
-  it('should replace the search', function () {
+tman.suite('ctx.search=', function () {
+  tman.it('should replace the search', function () {
     var ctx = context({
       url: '/store/shoes'
     })
@@ -19,7 +14,7 @@ suite('ctx.search=', function () {
     assert.strictEqual(ctx.search, '?page=2&color=blue')
   })
 
-  it('should update ctx.querystring and ctx.query', function () {
+  tman.it('should update ctx.querystring and ctx.query', function () {
     var ctx = context({
       url: '/store/shoes'
     })
@@ -32,7 +27,7 @@ suite('ctx.search=', function () {
     })
   })
 
-  it('should change .url but not .originalUrl', function () {
+  tman.it('should change .url but not .originalUrl', function () {
     var ctx = context({
       url: '/store/shoes'
     })
@@ -42,8 +37,8 @@ suite('ctx.search=', function () {
     assert.strictEqual(ctx.request.originalUrl, '/store/shoes')
   })
 
-  suite('when missing', function () {
-    it('should return ""', function () {
+  tman.suite('when missing', function () {
+    tman.it('should return ""', function () {
       var ctx = context({
         url: '/store/shoes'
       })

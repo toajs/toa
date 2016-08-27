@@ -1,16 +1,13 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// **License:** MIT
-/*global suite, it */
 
+var tman = require('tman')
 var assert = require('assert')
 var request = require('supertest')
 var toa = require('../..')
 
-suite('context event', function () {
-  suite('"end" event', function () {
-    it('should emit "end"', function (done) {
+tman.suite('context event', function () {
+  tman.suite('"end" event', function () {
+    tman.it('should emit "end"', function (done) {
       var resEnd = false
       var app = toa(function () {
         this.body = 'test'
@@ -29,7 +26,7 @@ suite('context event', function () {
         })
     })
 
-    it('should emit "end" while 404', function (done) {
+    tman.it('should emit "end" while 404', function (done) {
       var resEnd = false
       var app = toa(function () {
         this.on('end', function () {
@@ -48,7 +45,7 @@ suite('context event', function () {
         })
     })
 
-    it('should emit "end" while any error', function (done) {
+    tman.it('should emit "end" while any error', function (done) {
       var resEnd = false
       var app = toa(function () {
         this.on('end', function () {
@@ -69,7 +66,7 @@ suite('context event', function () {
         })
     })
 
-    it('should emit "end" if ctx.respond === false', function (done) {
+    tman.it('should emit "end" if ctx.respond === false', function (done) {
       var resEnd = false
       var app = toa(function () {
         this.on('end', function () {
@@ -92,8 +89,8 @@ suite('context event', function () {
     })
   })
 
-  suite('"finish" event', function () {
-    it('should emit "finish"', function (done) {
+  tman.suite('"finish" event', function () {
+    tman.it('should emit "finish"', function (done) {
       var finished = null
       var app = toa(function () {
         this.body = 'test'
@@ -112,7 +109,7 @@ suite('context event', function () {
         })
     })
 
-    it('should emit "finish" while 404', function (done) {
+    tman.it('should emit "finish" while 404', function (done) {
       var finished = null
       var app = toa(function () {
         this.on('finish', function () {
@@ -131,7 +128,7 @@ suite('context event', function () {
         })
     })
 
-    it('should emit "finish" while any error', function (done) {
+    tman.it('should emit "finish" while any error', function (done) {
       var finished = null
       var app = toa(function () {
         this.on('finish', function () {
@@ -152,7 +149,7 @@ suite('context event', function () {
         })
     })
 
-    it('should emit "finish" after "end"', function (done) {
+    tman.it('should emit "finish" after "end"', function (done) {
       var ended = false
       var finished = null
       var app = toa(function () {

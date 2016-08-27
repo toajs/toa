@@ -1,53 +1,48 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// modified from https://github.com/koajs/koa/tree/master/test
-//
-// **License:** MIT
-/*global suite, it, before */
 
+var tman = require('tman')
 var assert = require('assert')
 var response = require('../context').response
 var request = require('supertest')
 var statuses = require('statuses')
 var toa = require('../..')
 
-suite('res.status=', function () {
-  suite('when a status code', function () {
-    suite('and valid', function () {
-      it('should set the status', function () {
+tman.suite('res.status=', function () {
+  tman.suite('when a status code', function () {
+    tman.suite('and valid', function () {
+      tman.it('should set the status', function () {
         var res = response()
         res.status = 403
         assert.strictEqual(res.status, 403)
       })
 
-      it('should not throw', function () {
+      tman.it('should not throw', function () {
         assert.doesNotThrow(function () {
           response().status = 403
         })
       })
     })
 
-    suite('and invalid', function () {
-      it('should throw', function () {
+    tman.suite('and invalid', function () {
+      tman.it('should throw', function () {
         assert.throws(function () {
           response().status = 999
         }, 'invalid status code: 999')
       })
     })
 
-    suite('and custom status', function () {
-      before(function () {
+    tman.suite('and custom status', function () {
+      tman.before(function () {
         statuses['700'] = 'custom status'
       })
 
-      it('should set the status', function () {
+      tman.it('should set the status', function () {
         var res = response()
         res.status = 700
         assert.strictEqual(res.status, 700)
       })
 
-      it('should not throw', function () {
+      tman.it('should not throw', function () {
         assert.doesNotThrow(function () {
           response().status = 700
         })
@@ -55,8 +50,8 @@ suite('res.status=', function () {
     })
   })
 
-  suite('when a status string', function () {
-    it('should throw', function () {
+  tman.suite('when a status string', function () {
+    tman.it('should throw', function () {
       assert.throws(function () {
         response().status = 'forbidden'
       }, 'status code must be a number')
@@ -64,7 +59,7 @@ suite('res.status=', function () {
   })
 
   function strip (status) {
-    it('should strip content related header fields', function () {
+    tman.it('should strip content related header fields', function () {
       var app = toa()
 
       app.use(function (next) {
@@ -92,7 +87,7 @@ suite('res.status=', function () {
         })
     })
 
-    it('should strip content releated header fields after status set', function () {
+    tman.it('should strip content releated header fields after status set', function () {
       var app = toa()
 
       app.use(function (next) {
@@ -118,15 +113,15 @@ suite('res.status=', function () {
     })
   }
 
-  suite('when 204', function () {
+  tman.suite('when 204', function () {
     strip(204)
   })
 
-  suite('when 205', function () {
+  tman.suite('when 205', function () {
     strip(205)
   })
 
-  suite('when 304', function () {
+  tman.suite('when 304', function () {
     strip(304)
   })
 })

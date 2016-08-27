@@ -1,17 +1,12 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// modified from https://github.com/koajs/koa/tree/master/test
-//
-// **License:** MIT
-/*global suite, it */
 
+var tman = require('tman')
 var assert = require('assert')
 var request = require('supertest')
 var toa = require('../..')
 
-suite('catch error', function () {
-  it('should respond', function () {
+tman.suite('catch error', function () {
+  tman.it('should respond', function () {
     var app = toa()
 
     app.use(function (next) {
@@ -28,7 +23,7 @@ suite('catch error', function () {
       .expect('Content-Length', '4')
   })
 
-  it('should unset all headers', function () {
+  tman.it('should unset all headers', function () {
     var app = toa()
 
     app.use(function (next) {
@@ -51,9 +46,9 @@ suite('catch error', function () {
       })
   })
 
-  suite('when invalid err.status', function () {
-    suite('not number', function () {
-      it('should respond 500', function () {
+  tman.suite('when invalid err.status', function () {
+    tman.suite('not number', function () {
+      tman.it('should respond 500', function () {
         var app = toa()
 
         app.use(function (next) {
@@ -73,8 +68,8 @@ suite('catch error', function () {
       })
     })
 
-    suite('not http status code', function () {
-      it('should respond 500', function () {
+    tman.suite('not http status code', function () {
+      tman.it('should respond 500', function () {
         var app = toa()
 
         app.use(function (next) {

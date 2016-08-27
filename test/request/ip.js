@@ -1,17 +1,12 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// modified from https://github.com/koajs/koa/tree/master/test
-//
-// **License:** MIT
-/*global suite, it */
 
+var tman = require('tman')
 var assert = require('assert')
 var request = require('../context').request
 
-suite('req.ip', function () {
-  suite('with req.ips present', function () {
-    it('should return req.ips[0]', function () {
+tman.suite('req.ip', function () {
+  tman.suite('with req.ips present', function () {
+    tman.it('should return req.ips[0]', function () {
       var req = request()
       req.ctx.config.proxy = true
       req.header['x-forwarded-for'] = '127.0.0.1'
@@ -20,8 +15,8 @@ suite('req.ip', function () {
     })
   })
 
-  suite('with no req.ips present', function () {
-    it('should return req.socket.removeAddress', function () {
+  tman.suite('with no req.ips present', function () {
+    tman.it('should return req.socket.removeAddress', function () {
       var req = request()
       req.socket.remoteAddress = '127.0.0.2'
       assert.strictEqual(req.ip, '127.0.0.2')

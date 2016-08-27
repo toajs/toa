@@ -1,17 +1,12 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa
-//
-// modified from https://github.com/koajs/koa/tree/master/test
-//
-// **License:** MIT
-/*global suite, it */
 
+var tman = require('tman')
 var request = require('supertest')
 var assert = require('assert')
 var toa = require('../..')
 
-suite('ctx.state', function () {
-  it('should provide a ctx.state namespace', function () {
+tman.suite('ctx.state', function () {
+  tman.it('should provide a ctx.state namespace', function () {
     var app = toa()
 
     app.use(function (next) {
