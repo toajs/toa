@@ -56,13 +56,13 @@
     "supertest": "^2.0.0",
     "test-console": "^1.0.0",
     "through2": "^2.0.1",
-    "tman": "^1.1.1",
+    "tman": "^1.2.2",
     "vinyl": "^1.2.0",
     "vinyl-fs": "^2.4.3"
   },
   "scripts": {
     "test": "standard && tman 'test/**/*.js'",
-    "test-cov": "istanbul cover tman 'test/**/*.js'",
+    "test-cov": "istanbul cover _tman 'test/**/*.js'",
     "guide": "node guide.js",
     "bench": "cd bench && make"
   },
