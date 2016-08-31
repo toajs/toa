@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file starting from version **v0.10.0**.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.8.9] - 2016-08-31
+
+### change
+
+- Use lower case header. #4
+
 ## [1.8.8] - 2016-08-27
 
 ### change

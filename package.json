@@ -4,7 +4,7 @@
   "authors": [
     "Yan Qing <admin@zensh.com>"
   ],
-  "version": "1.8.8",
+  "version": "1.8.9",
   "main": "lib/application.js",
   "license": "MIT",
   "repository": {
