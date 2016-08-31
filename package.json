@@ -4,7 +4,7 @@
   "authors": [
     "Yan Qing <admin@zensh.com>"
   ],
-  "version": "1.8.9",
+  "version": "1.8.10",
   "main": "lib/application.js",
   "license": "MIT",
   "repository": {
@@ -51,7 +51,7 @@
     "babel-register": "^6.14.0",
     "ilog": "^1.0.3",
     "istanbul": "^0.4.5",
-    "koa": "^1.2.1",
+    "koa": "^1.2.2",
     "standard": "^8.0.0",
     "supertest": "^2.0.0",
     "test-console": "^1.0.0",

@@ -868,6 +868,29 @@ tman.suite('app.respond', function () {
         res.destroy()
       })
     })
+
+    tman.it('should destroy previous stream body', function () {
+      var destroyed = false
+      var stream = fs.createReadStream('package.json')
+      var destroy = stream.destroy
+      stream.destroy = function () {
+        destroyed = true
+        destroy.call(stream)
+      }
+      var app = toa(function () {
+        this.body = stream
+        this.body = fs.createReadStream('does not exist5')
+        assert.strictEqual(typeof stream.toaCleanHandle, 'function')
+      })
+
+      return request(app.listen())
+        .get('/')
+        .expect(404)
+        .expect(function (res) {
+          assert.strictEqual(stream.toaCleanHandle, null)
+          assert.strictEqual(destroyed, true)
+        })
+    })
   })
 
   tman.suite('when .body is an Object', function () {

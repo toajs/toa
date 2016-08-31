@@ -93,23 +93,23 @@ npm install toa
 ```sh
 ➜  toa git:(master) npm run bench
 
-  koa, 1 middleware:  5234.41
-  koa, 5 middleware:  5142.11
-  koa, 10 middleware:  5003.07
-  koa, 15 middleware:  4944.90
-  koa, 20 middleware:  4789.15
-  koa, 30 middleware:  4703.12
-  koa, 50 middleware:  4378.60
-  koa, 100 middleware:  3660.63
+  koa, 1 middleware:  5453.33
+  koa, 5 middleware:  5407.36
+  koa, 10 middleware:  5251.76
+  koa, 15 middleware:  5132.42
+  koa, 20 middleware:  5269.80
+  koa, 30 middleware:  4800.27
+  koa, 50 middleware:  4403.85
+  koa, 100 middleware:  3759.32
 
-  toa, 1 middleware:  7228.36
-  toa, 5 middleware:  7002.48
-  toa, 10 middleware:  6805.16
-  toa, 15 middleware:  6550.23
-  toa, 20 middleware:  6311.24
-  toa, 30 middleware:  5929.41
-  toa, 50 middleware:  5198.61
-  toa, 100 middleware:  4130.26
+  toa, 1 middleware:  7893.65
+  toa, 5 middleware:  7660.13
+  toa, 10 middleware:  7304.92
+  toa, 15 middleware:  6951.81
+  toa, 20 middleware:  6656.89
+  toa, 30 middleware:  6290.28
+  toa, 50 middleware:  5587.16
+  toa, 100 middleware:  4556.21
 ```
 
 ## API

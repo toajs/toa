@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file starting from version **v0.10.0**.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.8.10] - 2016-08-31
+
+### change
+
+- Remove unnecessary error processing logic
+
+### fixed
+
+- Destroy the previous body stream after response finished.
+
 ## [1.8.9] - 2016-08-31
 
 ### change
