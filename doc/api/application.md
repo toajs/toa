@@ -99,8 +99,10 @@ app.config 默认值：
 }
 ```
 
+#### app.use(function () {})
 #### app.use(function (callback) {})
-#### app.use(function* () {})
+#### app.use(function * () {})
+#### app.use(async function () {})
 
 加载中间件，返回 `app`，`fn` 必须是 `thunk` 函数或 `generator` 函数，函数中的 `this` 值为 `context`。
 
@@ -113,7 +115,7 @@ app.use(function (callback) {
 ```
 
 ```js
-app.use(function* () {
+app.use(function * () {
   // task
   // this === context
   yield result

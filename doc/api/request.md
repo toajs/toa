@@ -33,6 +33,10 @@ Get request URL.
 
 Set request URL, useful for url rewrites.
 
+#### request.origin
+
+Get origin of URL.
+
 #### request.originalUrl
 
 Get request original URL.

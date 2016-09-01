@@ -9,8 +9,8 @@
 import ilog from 'ilog'
 import Toa from '..'
 
-const app = Toa(async function () {
-  this.state.await = await Promise.resolve(true)
+const app = Toa(function * () {
+  this.state.generator = yield Promise.resolve(true)
   this.body = this.state
 })
 

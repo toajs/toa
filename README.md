@@ -90,28 +90,6 @@ npm install toa
 
 ## [Bench](https://github.com/toajs/toa/tree/master/bench)
 
-```sh
-➜  toa git:(master) npm run bench
-
-  koa, 1 middleware:  5453.33
-  koa, 5 middleware:  5407.36
-  koa, 10 middleware:  5251.76
-  koa, 15 middleware:  5132.42
-  koa, 20 middleware:  5269.80
-  koa, 30 middleware:  4800.27
-  koa, 50 middleware:  4403.85
-  koa, 100 middleware:  3759.32
-
-  toa, 1 middleware:  7893.65
-  toa, 5 middleware:  7660.13
-  toa, 10 middleware:  7304.92
-  toa, 15 middleware:  6951.81
-  toa, 20 middleware:  6656.89
-  toa, 30 middleware:  6290.28
-  toa, 50 middleware:  5587.16
-  toa, 100 middleware:  4556.21
-```
-
 ## API
 
 ### [使用手册](https://github.com/toajs/toa/blob/master/doc/guide.md)

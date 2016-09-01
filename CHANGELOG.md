@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file starting from version **v0.10.0**.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.8.11] - 2016-09-01
+
+### change
+
+- Add `request.origin`, `context.origin`.
+
+### fixed
+
+- Fix documents.
+
 ## [1.8.10] - 2016-08-31
 
 ### change

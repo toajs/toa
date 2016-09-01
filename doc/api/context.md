@@ -7,20 +7,20 @@
 - add `ctx.catchStream`
 - add `ctx.thunk`, it is thunk function that bound a scope with `debug`, `onstop`, `onerror`.
 - add `ctx.end`, use to stopping request process and respond immediately.
-- is a `EventEmitter` instance
+- context is a `EventEmitter` instance
 
 `Context` object encapsulates node's `request` and `response` objects into a single object which provides many helpful methods for writing web applications and APIs. These operations are used so frequently in HTTP server development that they are added at this level instead of a higher level framework, which would force middleware to re-implement this common functionality.
 
 A `Context` is created _per_ request, and is referenced in middleware as the receiver, or the `this` identifier, as shown in the following snippet:
 
 ```js
-var app = Toa(function* () {
+var app = Toa(function * () {
   this // is the Context
   this.request // is a toa Request
   this.response // is a toa Response
 })
 
-app.use(function* () {
+app.use(function * () {
   this // is the Context
   this.request // is a toa Request
   this.response // is a toa Response
@@ -175,6 +175,7 @@ The following accessors and alias [Request](request.md) equivalents:
 - `ctx.method=`
 - `ctx.url`
 - `ctx.url=`
+- `ctx.origin`
 - `ctx.originalUrl`
 - `ctx.href`
 - `ctx.path`
@@ -192,6 +193,7 @@ The following accessors and alias [Request](request.md) equivalents:
 - `ctx.secure`
 - `ctx.ip`
 - `ctx.ips`
+- `ctx.idempotent`
 - `ctx.subdomains`
 - `ctx.is()`
 - `ctx.accepts()`
@@ -199,6 +201,7 @@ The following accessors and alias [Request](request.md) equivalents:
 - `ctx.acceptsCharsets()`
 - `ctx.acceptsLanguages()`
 - `ctx.get()`
+- `ctx.search()`
 
 ### Response aliases
 
@@ -220,5 +223,6 @@ The following accessors and alias [Response](response.md) equivalents:
 - `ctx.set()`
 - `ctx.append()`
 - `ctx.remove()`
+- `ctx.vary()`
 - `ctx.lastModified=`
 - `ctx.etag=`
