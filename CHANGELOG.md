@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file starting from version **v0.10.0**.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.8.12] - 2016-09-10
+
+### change
+
+- Update dependencies.
+
 ## [1.8.11] - 2016-09-01
 
 ### change
@@ -33,14 +39,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### change
 
-- Updated dependencies.
+- Update1 dependencies.
 - clear up code.
 
 ## [1.8.7] - 2016-08-20
 
 ### change
 
-- Updated dependencies.
+- Update dependencies.
 - clear up code.
 
 ## [1.8.6] - 2016-08-17
@@ -73,7 +79,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### change
 
 - Improve code.
-- Fixed ctx.end().
+- Fix ctx.end().
 
 ## [1.8.1] - 2016-07-30
 
