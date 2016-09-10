@@ -3,319 +3,367 @@
 All notable changes to this project will be documented in this file starting from version **v0.10.0**.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+-----
+## [1.8.13] - 2016-09-10
+
+### Fixed
+
+- Subdomains should be [] if the host is an ip.
+
+-----
 ## [1.8.12] - 2016-09-10
 
-### change
+### Changed
 
-- Update dependencies.
+- Updated dependencies.
 
+-----
 ## [1.8.11] - 2016-09-01
 
-### change
+### Changed
 
-- Add `request.origin`, `context.origin`.
+- Added `request.origin`, `context.origin`.
 
-### fixed
+### Fixed
 
-- Fix documents.
+- Fixed documents.
 
+-----
 ## [1.8.10] - 2016-08-31
 
-### change
+### Changed
 
-- Remove unnecessary error processing logic
+- Removed unnecessary error processing logic.
 
-### fixed
+### Fixed
 
 - Destroy the previous body stream after response finished.
 
+-----
 ## [1.8.9] - 2016-08-31
 
-### change
+### Changed
 
-- Use lower case header. #4
+- Used lower case header. #4
 
+-----
 ## [1.8.8] - 2016-08-27
 
-### change
+### Changed
 
-- Update1 dependencies.
-- clear up code.
+- Updated dependencies.
+- Cleared up code.
 
+-----
 ## [1.8.7] - 2016-08-20
 
-### change
+### Changed
 
-- Update dependencies.
-- clear up code.
+- Updated dependencies.
+- Cleared up code.
 
+-----
 ## [1.8.6] - 2016-08-17
 
-### change
+### Changed
 
-- Improve Context prototype.
+- Improved Context prototype.
 
+-----
 ## [1.8.5] - 2016-08-17
 
-### change
+### Changed
 
-- Improve code.
+- Improved code.
 
+-----
 ## [1.8.4] - 2016-08-16
 
-### change
+### Changed
 
-- Improve error message.
-- Change `describe` to `suite` in tests
+- Improved error message.
+- Changed `describe` to `suite` in tests
 
+-----
 ## [1.8.3] - 2016-08-05
 
-### change
+### Changed
 
 - `ctx.throw` used `ctx.createError`.
 
+-----
 ## [1.8.2] - 2016-08-01
 
-### change
+### Changed
 
-- Improve code.
-- Fix ctx.end().
+- Improved code.
+- Fixed ctx.end().
 
+-----
 ## [1.8.1] - 2016-07-30
 
-### change
+### Changed
 
-- Improve code.
-- Update readme.
+- Improved code.
+- Updated readme.
 
+-----
 ## [1.8.0] - 2016-07-30
 
-### change
+### Changed
 
-- Support more middleware function Style.
-- Add `async/await` example.
+- Supported more middleware function Style.
+- Added `async/await` example.
 
+-----
 ## [1.7.2] - 2016-07-27
 
-### change
+### Changed
 
-- Improve code.
+- Improved code.
 
+-----
 ## [1.7.1] - 2016-07-21
 
-### fixed
+### Fixed
 
 - When context emit "end" event, context.headerSent should be true (about stream body).
 
+-----
 ## [1.7.0] - 2016-07-21
 
-### change
+### Changed
 
-- Improve code, classify context, request and response.
-- Change context "finished" event to "finishe" event and "close" event.
+- Improved code, classify context, request and response.
+- Changed context "finished" event to "finishe" event and "close" event.
 
+-----
 ## [1.6.5] - 2016-07-21
 
-### change
+### Changed
 
-- Improve code.
+- Improved code.
 
+-----
 ## [1.6.4] - 2016-07-19
 
-### fixed
+### Fixed
 
 - Fixed respond function and "finished" event.
 
+-----
 ## [1.6.3] - 2016-07-19
 
-### fixed
+### Fixed
 
 - Fixed stream body.
 
+-----
 ## [1.6.2] - 2016-07-19
 
-### fixed
+### Fixed
 
 - Fixed error'context.
 
+-----
 ## [1.6.1] - 2016-07-18
 
-### fixed
+### Fixed
 
 - Fixed error respond.
 
+-----
 ## [1.6.0] - 2016-07-18
 
-### change
+### Changed
 
-- Improve performance, add bench.
+- Improved performance, add bench.
 
+-----
 ## [1.5.2] - 2016-07-16
 
-### fixed
+### Fixed
 
 - Fixed stream body [#3]
 
+-----
 ## [1.5.1] - 2016-06-15
 
-### change
+### Changed
 
 - Updated dependencies.
 
+-----
 ## [1.5.0] - 2016-05-22
 
-### change
+### Changed
 
 - Updated dependencies.
-- Improve error response headers.
+- Improved error response headers.
 
+-----
 ## [1.4.3] - 2016-05-15
 
-### change
+### Changed
 
 - Updated dependencies.
 
+-----
 ## [1.4.2] - 2016-04-03
 
-### change
+### Changed
 
 - Updated dependencies, use T-man to test.
 
+-----
 ## [1.4.1] - 2016-03-13
 
-### change
+### Changed
 
 - Updated dependencies.
 
+-----
 ## [1.4.0] - 2016-02-06
 
-### change
+### Changed
 
 - Updated dependencies, improve code and file structure.
 
+-----
 ## [1.3.2] - 2016-01-15
 
-### change
+### Changed
 
 - Updated dependencies, improve code.
 
+-----
 ## [1.3.1] - 2016-01-02
-
-### fixed
-
-- fixed stream body
-
-## [1.3.0] - 2015-12-25
-### change
-
-- Change `end` event, it is emited in `respond()` now.
-- Add `finished` event, which will be emited after a HTTP request closes, finishes, or errors.
-- Remove mainFn's argument `thunk`, it is instead by `ctx.thunk`.
-
-## [1.2.1] - 2015-12-20
-### change
-
-- retain CORS headers when throw error
-- update dependencies
-
-## [1.2.0] - 2015-11-28
-### change
-
-- do not send a content-type when the type is unknown (koa_#536)
-- improve code
-
-### fixed
-
-- fixed stream body response
-- ensure parseurl always working as expected
-
-## [1.1.2] - 2015-11-24
-### fixed
-
-- fixed stream response.
-
-## [1.1.0] - 2015-11-14
-### Changed
-
-- Improve code
-- Update dependencies, [thunks](https://github.com/thunks/thunks) updated to v4.x with a break changed
-
-## [1.0.1] - 2015-10-11
-### Changed
-
-- Improve test
-- Update dependencies
-
-## [1.0.0] - 2015-08-23
-### Changed
-
-- Remove `context.onerror` method
-- Update dependencies
-- Update documents
 
 ### Fixed
 
+- Fixed stream body
+
+-----
+## [1.3.0] - 2015-12-25
+
+### Changed
+
+- Changed `end` event, it is emited in `respond()` now.
+- Added `finished` event, which will be emited after a HTTP request closes, finishes, or errors.
+- Removed mainFn's argument `thunk`, it is instead by `ctx.thunk`.
+
+-----
+## [1.2.1] - 2015-12-20
+
+### Changed
+
+- Retain CORS headers when throw error
+- Updated dependencies
+
+-----
+## [1.2.0] - 2015-11-28
+
+### Changed
+
+- Do not send a content-type when the type is unknown (koa_#536)
+- Improved code
+
+### Fixed
+
+- Fixed stream body response
+- Ensure parseurl always working as expected
+
+-----
+## [1.1.2] - 2015-11-24
+
+### Fixed
+
+- Fixed stream response.
+
+-----
+## [1.1.0] - 2015-11-14
+
+### Changed
+
+- Improved code
+- Updated dependencies, [thunks](https://github.com/thunks/thunks) updated to v4.x with a break changed
+
+-----
+## [1.0.1] - 2015-10-11
+
+### Changed
+
+- Improved test
+- Updated dependencies
+
+-----
+## [1.0.0] - 2015-08-23
+
+### Changed
+
+- Removed `context.onerror` method
+- Updated dependencies
+- Updated documents
+
+-----
 ## [0.13.0] - 2015-08-04
+
 ### Changed
 
 - `onstop` handler will execute `context.onPreEnd` queue
-- Add `context.createError`
+- Added `context.createError`
 
-### Fixed
-
+-----
 ## [0.12.3] - 2015-07-16
-### Changed
 
 ### Fixed
 
 - Fixed context.toJSON
 
+-----
 ## [0.12.2] - 2015-06-28
+
 ### Changed
 
 - Updated dependencies
 - Don't unset headers while context throw non-error object.
 
-### Fixed
-
+-----
 ## [0.12.1] - 2015-06-15
-### Changed
 
 ### Fixed
 
 - Fixed `context.end` with `thunks@v3.4.2`
 
+-----
 ## [0.12.0] - 2015-06-14
+
 ### Changed
 
-- Support `onstop` options for Toa constructor, add `context.end()` to stop request process.
-- Add `app.toListener()`
+- Supported `onstop` options for Toa constructor, add `context.end()` to stop request process.
+- Added `app.toListener()`
 - Toa constructor will not create server by default, server will be created in `app.listen()` if omit in constructor.
-- Improve test and documents
+- Improved test and documents
 
-### Fixed
-
+-----
 ## [0.11.1] - 2015-06-01
+
 ### Changed
 
-- coverage test
+- Coverage test
 
-### Fixed
-
----
+-----
 ## [0.11.0] - 2015-06-01
+
 ### Changed
 
-- change to [JavaScript Standard Style](https://github.com/feross/standard)
+- Changed to [JavaScript Standard Style](https://github.com/feross/standard)
 
-### Fixed
-
----
+-----
 ## [0.10.0] - 2015-05-24
+
 ### Changed
 
-- mount `thunk` function to context.
-- remove `app.onmessage`, it become to a module `toa-pm`.
-- update with `koa` v0.21.0.
-
-### Fixed
+- Mounted `thunk` function to context.
+- Removed `app.onmessage`, it become to a module `toa-pm`.
+- Updated with `koa` v0.21.0.

@@ -15,8 +15,14 @@ tman.suite('req.subdomains', function () {
     assert.deepEqual(req.subdomains, ['tobi'])
   })
 
-  tman.it('with no host present', function () {
+  tman.it('should work with no host present', function () {
     var req = request()
+    assert.deepEqual(req.subdomains, [])
+  })
+
+  tman.it('should check if the host is an ip address, even with a port', function () {
+    var req = request()
+    req.header.host = '127.0.0.1:3000'
     assert.deepEqual(req.subdomains, [])
   })
 })
