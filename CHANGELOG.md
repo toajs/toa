@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file starting fro
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 -----
+## [2.0.0] - 2016-09-11
+
+### Changed
+
+- Rewrited with ES2015, Required Node.js>=v4.
+- Added `context.ended`, `context.finished`, `context.closed`.
+
+-----
 ## [1.8.13] - 2016-09-10
 
 ### Fixed

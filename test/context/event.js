@@ -5,14 +5,16 @@ var assert = require('assert')
 var request = require('supertest')
 var toa = require('../..')
 
-tman.suite('context event', function () {
+tman.suite('context events', function () {
   tman.suite('"end" event', function () {
     tman.it('should emit "end"', function (done) {
       var resEnd = false
       var app = toa(function () {
         this.body = 'test'
+        assert.strictEqual(this.ended, false)
         this.on('end', function () {
           resEnd = !resEnd
+          assert.strictEqual(this.ended, true)
         })
       })
 
@@ -29,8 +31,10 @@ tman.suite('context event', function () {
     tman.it('should emit "end" while 404', function (done) {
       var resEnd = false
       var app = toa(function () {
+        assert.strictEqual(this.ended, false)
         this.on('end', function () {
           resEnd = !resEnd
+          assert.strictEqual(this.ended, true)
         })
         this.throw(404)
       })
@@ -48,8 +52,10 @@ tman.suite('context event', function () {
     tman.it('should emit "end" while any error', function (done) {
       var resEnd = false
       var app = toa(function () {
+        assert.strictEqual(this.ended, false)
         this.on('end', function () {
           resEnd = !resEnd
+          assert.strictEqual(this.ended, true)
         })
         throw new Error('some error')
       })
@@ -69,8 +75,10 @@ tman.suite('context event', function () {
     tman.it('should emit "end" if ctx.respond === false', function (done) {
       var resEnd = false
       var app = toa(function () {
+        assert.strictEqual(this.ended, false)
         this.on('end', function () {
           resEnd = !resEnd
+          assert.strictEqual(this.ended, true)
         })
         this.status = 200
         this.respond = false
@@ -94,8 +102,10 @@ tman.suite('context event', function () {
       var finished = null
       var app = toa(function () {
         this.body = 'test'
+        assert.strictEqual(this.finished, false)
         this.on('finish', function () {
-          finished = this._finished
+          finished = this.finished
+          assert.strictEqual(this.finished, true)
         })
       })
 
@@ -112,8 +122,10 @@ tman.suite('context event', function () {
     tman.it('should emit "finish" while 404', function (done) {
       var finished = null
       var app = toa(function () {
+        assert.strictEqual(this.finished, false)
         this.on('finish', function () {
-          finished = this._finished
+          finished = this.finished
+          assert.strictEqual(this.finished, true)
         })
         this.throw(404)
       })
@@ -128,11 +140,13 @@ tman.suite('context event', function () {
         })
     })
 
-    tman.it('should emit "finish" while any error', function (done) {
+    tman.it('should emit "finish" when process error', function (done) {
       var finished = null
       var app = toa(function () {
+        assert.strictEqual(this.finished, false)
         this.on('finish', function () {
-          finished = this._finished
+          finished = this.finished
+          assert.strictEqual(this.finished, true)
         })
         throw new Error('some error')
       })
@@ -155,7 +169,7 @@ tman.suite('context event', function () {
       var app = toa(function () {
         this.on('finish', function () {
           assert.strictEqual(ended, true)
-          finished = this._finished
+          finished = this.finished
         })
         this.on('end', function () {
           ended = !ended
@@ -173,5 +187,123 @@ tman.suite('context event', function () {
           done()
         })
     })
+  })
+
+  tman.suite('"close" event', function () {
+    tman.it('should emit "close" when request destroy', function (done) {
+      var app = toa(function (cb) {
+        setTimeout(cb, 100)
+        this.body = 'test'
+
+        assert.strictEqual(this.closed, false)
+        this.on('close', function () {
+          // closed = this.closed
+          assert.strictEqual(this.ended, false)
+          assert.strictEqual(this.finished, false)
+          assert.strictEqual(this.closed, true)
+          done()
+        })
+        this.req.destroy('some error')
+      })
+
+      request(app.listen())
+        .get('/')
+        .end(function () {})
+    })
+
+    tman.it('should emit "close" when socket destroy', function (done) {
+      var app = toa(function (cb) {
+        setTimeout(cb, 100)
+        this.body = 'test'
+
+        assert.strictEqual(this.closed, false)
+        this.on('close', function () {
+          // closed = this.closed
+          assert.strictEqual(this.ended, false)
+          assert.strictEqual(this.finished, false)
+          assert.strictEqual(this.closed, true)
+          done()
+        })
+        this.socket.destroy('some error')
+      })
+
+      request(app.listen())
+        .get('/')
+        .end(function () {})
+    })
+
+    tman.it('should cancel process after "close" emited', function (done) {
+      var called = false
+      var app = toa()
+
+      app.use(function (cb) {
+        setTimeout(cb, 100)
+        this.body = 'test'
+
+        assert.strictEqual(this.closed, false)
+        this.on('close', function () {
+          assert.strictEqual(this.ended, false)
+          assert.strictEqual(this.finished, false)
+          assert.strictEqual(this.closed, true)
+          setTimeout(function () {
+            assert.strictEqual(called, false)
+            done()
+          }, 120)
+        })
+
+        var socket = this.socket
+        setTimeout(function () {
+          socket.destroy('some error')
+        }, 20)
+      })
+
+      app.use(function () {
+        called = true
+      })
+
+      request(app.listen())
+        .get('/')
+        .end(function () {})
+    })
+  })
+
+  tman.it('should cancel process and respond when "error" event', function (done) {
+    var error = null
+    var called = false
+    var app = toa()
+
+    app.onerror = function (err) { error = err }
+    app.use(function (cb) {
+      setTimeout(cb, 100)
+      this.body = 'test'
+
+      this.on('finish', function () {
+        assert.strictEqual(this.ended, true)
+        assert.strictEqual(this.finished, true)
+        assert.strictEqual(this.closed, false)
+      })
+
+      var ctx = this
+      setTimeout(function () {
+        ctx.emit('error', new Error('some error'))
+      }, 20)
+    })
+
+    app.use(function () {
+      called = true
+    })
+
+    request(app.listen())
+      .get('/')
+      .expect(500)
+      .end(function (err, res) {
+        if (err) return done(err)
+
+        assert.strictEqual(error.message, 'some error')
+        setTimeout(function () {
+          assert.strictEqual(called, false)
+          done()
+        }, 200)
+      })
   })
 })

@@ -15,7 +15,7 @@ tman.suite('app', function () {
   tman.it('should finished when socket errors', function (done) {
     var app = toa(function () {
       this.on('close', function () {
-        assert.strictEqual(this._finished, false)
+        assert.strictEqual(this.finished, false)
         assert.strictEqual(this.headerSent, false)
         app.server.close(done)
       })
@@ -136,6 +136,27 @@ tman.suite('app', function () {
       .expect({
         message: 'some message',
         status: 206
+      })
+  })
+
+  tman.it('should respond non-error-400', function () {
+    var app = toa({
+      onerror: function (err) {
+        return {status: err.status, name: err.name, message: 'Invalid params'}
+      }
+    })
+
+    app.use(function () {
+      this.throw(400)
+    })
+
+    return request(app.listen())
+      .get('/')
+      .expect(400)
+      .expect({
+        name: 'BadRequestError',
+        status: 400,
+        message: 'Invalid params'
       })
   })
 
@@ -880,14 +901,13 @@ tman.suite('app.respond', function () {
       var app = toa(function () {
         this.body = stream
         this.body = fs.createReadStream('does not exist5')
-        assert.strictEqual(typeof stream.toaCleanHandle, 'function')
+        assert.ok(this.getStreamCleanHandle(stream))
       })
 
       return request(app.listen())
         .get('/')
         .expect(404)
         .expect(function (res) {
-          assert.strictEqual(stream.toaCleanHandle, null)
           assert.strictEqual(destroyed, true)
         })
     })

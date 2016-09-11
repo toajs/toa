@@ -24,8 +24,8 @@ tman.suite('catch stream error', function () {
     assert.strictEqual(stream.listenerCount('error'), 0)
     ctx.body = stream
     assert.strictEqual(stream.listenerCount('error'), 1)
-    assert.strictEqual(stream.listeners('error')[0], stream.toaCleanHandle)
-    stream.toaCleanHandle()
+    assert.ok(ctx.getStreamCleanHandle(stream))
+    stream.listeners('error')[0]()
     assert.strictEqual(stream.listenerCount('error'), 1)
     assert.strictEqual(stream.listeners('error')[0], ctx.onerror)
   })
@@ -40,9 +40,9 @@ tman.suite('catch stream error', function () {
     ctx.body = stream
     assert.throws(function () { ctx.catchStream(stream) })
     assert.strictEqual(stream.listenerCount('error'), 1)
-    assert.strictEqual(stream.listeners('error')[0], stream.toaCleanHandle)
+    assert.ok(ctx.getStreamCleanHandle(stream))
 
-    stream.toaCleanHandle()
+    stream.listeners('error')[0]()
     assert.strictEqual(stream.listenerCount('error'), 1)
     assert.strictEqual(stream.listeners('error')[0], ctx.onerror)
   })

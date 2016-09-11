@@ -4,9 +4,12 @@
 ### Difference from Koa:
 
 - remove `ctx.app`
-- add `ctx.catchStream`
-- add `ctx.thunk`, it is thunk function that bound a scope with `debug`, `onstop`, `onerror`.
-- add `ctx.end`, use to stopping request process and respond immediately.
+- add `ctx.catchStream` method, used to catch stream's error or clean stream when some error.
+- add `ctx.thunk` method, it is thunk function that bound a scope with `debug`, `onstop`, `onerror`.
+- add `ctx.end` method, use to stopping request process and respond immediately.
+- add `ctx.ended`, indicates that the response ended.
+- add `ctx.finished`, indicates that the response finished successfully.
+- add `ctx.closed`, indicates that the response closed unexpectedly.
 - context is a `EventEmitter` instance
 
 `Context` object encapsulates node's `request` and `response` objects into a single object which provides many helpful methods for writing web applications and APIs. These operations are used so frequently in HTTP server development that they are added at this level instead of a higher level framework, which would force middleware to re-implement this common functionality.
@@ -32,16 +35,16 @@ Many of the context's accessors and methods simply delegate to their `ctx.reques
 ### Events
 
 #### 'close'
-Emitted after a HTTP request closed, indicates that the socket has been close.
+Emitted after a HTTP request closed, indicates that the socket has been closed, and `context.closed` will be `true`.
 
 #### 'end'
-Emitted after respond() was called, indicates that body was sent.
+Emitted after respond() was called, indicates that body was sent. and `context.ended` will be `true`
 
 #### 'finish'
-Emitted after a HTTP response finished.
+Emitted after a HTTP response finished. and `context.finished` will be `true`.
 
 #### 'error'
-A context always listen `'error'` event by `ctx.onerror`. `ctx.onerror` is a immutable error handle. So you can use `ctx.emit('error', error)` to deal with your exception or error.
+A context always listen `'error'` event by `ctx.onerror`. `ctx.onerror` is a **immutable** error handle. So you can use `ctx.emit('error', error)` to deal with your exception or error.
 
 ### API
 

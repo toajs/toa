@@ -41,6 +41,24 @@ tman.suite('context end', function () {
       .expect('Good job.')
   })
 
+  tman.it('should not run next middleware with context.end', function () {
+    var app = toa()
+
+    app.use(function () {
+      this.body = 'Good job.'
+      this.end()
+    })
+
+    app.use(function () {
+      assert.strictEqual('It should not run', true)
+    })
+
+    return request(app.listen())
+      .get('/')
+      .expect(200)
+      .expect('Good job.')
+  })
+
   tman.it('should work in nested thunks', function () {
     var thunk = thunks()
     var app = toa(function () {

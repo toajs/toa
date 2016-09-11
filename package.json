@@ -4,7 +4,7 @@
   "authors": [
     "Yan Qing <admin@zensh.com>"
   ],
-  "version": "1.8.13",
+  "version": "2.0.0",
   "main": "lib/application.js",
   "license": "MIT",
   "repository": {
@@ -40,7 +40,7 @@
     "mime-types": "~2.1.11",
     "parseurl": "~1.3.1",
     "statuses": "~1.3.0",
-    "thunks": "^4.6.0",
+    "thunks": "^4.7.0",
     "type-is": "~1.6.13",
     "vary": "~1.1.0"
   },
@@ -56,7 +56,7 @@
     "supertest": "^2.0.0",
     "test-console": "^1.0.0",
     "through2": "^2.0.1",
-    "tman": "^1.4.3",
+    "tman": "^1.4.4",
     "vinyl": "^1.2.0",
     "vinyl-fs": "^2.4.3"
   },
