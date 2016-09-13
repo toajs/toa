@@ -160,28 +160,19 @@ tman.suite('app', function () {
       })
   })
 
-  tman.it('should work with options', function (done) {
-    var debugLogs = 0
+  tman.it('should work with options', function () {
     var app = toa(function () {
       this.throw(404)
     }, {
       onerror: function (err) {
-        this.body = 'hello'
-        assert.strictEqual(err.status, 404)
-      },
-      debug: function (err, res) {
-        debugLogs += 1
-        if (err) assert.strictEqual(err.status, 404)
+        return {status: err.status, message: 'some error'}
       }
     })
 
-    request(app.listen())
+    return request(app.listen())
       .get('/')
       .expect(404)
-      .end(function (err) {
-        assert.strictEqual(debugLogs >= 1, true)
-        done(err)
-      })
+      .expect({status: 404, message: 'some error'})
   })
 
   tman.it('should work with pipeling request', function (done) {

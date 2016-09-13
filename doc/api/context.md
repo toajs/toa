@@ -5,7 +5,7 @@
 
 - remove `ctx.app`
 - add `ctx.catchStream` method, used to catch stream's error or clean stream when some error.
-- add `ctx.thunk` method, it is thunk function that bound a scope with `debug`, `onstop`, `onerror`.
+- add `ctx.thunk` method, it is thunk function that bound a scope with `onerror`.
 - add `ctx.end` method, use to stopping request process and respond immediately.
 - add `ctx.ended`, indicates that the response ended.
 - add `ctx.finished`, indicates that the response finished successfully.
@@ -52,7 +52,7 @@ A context always listen `'error'` event by `ctx.onerror`. `ctx.onerror` is a **i
 
 #### ctx.thunk([thunkable])
 
-A thunk function that bound a scope with `debug`, `onstop`, `onerror`.
+A thunk function that bound a scope.
 
 - `thunkable` thunkable value, see: https://github.com/thunks/thunks
 

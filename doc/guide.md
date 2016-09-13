@@ -56,18 +56,13 @@ app.listen(3000)
 
 - `server`: {Object}, http server 或 https server 实例。
 - `mainFn`: {Function} `mainFn` 中如果有异步逻辑，则应该封装成 `thunk` 处理器能处理的对象（thunkable value），如 `generator` 函数、`generator` 对象、thunk 函数或`promise` 对象等，并 `return` 返回（与 `thunks` 或 `Promise` 类似）。
-- `options`: {Object} 类似 `thunks` 的 options，对于 server 的每一个 **client request**，toa app 均会用 `thunks` 生成一个的 `thunk`，挂载到 `context.thunk`，该 `thunk` 的作用域对该 **client request** 的整个生命周期生效。故 `options` 的 `debug`、`onstop`、`onerror` 也对应于该 **client request**。
-
-  - `options.debug`: {Function} 其 `this` 为 `null`。可捕获 **client request** 异步处理流程每一步结果，用于调试。
-  - `options.onstop`: {Function} 其 `this` 为 **client request** 的 `context` 对象。当调用 `context.end()` 时，会立即终止 **client request** 处理流程，`onstop` 会运行，然后 `respond` 客户端，`onstop` 可返回异步值。
+- `options`: {Object} 类似 `thunks` 的 options，对于 server 的每一个 **client request**，toa app 均会用 `thunks` 生成一个的 `thunk`，挂载到 `context.thunk`，该 `thunk` 的作用域对该 **client request** 的整个生命周期生效。
   - `options.onerror`: {Function} 其 `this` 为 **client request** 的 `context` 对象。当 **client request** 处理流程出现异常时，会抛出到 `onerror`，原有处理流程会终止，`onerror` 运行完毕后再进入 toa 内置的异常处理流程，最后 `respond` 客户端。如果 `onerror` 返回 `true`，则会忽略该异常，异常不会进入内置异常处理流程，然后直接 `respond` 客户端。
 ```js
 // with full arguments
 var app = new Toa(server, function () {
   // body...
 }, {
-  debug: function () {},
-  onstop: function (sig) {},
   onerror: function (error) {}
 })
 ```
@@ -183,7 +178,7 @@ app.listen(3000)
 
 - remove `ctx.app`
 - add `ctx.catchStream` method, used to catch stream's error or clean stream when some error.
-- add `ctx.thunk` method, it is thunk function that bound a scope with `debug`, `onstop`, `onerror`.
+- add `ctx.thunk` method, it is thunk function that bound a scope with `onerror`.
 - add `ctx.end` method, use to stopping request process and respond immediately.
 - add `ctx.ended`, indicates that the response ended.
 - add `ctx.finished`, indicates that the response finished successfully.
@@ -230,7 +225,7 @@ A context always listen `'error'` event by `ctx.onerror`. `ctx.onerror` is a **i
 
 #### ctx.thunk([thunkable])
 
-A thunk function that bound a scope with `debug`, `onstop`, `onerror`.
+A thunk function that bound a scope.
 
 - `thunkable` thunkable value, see: https://github.com/thunks/thunks
 
