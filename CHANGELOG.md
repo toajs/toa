@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file starting fro
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 -----
+## [2.1.0] - 2016-09-13
+
+### Changed
+
+- Added `context.after(hook)`, instead of `context.onPreEnd` (this will be deprecated). After hooks should be consumed only once.
+
+-----
 ## [2.0.1] - 2016-09-13
 
 ### Changed

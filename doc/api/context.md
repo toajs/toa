@@ -4,12 +4,13 @@
 ### Difference from Koa:
 
 - remove `ctx.app`
-- add `ctx.catchStream` method, used to catch stream's error or clean stream when some error.
 - add `ctx.thunk` method, it is thunk function that bound a scope with `onerror`.
 - add `ctx.end` method, use to stopping request process and respond immediately.
-- add `ctx.ended`, indicates that the response ended.
-- add `ctx.finished`, indicates that the response finished successfully.
-- add `ctx.closed`, indicates that the response closed unexpectedly.
+- add `ctx.after` method, use to add hooks that run after middlewares and before respond.
+- add `ctx.catchStream` method, used to catch stream's error or clean stream when some error.
+- add `ctx.ended` property, indicates that the response ended.
+- add `ctx.finished` property, indicates that the response finished successfully.
+- add `ctx.closed` property, indicates that the response closed unexpectedly.
 - context is a `EventEmitter` instance
 
 `Context` object encapsulates node's `request` and `response` objects into a single object which provides many helpful methods for writing web applications and APIs. These operations are used so frequently in HTTP server development that they are added at this level instead of a higher level framework, which would force middleware to re-implement this common functionality.
@@ -61,6 +62,13 @@ A thunk function that bound a scope.
 Use to stopping request process and respond immediately. **It should not run in `try catch` block, otherwise `onstop` will not be trigger**.
 
 - `message` String, see: https://github.com/thunks/thunks
+
+#### ctx.after(function () {})
+#### ctx.after(function (callback) {})
+#### ctx.after(function * () {})
+#### ctx.after(async function () {})
+
+Add hooks dynamicly. Hooks will run after middlewares and mainFn, but before `respond`.
 
 #### ctx.req
 

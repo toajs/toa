@@ -80,26 +80,24 @@ tman.suite('context end', function () {
       })
   })
 
-  tman.it('should error if called twice', function () {
-    var error = null
+  tman.it('after hooks should run only once when ctx.end()', function () {
+    var called = 0
+
     var app = toa(function () {
-      this.onPreEnd = function (done) {
-        this.end('end in preEnd')
-        done()
-      }
+      this.after(function () {
+        called++
+        assert.strictEqual(this.after(function () {}), 0)
+        this.end('end in after hooks')
+      })
       this.end('end in body')
     })
-    app.onerror = function (err) {
-      error = err
-    }
 
     return request(app.listen())
       .get('/')
-      .expect(500)
+      .expect(418)
+      .expect('end in body')
       .expect(function (res) {
-        assert.ok(error instanceof Error)
-        assert.strictEqual(error.code, 'SIGSTOP')
-        assert.strictEqual(res.res.statusMessage || res.res.text, 'Internal Server Error')
+        assert.strictEqual(called, 1)
       })
   })
 })

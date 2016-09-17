@@ -249,47 +249,65 @@ tman.suite('app.use(fn)', function () {
   })
 
   tman.it('should support more middleware function styles', function () {
-    var app = toa()
+    var count = 0
+
+    var app = toa(function () {
+      assert.ok(this instanceof app.Context)
+      assert.strictEqual(++count, 9)
+      return function (done) {
+        this.body = {count: ++count}
+        done()
+      }
+    })
 
     app.use(function (next) {
-      this.state.count = 0
+      assert.ok(this instanceof app.Context)
+      assert.strictEqual(++count, 1)
       next()
     })
 
     app.use(function () {
-      this.state.count++
+      assert.ok(this instanceof app.Context)
+      assert.strictEqual(++count, 2)
     })
 
     app.use(function () {
-      this.state.count++
+      assert.ok(this instanceof app.Context)
+      assert.strictEqual(++count, 3)
       return function (done) {
-        var ctx = this
+        assert.ok(this instanceof app.Context)
         setTimeout(function () {
-          ctx.state.count++
+          assert.strictEqual(++count, 4)
           done()
         })
       }
     })
 
     app.use(function () {
-      var ctx = this
+      assert.ok(this instanceof app.Context)
+      assert.strictEqual(++count, 5)
       return new Promise(function (resolve, reject) {
         setTimeout(function () {
-          ctx.state.count++
+          assert.strictEqual(++count, 6)
           resolve()
         })
       })
     })
 
-    app.use(function () {
-      this.body = this.state
+    app.use(function * () {
+      assert.ok(this instanceof app.Context)
+      assert.strictEqual(++count, 7)
+      yield function (done) {
+        assert.ok(this instanceof app.Context)
+        assert.strictEqual(++count, 8)
+        setTimeout(done)
+      }
     })
 
     return request(app.listen())
       .get('/')
-      .expect(function (res) {
-        assert.deepEqual(res.body, {count: 4})
-      })
+      .expect(200)
+      .expect({count: 10})
   })
 })
 
