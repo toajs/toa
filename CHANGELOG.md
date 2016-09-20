@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file starting fro
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 -----
+## [2.1.1] - 2016-09-20
+
+### Changed
+
+- Added TypeScript typings.
+
+-----
 ## [2.1.0] - 2016-09-13
 
 ### Changed
