@@ -68,6 +68,7 @@ tman.suite('catch stream error', function () {
       })
     })
 
+    app.onerror = function () {}
     return request(app.listen())
       .get('/')
       .expect(404)

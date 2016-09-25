@@ -1,8 +1,9 @@
-/**
-*  Type definitions for toa
-*  https://github.com/toajs/toa
-*  Definitions by: zensh <https://github.com/zensh>
-*/
+// Type definitions for toa
+// Project: https://github.com/toajs/toa
+// Definitions by: zensh <https://github.com/zensh>
+
+// Import: `import * as Toa from 'toa'`
+// Import: `import { Toa } from 'toa'`
 
 import { Socket } from 'net'
 import { Stream } from 'stream'

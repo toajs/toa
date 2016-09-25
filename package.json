@@ -4,7 +4,7 @@
   "authors": [
     "Yan Qing <admin@zensh.com>"
   ],
-  "version": "2.2.0",
+  "version": "2.2.1",
   "main": "lib/application.js",
   "typings": "index.d.ts",
   "license": "MIT",
@@ -41,7 +41,7 @@
     "mime-types": "~2.1.12",
     "parseurl": "~1.3.1",
     "statuses": "~1.3.0",
-    "thunks": "^4.7.3",
+    "thunks": "^4.7.5",
     "type-is": "~1.6.13",
     "vary": "~1.1.0"
   },
@@ -57,15 +57,16 @@
     "supertest": "^2.0.0",
     "test-console": "^1.0.0",
     "through2": "^2.0.1",
-    "tman": "^1.4.6",
-    "vinyl": "^1.2.0",
-    "vinyl-fs": "^2.4.3",
+    "tman": "^1.6.0",
     "ts-node": "^1.3.0",
-    "typescript": "^1.8.10"
+    "typescript": "^2.0.3",
+    "typings": "^1.4.0",
+    "vinyl": "^1.2.0",
+    "vinyl-fs": "^2.4.3"
   },
   "scripts": {
-    "test": "standard && tman 'test/**/*.js'",
-    "test-cov": "istanbul cover _tman 'test/**/*.js'",
+    "test": "standard && tman -R dot 'test/**/*.js'",
+    "test-cov": "istanbul cover _tman -R dot 'test/**/*.js'",
     "test-typings": "tman -r ts-node/register test/typings.test.ts",
     "guide": "node guide.js",
     "bench": "cd bench && make"

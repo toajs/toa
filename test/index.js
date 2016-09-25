@@ -825,6 +825,7 @@ tman.suite('app.respond', function () {
         })
       })
 
+      app.onerror = function () {}
       return request(app.listen())
         .get('/')
         .expect('content-type', 'text/plain; charset=utf-8')
@@ -837,6 +838,7 @@ tman.suite('app.respond', function () {
         this.body = fs.createReadStream('does not exist1')
       })
 
+      app.onerror = function () {}
       return request(app.listen())
         .get('/')
         .expect(204)
@@ -848,6 +850,8 @@ tman.suite('app.respond', function () {
         this.body = fs.createReadStream('does not exist3')
         this.body = fs.createReadStream('does not exist4')
       })
+
+      app.onerror = function () {}
 
       return request(app.listen())
         .get('/')
@@ -912,6 +916,7 @@ tman.suite('app.respond', function () {
         this.body = fs.createReadStream('does not exist5')
         assert.ok(this.getStreamCleanHandle(stream))
       })
+      app.onerror = function () {}
 
       return request(app.listen())
         .get('/')
