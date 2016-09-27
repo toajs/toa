@@ -53,7 +53,7 @@
     "ilog": "^1.0.3",
     "istanbul": "^0.4.5",
     "koa": "^1.2.4",
-    "standard": "^8.1.0",
+    "standard": "^8.2.0",
     "supertest": "^2.0.0",
     "test-console": "^1.0.0",
     "through2": "^2.0.1",
@@ -70,6 +70,11 @@
     "test-typings": "tman -r ts-node/register test/typings.test.ts",
     "guide": "node guide.js",
     "bench": "cd bench && make"
+  },
+  "standard": {
+    "ignore": [
+      "*.es.js"
+    ]
   },
   "files": [
     "lib",
