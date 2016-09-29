@@ -18,7 +18,7 @@
 A `Context` is created _per_ request, and is referenced in middleware as the receiver, or the `this` identifier, as shown in the following snippet:
 
 ```js
-var app = Toa(function * () {
+const app = Toa(function * () {
   this // is the Context
   this.request // is a toa Request
   this.response // is a toa Response
@@ -136,7 +136,7 @@ this.throw('something exploded')
 For example `this.throw('name required', 400)` is equivalent to:
 
 ```js
-var err = new Error('name required')
+let err = new Error('name required')
 err.status = 400
 throw err
 ```

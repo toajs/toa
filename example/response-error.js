@@ -3,13 +3,16 @@
 //
 // **License:** MIT
 
-var Toa = require('..')
-var app = Toa(function () {
-  this.body = 'Hello World!\n-- toa'
+const Toa = require('..')
+const app = new Toa()
+
+app.use(function (done) {
+  this.throw(401, new Error('Unauthorized'))
+  done()
 })
 
-app.use(function (callback) {
-  this.throw(401, new Error('Unauthorized'))
+app.use(function () {
+  this.body = 'Hello World!\n-- toa'
 })
 
 app.listen(3000)

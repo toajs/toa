@@ -1,12 +1,12 @@
 'use strict'
 
-var tman = require('tman')
-var assert = require('assert')
-var context = require('../context')
+const tman = require('tman')
+const assert = require('assert')
+const context = require('../context')
 
 tman.suite('ctx.search=', function () {
   tman.it('should replace the search', function () {
-    var ctx = context({
+    let ctx = context({
       url: '/store/shoes'
     })
     ctx.search = '?page=2&color=blue'
@@ -15,7 +15,7 @@ tman.suite('ctx.search=', function () {
   })
 
   tman.it('should update ctx.querystring and ctx.query', function () {
-    var ctx = context({
+    let ctx = context({
       url: '/store/shoes'
     })
     ctx.search = '?page=2&color=blue'
@@ -28,7 +28,7 @@ tman.suite('ctx.search=', function () {
   })
 
   tman.it('should change .url but not .originalUrl', function () {
-    var ctx = context({
+    let ctx = context({
       url: '/store/shoes'
     })
     ctx.search = '?page=2&color=blue'
@@ -39,7 +39,7 @@ tman.suite('ctx.search=', function () {
 
   tman.suite('when missing', function () {
     tman.it('should return ""', function () {
-      var ctx = context({
+      let ctx = context({
         url: '/store/shoes'
       })
       assert.strictEqual(ctx.search, '')

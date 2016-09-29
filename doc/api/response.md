@@ -139,7 +139,7 @@ The Content-Type is defaulted to application/json.
 Get a response header field value with case-insensitive `field`.
 
 ```js
-var etag = this.get('etag')
+let etag = this.get('etag')
 ```
 
 #### response.set(field, value)
@@ -178,7 +178,7 @@ Remove header `field`.
 Get response `Content-Type` void of parameters such as "charset".
 
 ```js
-var ct = this.type
+let ct = this.type
 // => "image/png"
 ```
 

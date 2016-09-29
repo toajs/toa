@@ -4,27 +4,25 @@
 // **License:** MIT
 // `ts-node example/simple.ts`
 
-import { Toa } from '../'
+import { Toa } from '..'
 
-const app = new Toa(function () {
-  this.body = this.state
-})
-// support sync function middleware
+const app = new Toa()
+
 app.use(function () {
-  this.state.syncFn = 'support!'
+  this.body = 'support sync function middleware!\n'
 })
-// support thunk function middleware
+
 app.use(function (next) {
-  this.state.thunkFn = 'support!'
-  setTimeout(next, 10)
+  this.body += 'support thunk function middleware!\n'
+  next()
 })
-// support generator function middleware
+
 app.use(function * () {
-  this.state.generatorFn = yield Promise.resolve('support!')
+  this.body += yield Promise.resolve('support generator function middleware!\n')
 })
-// support async function middleware in babel or Node.js v7~
+
 app.use(async function () {
-  this.state.asyncFn = await Promise.resolve('support!')
+  this.body += await Promise.resolve('support async/await function middleware!\n')
 })
 
 app.listen(3000, () => console.log('App start at 3000'))

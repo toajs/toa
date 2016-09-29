@@ -1,17 +1,17 @@
 'use strict'
 
-var tman = require('tman')
-var assert = require('assert')
-var response = require('../context').response
-var request = require('supertest')
-var statuses = require('statuses')
-var toa = require('../..')
+const tman = require('tman')
+const assert = require('assert')
+const response = require('../context').response
+const request = require('supertest')
+const statuses = require('statuses')
+const toa = require('../..')
 
 tman.suite('res.status=', function () {
   tman.suite('when a status code', function () {
     tman.suite('and valid', function () {
       tman.it('should set the status', function () {
-        var res = response()
+        let res = response()
         res.status = 403
         assert.strictEqual(res.status, 403)
       })
@@ -37,7 +37,7 @@ tman.suite('res.status=', function () {
       })
 
       tman.it('should set the status', function () {
-        var res = response()
+        let res = response()
         res.status = 700
         assert.strictEqual(res.status, 700)
       })
@@ -60,7 +60,7 @@ tman.suite('res.status=', function () {
 
   function strip (status) {
     tman.it('should strip content related header fields', function () {
-      var app = toa()
+      const app = toa()
 
       app.use(function (next) {
         this.body = {
@@ -88,7 +88,7 @@ tman.suite('res.status=', function () {
     })
 
     tman.it('should strip content releated header fields after status set', function () {
-      var app = toa()
+      const app = toa()
 
       app.use(function (next) {
         this.status = status

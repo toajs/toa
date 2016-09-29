@@ -1,10 +1,10 @@
 'use strict'
 
-var Stream = require('stream')
-var toa = require('..')
+const Stream = require('stream')
+const toa = require('..')
 
 exports = module.exports = function (req, res) {
-  var socket = new Stream.Duplex()
+  let socket = new Stream.Duplex()
   req = merge({
     headers: {},
     socket: socket,
@@ -24,7 +24,7 @@ exports = module.exports = function (req, res) {
   res.removeHeader = function (k, v) {
     delete res._headers[k.toLowerCase()]
   }
-  var app = toa()
+  let app = toa()
   return new app.Context(req, res)
 }
 

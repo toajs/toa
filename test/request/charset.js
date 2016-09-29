@@ -1,20 +1,20 @@
 'use strict'
 
-var tman = require('tman')
-var assert = require('assert')
-var request = require('../context').request
+const tman = require('tman')
+const assert = require('assert')
+const request = require('../context').request
 
 tman.suite('req.charset', function () {
   tman.suite('with no content-type present', function () {
     tman.it('should return ""', function () {
-      var req = request()
+      let req = request()
       assert.strictEqual(req.charset, '')
     })
   })
 
   tman.suite('with charset present', function () {
     tman.it('should return ""', function () {
-      var req = request()
+      let req = request()
       req.header['content-type'] = 'text/plain'
       assert.strictEqual(req.charset, '')
     })
@@ -22,7 +22,7 @@ tman.suite('req.charset', function () {
 
   tman.suite('with a charset', function () {
     tman.it('should return the charset', function () {
-      var req = request()
+      let req = request()
       req.header['content-type'] = 'text/plain; charset=utf-8'
       assert.strictEqual(req.charset, 'utf-8')
     })

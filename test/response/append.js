@@ -1,12 +1,12 @@
 'use strict'
 
-var tman = require('tman')
-var assert = require('assert')
-var context = require('../context')
+const tman = require('tman')
+const assert = require('assert')
+const context = require('../context')
 
 tman.suite('ctx.append(name, val)', function () {
   tman.it('should append multiple headers', function () {
-    var ctx = context()
+    let ctx = context()
 
     ctx.append('x-foo', 'bar1')
     ctx.append('x-foo', 'bar2')
@@ -14,7 +14,7 @@ tman.suite('ctx.append(name, val)', function () {
   })
 
   tman.it('should accept array of values', function () {
-    var ctx = context()
+    let ctx = context()
 
     ctx.append('Set-Cookie', ['foo=bar', 'fizz=buzz'])
     assert.deepEqual(ctx.response.header['set-cookie'], ['foo=bar', 'fizz=buzz'])
@@ -24,7 +24,7 @@ tman.suite('ctx.append(name, val)', function () {
   })
 
   tman.it('should get reset by res.set(field, val)', function () {
-    var ctx = context()
+    let ctx = context()
 
     ctx.append('Link', '<http://localhost/>')
     ctx.append('Link', '<http://localhost:80/>')
@@ -33,7 +33,7 @@ tman.suite('ctx.append(name, val)', function () {
   })
 
   tman.it('should work with res.set(field, val) first', function () {
-    var ctx = context()
+    let ctx = context()
 
     ctx.set('Link', '<http://localhost/>')
     ctx.append('Link', '<http://localhost:80/>')

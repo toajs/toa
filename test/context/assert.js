@@ -1,12 +1,12 @@
 'use strict'
 
-var tman = require('tman')
-var assert = require('assert')
-var context = require('../context')
+const tman = require('tman')
+const assert = require('assert')
+const context = require('../context')
 
 tman.suite('ctx.assert(value, status)', function () {
   tman.it('should throw an error', function () {
-    var ctx = context()
+    let ctx = context()
 
     try {
       ctx.assert(false, 404)

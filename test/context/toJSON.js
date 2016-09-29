@@ -1,12 +1,12 @@
 'use strict'
 
-var tman = require('tman')
-var assert = require('assert')
-var context = require('../context')
+const tman = require('tman')
+const assert = require('assert')
+const context = require('../context')
 
 tman.suite('ctx.toJSON()', function () {
   tman.it('should return a json representation', function () {
-    var ctx = context()
+    let ctx = context()
 
     ctx.req.method = 'POST'
     ctx.req.url = '/items'
@@ -14,9 +14,9 @@ tman.suite('ctx.toJSON()', function () {
     ctx.status = 200
     ctx.body = '<p>Hey</p>'
 
-    var obj = JSON.parse(JSON.stringify(ctx))
-    var req = obj.request
-    var res = obj.response
+    let obj = JSON.parse(JSON.stringify(ctx))
+    let req = obj.request
+    let res = obj.response
 
     assert.deepEqual(req, {
       method: 'POST',

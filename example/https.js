@@ -3,18 +3,19 @@
 //
 // **License:** MIT
 
-var https = require('https')
-var fs = require('fs')
-var Toa = require('..')
+const https = require('https')
+const fs = require('fs')
+const Toa = require('..')
 
-var options = {
+const options = {
   key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),
   cert: fs.readFileSync('test/fixtures/keys/agent2-cert.pem')
 }
 
-var server = https.createServer(options)
+const server = https.createServer(options)
 
-var app = Toa(server, function () {
+const app = new Toa(server)
+app.use(function () {
   this.body = 'Hello World!\n-- toa'
 })
 

@@ -1,13 +1,13 @@
 'use strict'
 
-var tman = require('tman')
-var assert = require('assert')
-var request = require('../context').request
+const tman = require('tman')
+const assert = require('assert')
+const request = require('../context').request
 
 tman.suite('req.inspect()', function () {
   tman.suite('with no request.req present', function () {
     tman.it('should return null', function () {
-      var req = request()
+      let req = request()
       req.method = 'GET'
       delete req.req
       assert.strictEqual(req.inspect() === null, true)
@@ -15,7 +15,7 @@ tman.suite('req.inspect()', function () {
   })
 
   tman.it('should return a json representation', function () {
-    var req = request()
+    let req = request()
     req.method = 'GET'
     req.url = 'example.com'
     req.header.host = 'example.com'

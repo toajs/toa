@@ -3,10 +3,12 @@
 //
 // **License:** MIT
 
-var fs = require('fs')
-var path = require('path')
-var Toa = require('..')
-var app = Toa(function () {
+const fs = require('fs')
+const path = require('path')
+const Toa = require('..')
+
+const app = new Toa()
+app.use(function () {
   this.type = 'text'
   this.body = fs.createReadStream(path.join(__dirname, 'simple.js'), {encoding: 'utf8'})
 })

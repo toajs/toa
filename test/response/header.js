@@ -1,12 +1,12 @@
 'use strict'
 
-var tman = require('tman')
-var assert = require('assert')
-var response = require('../context').response
+const tman = require('tman')
+const assert = require('assert')
+const response = require('../context').response
 
 tman.suite('res.header', function () {
   tman.it('should return the response header object', function () {
-    var res = response()
+    let res = response()
     res.set('X-Foo', 'bar')
     assert.deepEqual(res.header, {
       'x-foo': 'bar'
@@ -15,7 +15,7 @@ tman.suite('res.header', function () {
 
   tman.suite('when res._headers not present', function () {
     tman.it('should return empty object', function () {
-      var res = response()
+      let res = response()
       res.res._headers = null
       assert.deepEqual(res.header, {})
     })

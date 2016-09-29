@@ -1,12 +1,12 @@
 'use strict'
 
-var tman = require('tman')
-var assert = require('assert')
-var context = require('../context')
+const tman = require('tman')
+const assert = require('assert')
+const context = require('../context')
 
 tman.suite('ctx.get(name)', function () {
   tman.it('should return the field value', function () {
-    var ctx = context()
+    let ctx = context()
     ctx.req.headers.host = 'http://google.com'
     ctx.req.headers.referer = 'http://google.com'
     assert.strictEqual(ctx.get('HOST'), 'http://google.com')

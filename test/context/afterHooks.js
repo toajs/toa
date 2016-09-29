@@ -1,16 +1,16 @@
 'use strict'
 
-var tman = require('tman')
-var assert = require('assert')
-var thunk = require('thunks')()
-var request = require('supertest')
-var toa = require('../..')
+const tman = require('tman')
+const assert = require('assert')
+const thunk = require('thunks')()
+const request = require('supertest')
+const toa = require('../..')
 
 tman.suite('context middleware after hooks', function () {
   tman.it('should run after hooks before context end', function () {
-    var count = 0
+    let count = 0
 
-    var app = toa(function () {
+    const app = toa(function () {
       this.body = 'test'
 
       assert.strictEqual(++count, 2)
@@ -36,9 +36,9 @@ tman.suite('context middleware after hooks', function () {
   })
 
   tman.it('should support more after hook function styles', function () {
-    var count = 0
+    let count = 0
 
-    var app = toa(function () {
+    const app = toa(function () {
       this.body = 'test'
       assert.strictEqual(++count, 5)
 
@@ -102,9 +102,9 @@ tman.suite('context middleware after hooks', function () {
   })
 
   tman.it('should be compatible with onPreEnd', function () {
-    var count = 0
+    let count = 0
 
-    var app = toa(function () {
+    const app = toa(function () {
       this.body = 'test'
 
       assert.strictEqual(++count, 2)

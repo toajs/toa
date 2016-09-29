@@ -87,7 +87,7 @@ Get hostname when present. Supports `X-Forwarded-Host` when `app.proxy` is __tru
 Get request `Content-Type` void of parameters such as "charset".
 
 ```js
-var ct = this.request.type
+let ct = this.request.type
 // => "image/png"
 ```
 

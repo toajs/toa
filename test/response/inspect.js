@@ -1,13 +1,13 @@
 'use strict'
 
-var tman = require('tman')
-var assert = require('assert')
-var response = require('../context').response
+const tman = require('tman')
+const assert = require('assert')
+const response = require('../context').response
 
 tman.suite('res.inspect()', function () {
   tman.suite('with no response.res present', function () {
     tman.it('should return null', function () {
-      var res = response()
+      let res = response()
       res.body = 'hello'
       delete res.res
       assert.strictEqual(res.inspect() === null, true)
@@ -15,7 +15,7 @@ tman.suite('res.inspect()', function () {
   })
 
   tman.it('should return a json representation', function () {
-    var res = response()
+    let res = response()
     res.body = 'hello'
 
     assert.deepEqual(res.inspect(), {

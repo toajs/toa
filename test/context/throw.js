@@ -1,14 +1,14 @@
 'use strict'
 
-var tman = require('tman')
-var assert = require('assert')
-var request = require('supertest')
-var toa = require('../..')
-var context = require('../context')
+const tman = require('tman')
+const assert = require('assert')
+const request = require('supertest')
+const toa = require('../..')
+const context = require('../context')
 
 tman.suite('ctx.throw(msg)', function () {
   tman.it('should set .status to 500', function (done) {
-    var ctx = context()
+    let ctx = context()
 
     try {
       ctx.throw('boom')
@@ -22,8 +22,8 @@ tman.suite('ctx.throw(msg)', function () {
 
 tman.suite('ctx.throw(err)', function () {
   tman.it('should set .status to 500', function (done) {
-    var ctx = context()
-    var err = new Error('test')
+    let ctx = context()
+    let err = new Error('test')
 
     try {
       ctx.throw(err)
@@ -38,8 +38,8 @@ tman.suite('ctx.throw(err)', function () {
 
 tman.suite('ctx.throw(err, status)', function () {
   tman.it('should throw the error and set .status', function (done) {
-    var ctx = context()
-    var error = new Error('test')
+    let ctx = context()
+    let error = new Error('test')
 
     try {
       ctx.throw(error, 422)
@@ -54,8 +54,8 @@ tman.suite('ctx.throw(err, status)', function () {
 
 tman.suite('ctx.throw(status, err)', function () {
   tman.it('should throw the error and set .status', function (done) {
-    var ctx = context()
-    var error = new Error('test')
+    let ctx = context()
+    let error = new Error('test')
 
     try {
       ctx.throw(422, error)
@@ -70,7 +70,7 @@ tman.suite('ctx.throw(status, err)', function () {
 
 tman.suite('ctx.throw(msg, status)', function () {
   tman.it('should throw an error', function (done) {
-    var ctx = context()
+    let ctx = context()
 
     try {
       ctx.throw('name required', 400)
@@ -85,7 +85,7 @@ tman.suite('ctx.throw(msg, status)', function () {
 
 tman.suite('ctx.throw(status, msg)', function () {
   tman.it('should throw an error', function (done) {
-    var ctx = context()
+    let ctx = context()
 
     try {
       ctx.throw(400, 'name required')
@@ -100,7 +100,7 @@ tman.suite('ctx.throw(status, msg)', function () {
 
 tman.suite('ctx.throw(status)', function () {
   tman.it('should throw an error', function (done) {
-    var ctx = context()
+    let ctx = context()
 
     try {
       ctx.throw(400)
@@ -114,10 +114,10 @@ tman.suite('ctx.throw(status)', function () {
 
   tman.suite('when not valid status', function () {
     tman.it('should not expose', function (done) {
-      var ctx = context()
+      let ctx = context()
 
       try {
-        var err = new Error('some error')
+        let err = new Error('some error')
         err.status = -1
         ctx.throw(err)
       } catch (err) {
@@ -131,7 +131,7 @@ tman.suite('ctx.throw(status)', function () {
 
 tman.suite('ctx.throw(status, msg, props)', function () {
   tman.it('should mixin props', function (done) {
-    var ctx = context()
+    let ctx = context()
 
     try {
       ctx.throw(400, 'msg', {
@@ -148,7 +148,7 @@ tman.suite('ctx.throw(status, msg, props)', function () {
 
   tman.suite('when props include status', function () {
     tman.it('should be ignored', function (done) {
-      var ctx = context()
+      let ctx = context()
 
       try {
         ctx.throw(400, 'msg', {
@@ -168,7 +168,7 @@ tman.suite('ctx.throw(status, msg, props)', function () {
 
 tman.suite('ctx.throw(msg, props)', function () {
   tman.it('should mixin props', function (done) {
-    var ctx = context()
+    let ctx = context()
 
     try {
       ctx.throw('msg', {
@@ -186,7 +186,7 @@ tman.suite('ctx.throw(msg, props)', function () {
 
 tman.suite('ctx.throw(status, props)', function () {
   tman.it('should mixin props', function (done) {
-    var ctx = context()
+    let ctx = context()
 
     try {
       ctx.throw(400, {
@@ -204,7 +204,7 @@ tman.suite('ctx.throw(status, props)', function () {
 
 tman.suite('ctx.throw(err, props)', function () {
   tman.it('should mixin props', function (done) {
-    var ctx = context()
+    let ctx = context()
 
     try {
       ctx.throw(new Error('test'), {
@@ -222,13 +222,13 @@ tman.suite('ctx.throw(err, props)', function () {
 
 tman.suite('ctx.throw with custom ctx.createError', function () {
   tman.it('should use custom ctx.createError', function (done) {
-    var app = toa(function () {
+    const app = toa(function () {
       this.throw(500)
     })
-    var _createError = app.context.createError
+    let _createError = app.context.createError
 
     app.context.createError = function () {
-      var err = _createError.apply(null, arguments)
+      let err = _createError.apply(null, arguments)
       err.url = this.originalUrl
       return err
     }

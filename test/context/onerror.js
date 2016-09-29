@@ -1,13 +1,13 @@
 'use strict'
 
-var tman = require('tman')
-var assert = require('assert')
-var request = require('supertest')
-var toa = require('../..')
+const tman = require('tman')
+const assert = require('assert')
+const request = require('supertest')
+const toa = require('../..')
 
 tman.suite('catch error', function () {
   tman.it('should respond', function () {
-    var app = toa()
+    const app = toa()
 
     app.use(function (next) {
       this.body = 'something else'
@@ -24,7 +24,7 @@ tman.suite('catch error', function () {
   })
 
   tman.it('should unset all headers', function () {
-    var app = toa()
+    const app = toa()
 
     app.use(function (next) {
       this.set('Vary', 'Accept-Encoding')
@@ -49,11 +49,11 @@ tman.suite('catch error', function () {
   tman.suite('when invalid err.status', function () {
     tman.suite('not number', function () {
       tman.it('should respond 500', function () {
-        var app = toa()
+        const app = toa()
 
         app.use(function (next) {
           this.body = 'something else'
-          var err = new Error('some error')
+          let err = new Error('some error')
           err.status = 'notnumber'
           throw err
         })
@@ -70,11 +70,11 @@ tman.suite('catch error', function () {
 
     tman.suite('not http status code', function () {
       tman.it('should respond 500', function () {
-        var app = toa()
+        const app = toa()
 
         app.use(function (next) {
           this.body = 'something else'
-          var err = new Error('some error')
+          let err = new Error('some error')
           err.status = 9999
           throw err
         })

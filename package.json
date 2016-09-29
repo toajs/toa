@@ -4,7 +4,7 @@
   "authors": [
     "Yan Qing <admin@zensh.com>"
   ],
-  "version": "2.2.1",
+  "version": "2.3.0",
   "main": "lib/application.js",
   "typings": "index.d.ts",
   "license": "MIT",
@@ -46,10 +46,10 @@
     "vary": "~1.1.0"
   },
   "devDependencies": {
-    "babel-plugin-transform-async-to-generator": "^6.8.0",
-    "babel-polyfill": "^6.13.0",
-    "babel-preset-es2015": "^6.14.0",
-    "babel-register": "^6.14.0",
+    "babel-plugin-transform-async-to-generator": "^6.16.0",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-register": "^6.16.0",
     "ilog": "^1.0.3",
     "istanbul": "^0.4.5",
     "koa": "^1.2.4",

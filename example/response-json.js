@@ -3,8 +3,10 @@
 //
 // **License:** MIT
 
-var Toa = require('..')
-var app = Toa(function () {
+const Toa = require('..')
+const app = new Toa()
+
+app.use(function () {
   this.body = this.toJSON()
 })
 

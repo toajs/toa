@@ -15,31 +15,29 @@ Toa
 ## Demo
 
 ```js
+const ilog = require('ilog')
 const Toa = require('toa')
-const app = Toa(function () {
-  // this function will run after all middlewares
-  this.body = this.state
-})
-// support sync function middleware
+
+const app = new Toa()
+
 app.use(function () {
-  this.state.syncFn = 'support!'
-})
-// support thunk function middleware
-app.use(function (next) {
-  this.state.thunkFn = 'support!'
-  setTimeout(next, 10)
-})
-// support generator function middleware
-app.use(function * () {
-  this.state.generatorFn = yield Promise.resolve('support!')
-})
-// support async function middleware in babel or Node.js v7~
-// babel-node --presets es2015 --plugins transform-async-to-generator example/simple.js
-app.use(async function () {
-  this.state.asyncFn = await Promise.resolve('support!')
+  this.body = 'support sync function middleware!\n'
 })
 
-app.listen(3000)
+app.use(function (next) {
+  this.body += 'support thunk function middleware!\n'
+  next()
+})
+
+app.use(function * () {
+  this.body += yield Promise.resolve('support generator function middleware!\n')
+})
+// support with Node.js v7
+app.use(async function () {
+  this.body += await Promise.resolve('support async/await function middleware!\n')
+})
+
+app.listen(3000, () => ilog.info('App start at: 3000'))
 ```
 
 ## TypeScript Demo
@@ -47,25 +45,23 @@ app.listen(3000)
 ```typescript
 import { Toa } from 'toa'
 
-const app = Toa(function () {
-  this.body = this.state
-})
-// support sync function middleware
+const app = new Toa()
+
 app.use(function () {
-  this.state.syncFn = 'support!'
+  this.body = 'support sync function middleware!\n'
 })
-// support thunk function middleware
+
 app.use(function (next) {
-  this.state.thunkFn = 'support!'
-  setTimeout(next, 10)
+  this.body += 'support thunk function middleware!\n'
+  next()
 })
-// support generator function middleware
+
 app.use(function * () {
-  this.state.generatorFn = yield Promise.resolve('support!')
+  this.body += yield Promise.resolve('support generator function middleware!\n')
 })
-// support async function middleware
+
 app.use(async function () {
-  this.state.asyncFn = await Promise.resolve('support!')
+  this.body += await Promise.resolve('support async/await function middleware!\n')
 })
 
 app.listen(3000, () => console.log('App start at 3000'))

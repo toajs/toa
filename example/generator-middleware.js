@@ -3,8 +3,8 @@
 //
 // **License:** MIT
 
-var Toa = require('..')
-var app = Toa()
+const Toa = require('..')
+const app = new Toa()
 
 app.use(function * () {
   this.body = yield 'Hello World!\n-- toa'

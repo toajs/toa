@@ -1,14 +1,14 @@
 'use strict'
 
-var tman = require('tman')
-var assert = require('assert')
-var context = require('../context')
+const tman = require('tman')
+const assert = require('assert')
+const context = require('../context')
 
 tman.suite('ctx.createError(msg)', function () {
   tman.it('should set .status to 500', function () {
-    var ctx = context()
+    let ctx = context()
 
-    var err = ctx.createError('boom')
+    let err = ctx.createError('boom')
     assert.strictEqual(err.status, 500)
     assert.strictEqual(err.expose, false)
   })
@@ -16,10 +16,10 @@ tman.suite('ctx.createError(msg)', function () {
 
 tman.suite('ctx.createError(err)', function () {
   tman.it('should set .status to 500', function () {
-    var ctx = context()
-    var error = new Error('test')
+    let ctx = context()
+    let error = new Error('test')
 
-    var err = ctx.createError(error)
+    let err = ctx.createError(error)
     assert.strictEqual(err.status, 500)
     assert.strictEqual(err.message, 'test')
     assert.strictEqual(err.expose, false)
@@ -28,10 +28,10 @@ tman.suite('ctx.createError(err)', function () {
 
 tman.suite('ctx.createError(err, status)', function () {
   tman.it('should create the error and set .status', function () {
-    var ctx = context()
-    var error = new Error('test')
+    let ctx = context()
+    let error = new Error('test')
 
-    var err = ctx.createError(error, 422)
+    let err = ctx.createError(error, 422)
     assert.strictEqual(err.status, 422)
     assert.strictEqual(err.message, 'test')
     assert.strictEqual(err.expose, true)
@@ -40,10 +40,10 @@ tman.suite('ctx.createError(err, status)', function () {
 
 tman.suite('ctx.createError(status, err)', function () {
   tman.it('should create the error and set .status', function () {
-    var ctx = context()
-    var error = new Error('test')
+    let ctx = context()
+    let error = new Error('test')
 
-    var err = ctx.createError(422, error)
+    let err = ctx.createError(422, error)
     assert.strictEqual(err.status, 422)
     assert.strictEqual(err.message, 'test')
     assert.strictEqual(err.expose, true)
@@ -52,9 +52,9 @@ tman.suite('ctx.createError(status, err)', function () {
 
 tman.suite('ctx.createError(msg, status)', function () {
   tman.it('should create an error', function () {
-    var ctx = context()
+    let ctx = context()
 
-    var err = ctx.createError('name required', 400)
+    let err = ctx.createError('name required', 400)
     assert.strictEqual(err.message, 'name required')
     assert.strictEqual(err.status, 400)
     assert.strictEqual(err.expose, true)
@@ -63,9 +63,9 @@ tman.suite('ctx.createError(msg, status)', function () {
 
 tman.suite('ctx.createError(status, msg)', function () {
   tman.it('should create an error', function () {
-    var ctx = context()
+    let ctx = context()
 
-    var err = ctx.createError(400, 'name required')
+    let err = ctx.createError(400, 'name required')
     assert.strictEqual(err.message, 'name required')
     assert.strictEqual(err.status, 400)
     assert.strictEqual(err.expose, true)
@@ -74,9 +74,9 @@ tman.suite('ctx.createError(status, msg)', function () {
 
 tman.suite('ctx.createError(status)', function () {
   tman.it('should create an error', function () {
-    var ctx = context()
+    let ctx = context()
 
-    var err = ctx.createError(400)
+    let err = ctx.createError(400)
     assert.strictEqual(err.message, 'Bad Request')
     assert.strictEqual(err.status, 400)
     assert.strictEqual(err.expose, true)
@@ -84,11 +84,11 @@ tman.suite('ctx.createError(status)', function () {
 
   tman.suite('when not valid status', function () {
     tman.it('should not expose', function () {
-      var ctx = context()
+      let ctx = context()
 
-      var error = new Error('some error')
+      let error = new Error('some error')
       error.status = -1
-      var err = ctx.createError(error)
+      let err = ctx.createError(error)
       assert.strictEqual(err.message, 'some error')
       assert.strictEqual(err.expose, false)
     })
@@ -97,9 +97,9 @@ tman.suite('ctx.createError(status)', function () {
 
 tman.suite('ctx.createError(status, msg, props)', function () {
   tman.it('should mixin props', function () {
-    var ctx = context()
+    let ctx = context()
 
-    var err = ctx.createError(400, 'msg', {
+    let err = ctx.createError(400, 'msg', {
       prop: true
     })
     assert.strictEqual(err.message, 'msg')
@@ -110,9 +110,9 @@ tman.suite('ctx.createError(status, msg, props)', function () {
 
   tman.suite('when props include status', function () {
     tman.it('should be ignored', function () {
-      var ctx = context()
+      let ctx = context()
 
-      var err = ctx.createError(400, 'msg', {
+      let err = ctx.createError(400, 'msg', {
         prop: true,
         status: -1
       })
@@ -126,9 +126,9 @@ tman.suite('ctx.createError(status, msg, props)', function () {
 
 tman.suite('ctx.createError(msg, props)', function () {
   tman.it('should mixin props', function () {
-    var ctx = context()
+    let ctx = context()
 
-    var err = ctx.createError('msg', {
+    let err = ctx.createError('msg', {
       prop: true
     })
     assert.strictEqual(err.message, 'msg')
@@ -140,9 +140,9 @@ tman.suite('ctx.createError(msg, props)', function () {
 
 tman.suite('ctx.createError(status, props)', function () {
   tman.it('should mixin props', function () {
-    var ctx = context()
+    let ctx = context()
 
-    var err = ctx.createError(400, {
+    let err = ctx.createError(400, {
       prop: true
     })
     assert.strictEqual(err.message, 'Bad Request')
@@ -154,9 +154,9 @@ tman.suite('ctx.createError(status, props)', function () {
 
 tman.suite('ctx.createError(err, props)', function () {
   tman.it('should mixin props', function () {
-    var ctx = context()
+    let ctx = context()
 
-    var err = ctx.createError(new Error('test'), {
+    let err = ctx.createError(new Error('test'), {
       prop: true
     })
     assert.strictEqual(err.message, 'test')

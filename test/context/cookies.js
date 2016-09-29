@@ -1,13 +1,13 @@
 'use strict'
 
-var tman = require('tman')
-var assert = require('assert')
-var request = require('supertest')
-var toa = require('../..')
+const tman = require('tman')
+const assert = require('assert')
+const request = require('supertest')
+const toa = require('../..')
 
 tman.suite('ctx.cookies.set()', function () {
   tman.it('should set an unsigned cookie', function () {
-    var app = toa()
+    const app = toa()
 
     app.use(function (next) {
       this.cookies.set('name', 'jon')
@@ -28,7 +28,7 @@ tman.suite('ctx.cookies.set()', function () {
   tman.suite('with .signed', function () {
     tman.suite('when no .keys are set', function () {
       tman.it('should error', function () {
-        var app = toa()
+        const app = toa()
         app.keys = null
 
         app.use(function (next) {
@@ -49,7 +49,7 @@ tman.suite('ctx.cookies.set()', function () {
     })
 
     tman.it('should send a signed cookie', function () {
-      var app = toa()
+      const app = toa()
       app.keys = ['toa']
 
       app.use(function (next) {
@@ -64,7 +64,7 @@ tman.suite('ctx.cookies.set()', function () {
         .get('/')
         .expect(204)
         .expect(function (res) {
-          var cookies = res.headers['set-cookie']
+          let cookies = res.headers['set-cookie']
 
           assert.strictEqual(cookies.some(function (cookie) {
             return /^name=/.test(cookie)
