@@ -271,9 +271,9 @@ declare class Toa {
   onerror(error: Error): void;
   listen(...args: Array<any>): Server;
   toListener(): (req: IncomingMessage, res: ServerResponse) => void;
-  constructor(server?: Server, mainHandle?: MiddlewareFn, options?: ToaOptions | Onerror);
-  constructor(mainHandle?: MiddlewareFn, options?: ToaOptions | Onerror);
-  constructor(options?: ToaOptions);
+  constructor(server: Server, options: ToaOptions);
+  constructor(options: ToaOptions);
+  constructor(server?: Server);
 }
 
 declare namespace Toa {
@@ -293,9 +293,9 @@ declare namespace Toa {
     onerror(error: Error): void;
     listen(...args: Array<any>): Server;
     toListener(): (req: IncomingMessage, res: ServerResponse) => void;
-    constructor(server?: Server, mainHandle?: MiddlewareFn, options?: ToaOptions | Onerror);
-    constructor(mainHandle?: MiddlewareFn, options?: ToaOptions | Onerror);
-    constructor(options?: ToaOptions);
+    constructor(server: Server, options: ToaOptions);
+    constructor(options: ToaOptions);
+    constructor(server?: Server);
   }
 }
 

@@ -3,7 +3,7 @@
 const tman = require('tman')
 const assert = require('assert')
 const request = require('supertest')
-const toa = require('../..')
+const Toa = require('../..')
 const context = require('../context')
 
 tman.suite('ctx.throw(msg)', function () {
@@ -222,7 +222,8 @@ tman.suite('ctx.throw(err, props)', function () {
 
 tman.suite('ctx.throw with custom ctx.createError', function () {
   tman.it('should use custom ctx.createError', function (done) {
-    const app = toa(function () {
+    const app = new Toa()
+    app.use(function () {
       this.throw(500)
     })
     let _createError = app.context.createError

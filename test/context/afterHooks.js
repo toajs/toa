@@ -4,13 +4,23 @@ const tman = require('tman')
 const assert = require('assert')
 const thunk = require('thunks')()
 const request = require('supertest')
-const toa = require('../..')
+const Toa = require('../..')
 
 tman.suite('context middleware after hooks', function () {
   tman.it('should run after hooks before context end', function () {
     let count = 0
 
-    const app = toa(function () {
+    const app = new Toa()
+
+    app.use(function () {
+      assert.strictEqual(++count, 1)
+      assert.strictEqual(this.after(function (done) {
+        assert.strictEqual(++count, 3)
+        return done()
+      }), 2)
+    })
+
+    app.use(function () {
       this.body = 'test'
 
       assert.strictEqual(++count, 2)
@@ -22,14 +32,6 @@ tman.suite('context middleware after hooks', function () {
       }), 3)
     })
 
-    app.use(function () {
-      assert.strictEqual(++count, 1)
-      assert.strictEqual(this.after(function (done) {
-        assert.strictEqual(++count, 3)
-        return done()
-      }), 2)
-    })
-
     return request(app.listen())
       .get('/')
       .expect(200)
@@ -38,20 +40,7 @@ tman.suite('context middleware after hooks', function () {
   tman.it('should support more after hook function styles', function () {
     let count = 0
 
-    const app = toa(function () {
-      this.body = 'test'
-      assert.strictEqual(++count, 5)
-
-      this.after(function () {
-        assert.ok(this instanceof app.Context)
-        assert.strictEqual(++count, 10)
-      })
-
-      this.on('end', function () {
-        assert.ok(this instanceof app.Context)
-        assert.strictEqual(++count, 11)
-      })
-    })
+    const app = new Toa()
 
     app.use(function () {
       assert.strictEqual(++count, 1)
@@ -96,6 +85,21 @@ tman.suite('context middleware after hooks', function () {
       })
     })
 
+    app.use(function () {
+      this.body = 'test'
+      assert.strictEqual(++count, 5)
+
+      this.after(function () {
+        assert.ok(this instanceof app.Context)
+        assert.strictEqual(++count, 10)
+      })
+
+      this.on('end', function () {
+        assert.ok(this instanceof app.Context)
+        assert.strictEqual(++count, 11)
+      })
+    })
+
     return request(app.listen())
       .get('/')
       .expect(200)
@@ -104,7 +108,20 @@ tman.suite('context middleware after hooks', function () {
   tman.it('should be compatible with onPreEnd', function () {
     let count = 0
 
-    const app = toa(function () {
+    const app = new Toa()
+
+    app.use(function (next) {
+      assert.strictEqual(++count, 1)
+
+      this.onPreEnd = function (done) {
+        assert.ok(this instanceof app.Context)
+        assert.strictEqual(++count, 3)
+        done()
+      }
+      next()
+    })
+
+    app.use(function () {
       this.body = 'test'
 
       assert.strictEqual(++count, 2)
@@ -116,17 +133,6 @@ tman.suite('context middleware after hooks', function () {
         assert.ok(this instanceof app.Context)
         assert.strictEqual(++count, 4)
       }
-    })
-
-    app.use(function (next) {
-      assert.strictEqual(++count, 1)
-
-      this.onPreEnd = function (done) {
-        assert.ok(this instanceof app.Context)
-        assert.strictEqual(++count, 3)
-        done()
-      }
-      next()
     })
 
     return request(app.listen())

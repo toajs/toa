@@ -4,11 +4,12 @@ const tman = require('tman')
 const assert = require('assert')
 const thunks = require('thunks')
 const request = require('supertest')
-const toa = require('../..')
+const Toa = require('../..')
 
 tman.suite('context end', function () {
   tman.it('should respond body with context.end', function () {
-    const app = toa(function () {
+    const app = new Toa()
+    app.use(function () {
       this.body = 'Good job.'
       return this.thunk()(function () {
         this.end('test this.end')
@@ -25,7 +26,8 @@ tman.suite('context end', function () {
   })
 
   tman.it('should not overwrite response body with context.end', function () {
-    const app = toa(function () {
+    const app = new Toa()
+    app.use(function () {
       return this.thunk()(function () {
         this.body = 'Good job.'
         this.end('test this.end')
@@ -42,7 +44,7 @@ tman.suite('context end', function () {
   })
 
   tman.it('should not run next middleware with context.end', function () {
-    const app = toa()
+    const app = new Toa()
 
     app.use(function () {
       this.body = 'Good job.'
@@ -61,7 +63,8 @@ tman.suite('context end', function () {
 
   tman.it('should work in nested thunks', function () {
     const thunk = thunks()
-    const app = toa(function () {
+    const app = new Toa()
+    app.use(function () {
       return this.thunk()(function () {
         return thunk.call(this)(function () {
           this.end('nested thunks')
@@ -83,7 +86,8 @@ tman.suite('context end', function () {
   tman.it('after hooks should run only once when ctx.end()', function () {
     let called = 0
 
-    const app = toa(function () {
+    const app = new Toa()
+    app.use(function () {
       this.after(function () {
         called++
         assert.strictEqual(this.after(function () {}), 0)

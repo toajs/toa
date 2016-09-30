@@ -3,11 +3,11 @@
 const tman = require('tman')
 const assert = require('assert')
 const request = require('supertest')
-const toa = require('../..')
+const Toa = require('../..')
 
 tman.suite('catch error', function () {
   tman.it('should respond', function () {
-    const app = toa()
+    const app = new Toa()
 
     app.use(function (next) {
       this.body = 'something else'
@@ -24,7 +24,7 @@ tman.suite('catch error', function () {
   })
 
   tman.it('should unset all headers', function () {
-    const app = toa()
+    const app = new Toa()
 
     app.use(function (next) {
       this.set('Vary', 'Accept-Encoding')
@@ -49,7 +49,7 @@ tman.suite('catch error', function () {
   tman.suite('when invalid err.status', function () {
     tman.suite('not number', function () {
       tman.it('should respond 500', function () {
-        const app = toa()
+        const app = new Toa()
 
         app.use(function (next) {
           this.body = 'something else'
@@ -70,7 +70,7 @@ tman.suite('catch error', function () {
 
     tman.suite('not http status code', function () {
       tman.it('should respond 500', function () {
-        const app = toa()
+        const app = new Toa()
 
         app.use(function (next) {
           this.body = 'something else'

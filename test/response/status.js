@@ -5,7 +5,7 @@ const assert = require('assert')
 const response = require('../context').response
 const request = require('supertest')
 const statuses = require('statuses')
-const toa = require('../..')
+const Toa = require('../..')
 
 tman.suite('res.status=', function () {
   tman.suite('when a status code', function () {
@@ -60,7 +60,7 @@ tman.suite('res.status=', function () {
 
   function strip (status) {
     tman.it('should strip content related header fields', function () {
-      const app = toa()
+      const app = new Toa()
 
       app.use(function (next) {
         this.body = {
@@ -88,7 +88,7 @@ tman.suite('res.status=', function () {
     })
 
     tman.it('should strip content releated header fields after status set', function () {
-      const app = toa()
+      const app = new Toa()
 
       app.use(function (next) {
         this.status = status

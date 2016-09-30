@@ -3,11 +3,11 @@
 const tman = require('tman')
 const assert = require('assert')
 const request = require('supertest')
-const toa = require('../..')
+const Toa = require('../..')
 
 tman.suite('ctx.cookies.set()', function () {
   tman.it('should set an unsigned cookie', function () {
-    const app = toa()
+    const app = new Toa()
 
     app.use(function (next) {
       this.cookies.set('name', 'jon')
@@ -28,7 +28,7 @@ tman.suite('ctx.cookies.set()', function () {
   tman.suite('with .signed', function () {
     tman.suite('when no .keys are set', function () {
       tman.it('should error', function () {
-        const app = toa()
+        const app = new Toa()
         app.keys = null
 
         app.use(function (next) {
@@ -49,8 +49,8 @@ tman.suite('ctx.cookies.set()', function () {
     })
 
     tman.it('should send a signed cookie', function () {
-      const app = toa()
-      app.keys = ['toa']
+      const app = new Toa()
+      app.keys = ['Toa']
 
       app.use(function (next) {
         this.cookies.set('name', 'jon', {

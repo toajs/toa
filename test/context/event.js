@@ -3,13 +3,14 @@
 const tman = require('tman')
 const assert = require('assert')
 const request = require('supertest')
-const toa = require('../..')
+const Toa = require('../..')
 
 tman.suite('context events', function () {
   tman.suite('"end" event', function () {
     tman.it('should emit "end"', function (done) {
       let resEnd = false
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.body = 'test'
         assert.strictEqual(this.ended, false)
         this.on('end', function () {
@@ -30,7 +31,8 @@ tman.suite('context events', function () {
 
     tman.it('should emit "end" while 404', function (done) {
       let resEnd = false
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         assert.strictEqual(this.ended, false)
         this.on('end', function () {
           resEnd = !resEnd
@@ -51,7 +53,8 @@ tman.suite('context events', function () {
 
     tman.it('should emit "end" while any error', function (done) {
       let resEnd = false
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         assert.strictEqual(this.ended, false)
         this.on('end', function () {
           resEnd = !resEnd
@@ -74,7 +77,8 @@ tman.suite('context events', function () {
 
     tman.it('should emit "end" if ctx.respond === false', function (done) {
       let resEnd = false
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         assert.strictEqual(this.ended, false)
         this.on('end', function () {
           resEnd = !resEnd
@@ -100,7 +104,8 @@ tman.suite('context events', function () {
   tman.suite('"finish" event', function () {
     tman.it('should emit "finish"', function (done) {
       let finished = null
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.body = 'test'
         assert.strictEqual(this.finished, false)
         this.on('finish', function () {
@@ -121,7 +126,8 @@ tman.suite('context events', function () {
 
     tman.it('should emit "finish" while 404', function (done) {
       let finished = null
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         assert.strictEqual(this.finished, false)
         this.on('finish', function () {
           finished = this.finished
@@ -142,7 +148,8 @@ tman.suite('context events', function () {
 
     tman.it('should emit "finish" when process error', function (done) {
       let finished = null
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         assert.strictEqual(this.finished, false)
         this.on('finish', function () {
           finished = this.finished
@@ -166,7 +173,8 @@ tman.suite('context events', function () {
     tman.it('should emit "finish" after "end"', function (done) {
       let ended = false
       let finished = null
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.on('finish', function () {
           assert.strictEqual(ended, true)
           finished = this.finished
@@ -191,7 +199,8 @@ tman.suite('context events', function () {
 
   tman.suite('"close" event', function () {
     tman.it('should emit "close" when request destroy', function (done) {
-      const app = toa(function (cb) {
+      const app = new Toa()
+      app.use(function (cb) {
         setTimeout(cb, 100)
         this.body = 'test'
 
@@ -212,7 +221,8 @@ tman.suite('context events', function () {
     })
 
     tman.it('should emit "close" when socket destroy', function (done) {
-      const app = toa(function (cb) {
+      const app = new Toa()
+      app.use(function (cb) {
         setTimeout(cb, 100)
         this.body = 'test'
 
@@ -234,7 +244,7 @@ tman.suite('context events', function () {
 
     tman.it('should cancel process after "close" emited', function (done) {
       let called = false
-      const app = toa()
+      const app = new Toa()
 
       app.use(function (cb) {
         setTimeout(cb, 100)
@@ -270,7 +280,7 @@ tman.suite('context events', function () {
   tman.it('should cancel process and respond when "error" event', function (done) {
     let error = null
     let called = false
-    const app = toa()
+    const app = new Toa()
 
     app.onerror = function (err) { error = err }
     app.use(function (cb) {

@@ -25,28 +25,19 @@ suite('toa typings', () => {
     let app = new Toa(http.createServer())
     assert.ok(app instanceof Toa)
 
-    app = new Toa(http.createServer(), function () {})
-    assert.ok(app instanceof Toa)
-
-    app = new Toa(http.createServer(), function () {}, function (err: Error) {})
-    assert.ok(app instanceof Toa)
-
-    app = new Toa(http.createServer(), function () {}, {onerror: function (err: Error) {}})
-    assert.ok(app instanceof Toa)
-
-    app = new Toa(function () {})
-    assert.ok(app instanceof Toa)
-
-    app = new Toa1(function () {})
-    assert.ok(app instanceof Toa)
-
-    app = new Toa(function () {}, function () {})
-    assert.ok(app instanceof Toa)
-
-    app = new Toa(function () {}, {onerror: function (err: Error) {}})
-    assert.ok(app instanceof Toa)
-
     app = new Toa({onerror: function (err: Error) {}})
+    assert.ok(app instanceof Toa)
+
+    app = new Toa(http.createServer(), {onerror: function (err: Error) {}})
+    assert.ok(app instanceof Toa)
+
+    app = new Toa1(http.createServer())
+    assert.ok(app instanceof Toa)
+
+    app = new Toa1({onerror: function (err: Error) {}})
+    assert.ok(app instanceof Toa)
+
+    app = new Toa1(http.createServer(), {onerror: function (err: Error) {}})
     assert.ok(app instanceof Toa)
 
     assert.ok(app.request)
@@ -55,7 +46,6 @@ suite('toa typings', () => {
     assert.ok(app.Context)
     assert.ok(app.config)
     assert.strictEqual(app.keys, null)
-    assert.strictEqual(app.server, null)
 
     app.use(function () {})
     app.use(function * () {})
@@ -70,7 +60,8 @@ suite('toa typings', () => {
   })
 
   it('request, response, context', function * () {
-    let app = new Toa(function () {
+    let app = new Toa()
+    app.use(function () {
       assert.strictEqual(this.request.__proto__, app.request)
       assert.strictEqual(this.response.__proto__, app.response)
       assert.strictEqual(this.__proto__, app.context)

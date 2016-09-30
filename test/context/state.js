@@ -3,11 +3,11 @@
 const tman = require('tman')
 const request = require('supertest')
 const assert = require('assert')
-const toa = require('../..')
+const Toa = require('../..')
 
 tman.suite('ctx.state', function () {
   tman.it('should provide a ctx.state namespace', function () {
-    const app = toa()
+    const app = new Toa()
 
     app.use(function (next) {
       assert.deepEqual(this.state, {})

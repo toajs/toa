@@ -4,7 +4,7 @@ const tman = require('tman')
 const Stream = require('stream')
 const request = require('supertest')
 const assert = require('assert')
-const toa = require('../../')
+const Toa = require('../..')
 const context = require('../context')
 
 tman.suite('ctx.href', function () {
@@ -26,7 +26,8 @@ tman.suite('ctx.href', function () {
   })
 
   tman.it('should work with `GET /users/1?next=dashboard`', function () {
-    const app = toa(function () {
+    const app = new Toa()
+    app.use(function () {
       this.body = this.href
       assert.strictEqual(this.body, this.protocol + '://' + this.host + '/users/1?next=dashboard')
     })

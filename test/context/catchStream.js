@@ -8,7 +8,7 @@ const thunk = require('thunks')()
 const Stream = require('stream')
 const assert = require('assert')
 const request = require('supertest')
-const toa = require('../..')
+const Toa = require('../..')
 const context = require('../context')
 
 if (!Stream.prototype.listenerCount) {
@@ -48,7 +48,8 @@ tman.suite('catch stream error', function () {
   })
 
   tman.it('should respond success', function () {
-    const app = toa(function () {
+    const app = new Toa()
+    app.use(function () {
       this.type = 'text'
       this.body = fs.createReadStream(path.join(__dirname, 'catchStream.js'), {
         encoding: 'utf8'
@@ -61,7 +62,7 @@ tman.suite('catch stream error', function () {
   })
 
   tman.it('should respond 404', function () {
-    const app = toa(function () {
+    const app = Toa(function () {
       this.type = 'text'
       this.body = fs.createReadStream(path.join(__dirname, 'none.js'), {
         encoding: 'utf8'
@@ -79,7 +80,8 @@ tman.suite('catch stream error', function () {
 
   tman.it('should destroy stream when request interrupted', function () {
     let destroyBody = false
-    const app = toa(function () {
+    const app = new Toa()
+    app.use(function () {
       let body = new Stream.PassThrough()
       let timer = setInterval(function () {
         body.write(new Buffer('...'))
@@ -105,7 +107,8 @@ tman.suite('catch stream error', function () {
 
   tman.it('should work with keepAlive agent', function (done) {
     this.timeout(5000)
-    const remote = toa(function () {
+    const remote = new Toa()
+    remote.use(function () {
       this.body = 'hello!'
     })
     remote.listen()
@@ -113,7 +116,8 @@ tman.suite('catch stream error', function () {
 
     let socket = null
     let agent = new http.Agent({keepAlive: true, maxSockets: 1})
-    const app = toa(function () {
+    const app = new Toa()
+    app.use(function () {
       return requestRemote.call(this)(function (_, res) {
         if (socket) assert.strictEqual(socket, res.socket)
         else socket = res.socket

@@ -9,11 +9,12 @@ const Stream = require('stream')
 const request = require('supertest')
 const statuses = require('statuses')
 const stderr = require('test-console').stderr
-const toa = require('..')
+const Toa = require('..')
 
 tman.suite('app', function () {
   tman.it('should finished when socket errors', function (done) {
-    const app = toa(function () {
+    const app = new Toa()
+    app.use(function () {
       this.on('close', function () {
         assert.strictEqual(this.finished, false)
         assert.strictEqual(this.headerSent, false)
@@ -37,7 +38,8 @@ tman.suite('app', function () {
 
   tman.it('should work with custom server', function () {
     const server = http.createServer()
-    const app = toa(server, function () {
+    const app = new Toa(server)
+    app.use(function () {
       this.body = 'hello'
     })
 
@@ -49,12 +51,15 @@ tman.suite('app', function () {
   })
 
   tman.it('should work with error handle', function () {
-    const app = toa(function () {
+    const app = new Toa({
+      onerror: function (err) {
+        this.body = 'hello'
+        assert.strictEqual(err.status, 404)
+        return true
+      }
+    })
+    app.use(function () {
       this.throw(404)
-    }, function (err) {
-      this.body = 'hello'
-      assert.strictEqual(err.status, 404)
-      return true
     })
 
     return request(app.listen())
@@ -63,10 +68,13 @@ tman.suite('app', function () {
   })
 
   tman.it('should throw errorHandle\'s error', function (done) {
-    const app = toa(function () {
+    const app = new Toa({
+      onerror: function (err) {
+        if (err) throw new Error('errorHandle error')
+      }
+    })
+    app.use(function () {
       this.throw(404)
-    }, function (err) {
-      if (err) throw new Error('errorHandle error')
     })
 
     let handleErr = null
@@ -85,12 +93,15 @@ tman.suite('app', function () {
   })
 
   tman.it('should work with error handle', function () {
-    const app = toa(function () {
+    const app = new Toa({
+      onerror: function (err) {
+        this.body = 'hello'
+        assert.strictEqual(err.status, 404)
+        return true
+      }
+    })
+    app.use(function () {
       this.throw(404)
-    }, function (err) {
-      this.body = 'hello'
-      assert.strictEqual(err.status, 404)
-      return true
     })
 
     return request(app.listen())
@@ -99,7 +110,8 @@ tman.suite('app', function () {
   })
 
   tman.it('error should have headerSent when occured after send', function (done) {
-    const app = toa(function () {
+    const app = new Toa()
+    app.use(function () {
       this.body = 'hello'
       this.thunk.delay.call(this, 100)(function () {
         this.throw(500)
@@ -121,7 +133,8 @@ tman.suite('app', function () {
   })
 
   tman.it('should respond non-error by onResError', function () {
-    const app = toa(function () {
+    const app = new Toa()
+    app.use(function () {
       this.body = 123
       let obj = {
         message: 'some message',
@@ -140,7 +153,7 @@ tman.suite('app', function () {
   })
 
   tman.it('should respond non-error-400', function () {
-    const app = toa({
+    const app = new Toa({
       onerror: function (err) {
         return {status: err.status, name: err.name, message: 'Invalid params'}
       }
@@ -161,12 +174,13 @@ tman.suite('app', function () {
   })
 
   tman.it('should work with options', function () {
-    const app = toa(function () {
-      this.throw(404)
-    }, {
+    const app = new Toa({
       onerror: function (err) {
         return {status: err.status, message: 'some error'}
       }
+    })
+    app.use(function () {
+      this.throw(404)
     })
 
     return request(app.listen())
@@ -179,7 +193,7 @@ tman.suite('app', function () {
     let socket = null
     let count = 0
 
-    const server = toa(function () {
+    const server = new Toa().use(function () {
       this.body = String(++count)
       if (!socket) socket = this.socket
       else assert.strictEqual(this.socket, socket)
@@ -213,15 +227,15 @@ tman.suite('app', function () {
 
 tman.suite('app.use(fn)', function () {
   tman.it('should throw error with non-function middleware', function (done) {
-    const app = toa()
+    const app = new Toa()
     assert.throws(function () {
       app.use({})
     })
     done()
   })
 
-  tman.it('should run middleware befor body', function () {
-    const app = toa(function () {
+  tman.it('should run middleware befor body (will be deprecated)', function () {
+    const app = Toa(function () {
       calls.push(3)
       return this.thunk(4)(function (err, res) {
         if (err) return
@@ -247,19 +261,10 @@ tman.suite('app.use(fn)', function () {
         assert.deepEqual(res.body, [1, 2, 3, 4])
       })
   })
-
   tman.it('should support more middleware function styles', function () {
     let count = 0
 
-    const app = toa(function () {
-      assert.ok(this instanceof app.Context)
-      assert.strictEqual(++count, 9)
-      return function (done) {
-        this.body = {count: ++count}
-        done()
-      }
-    })
-
+    const app = new Toa()
     app.use(function (next) {
       assert.ok(this instanceof app.Context)
       assert.strictEqual(++count, 1)
@@ -304,6 +309,15 @@ tman.suite('app.use(fn)', function () {
       }
     })
 
+    app.use(function () {
+      assert.ok(this instanceof app.Context)
+      assert.strictEqual(++count, 9)
+      return function (done) {
+        this.body = {count: ++count}
+        done()
+      }
+    })
+
     return request(app.listen())
       .get('/')
       .expect(200)
@@ -313,7 +327,7 @@ tman.suite('app.use(fn)', function () {
 
 tman.suite('app.onerror(err)', function () {
   tman.it('should do nothing if status is 404', function () {
-    const app = toa()
+    const app = new Toa()
     let err = new Error()
 
     err.status = 404
@@ -326,7 +340,7 @@ tman.suite('app.onerror(err)', function () {
   })
 
   tman.it('should log the error to stderr', function () {
-    const app = toa()
+    const app = new Toa()
 
     let err = new Error()
     err.stack = 'Foo'
@@ -339,7 +353,7 @@ tman.suite('app.onerror(err)', function () {
   })
 
   tman.it('should transform non-error to error object', function () {
-    const app = toa()
+    const app = new Toa()
 
     let err = 'Foo'
     let output = stderr.inspectSync(function () {
@@ -353,7 +367,8 @@ tman.suite('app.onerror(err)', function () {
 tman.suite('app.respond', function () {
   tman.suite('when this.respond === false', function () {
     tman.it('should bypass app.respond', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.body = 'Hello'
         this.respond = false
 
@@ -374,7 +389,8 @@ tman.suite('app.respond', function () {
 
   tman.suite('when HEAD is used', function () {
     tman.it('should not respond with the body', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.body = 'Hello'
       })
 
@@ -389,7 +405,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should keep json headers', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.body = {
           hello: 'world'
         }
@@ -406,7 +423,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should keep string headers', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.body = 'hello world'
       })
 
@@ -421,7 +439,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should keep buffer headers', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.body = new Buffer('hello world')
       })
 
@@ -436,7 +455,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should respond with a 404 if no body was set', function () {
-      const app = toa(function () {})
+      const app = new Toa()
+      app.use(function () {})
 
       return request(app.listen())
         .head('/')
@@ -444,7 +464,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should respond with a 200 if body = ""', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.body = ''
       })
 
@@ -454,7 +475,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should not overwrite the content-type', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.status = 200
         this.type = 'application/javascript'
       })
@@ -466,7 +488,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should not send Content-Type header', function (done) {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.body = ''
         this.type = null
       })
@@ -484,7 +507,7 @@ tman.suite('app.respond', function () {
 
   tman.suite('when no middleware and no body are present', function () {
     tman.it('should 404', function () {
-      const app = toa()
+      const app = new Toa()
 
       return request(app.listen())
         .get('/')
@@ -494,7 +517,8 @@ tman.suite('app.respond', function () {
 
   tman.suite('when res has already been written to', function () {
     tman.it('should not cause an app error', function (done) {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         var res = this.res
         this.status = 200
         res.setHeader('content-type', 'text/html')
@@ -521,7 +545,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should send the right body', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         var res = this.res
         this.status = 200
         res.setHeader('content-type', 'text/html')
@@ -541,7 +566,8 @@ tman.suite('app.respond', function () {
   tman.suite('when .body is missing', function () {
     tman.suite('with status=400', function () {
       tman.it('should respond with the associated status message', function () {
-        const app = toa(function () {
+        const app = new Toa()
+        app.use(function () {
           this.status = 400
         })
 
@@ -555,7 +581,8 @@ tman.suite('app.respond', function () {
 
     tman.suite('with status=204', function () {
       tman.it('should respond without a body', function () {
-        const app = toa(function () {
+        const app = new Toa()
+        app.use(function () {
           this.status = 204
         })
 
@@ -571,7 +598,8 @@ tman.suite('app.respond', function () {
 
     tman.suite('with status=205', function () {
       tman.it('should respond without a body', function () {
-        const app = toa(function () {
+        const app = new Toa()
+        app.use(function () {
           this.status = 205
         })
 
@@ -587,7 +615,8 @@ tman.suite('app.respond', function () {
 
     tman.suite('with status=304', function () {
       tman.it('should respond without a body', function () {
-        const app = toa(function () {
+        const app = new Toa()
+        app.use(function () {
           this.status = 304
         })
 
@@ -603,7 +632,7 @@ tman.suite('app.respond', function () {
 
     tman.suite('with custom status=700', function () {
       tman.it('should respond with the associated status message', function () {
-        const app = toa()
+        const app = new Toa()
         statuses['700'] = 'custom status'
 
         app.use(function (next) {
@@ -623,7 +652,7 @@ tman.suite('app.respond', function () {
 
     tman.suite('with custom statusMessage=ok', function () {
       tman.it('should respond with the custom status message', function () {
-        const app = toa()
+        const app = new Toa()
 
         app.use(function (next) {
           this.status = 200
@@ -643,7 +672,7 @@ tman.suite('app.respond', function () {
 
     tman.suite('with custom status without message', function () {
       tman.it('should respond with the status code number', function () {
-        const app = toa()
+        const app = new Toa()
 
         app.use(function (next) {
           this.res.statusCode = 701
@@ -660,7 +689,8 @@ tman.suite('app.respond', function () {
 
   tman.suite('when .body is a null', function () {
     tman.it('should respond 204 by default', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.body = null
       })
 
@@ -674,7 +704,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should respond 204 with status=200', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.status = 200
         this.body = null
       })
@@ -689,7 +720,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should respond 205 with status=205', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.status = 205
         this.body = null
       })
@@ -704,7 +736,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should respond 304 with status=304', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.status = 304
         this.body = null
       })
@@ -721,7 +754,8 @@ tman.suite('app.respond', function () {
 
   tman.suite('when .body is a string', function () {
     tman.it('should respond', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.body = 'Hello'
       })
 
@@ -733,7 +767,8 @@ tman.suite('app.respond', function () {
 
   tman.suite('when .body is a Buffer', function () {
     tman.it('should respond', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.body = new Buffer('Hello')
       })
 
@@ -745,7 +780,8 @@ tman.suite('app.respond', function () {
 
   tman.suite('when .body is a Stream', function () {
     tman.it('should respond', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.body = fs.createReadStream('package.json')
         this.set('content-type', 'application/json; charset=utf-8')
         this.on('end', function () {
@@ -764,7 +800,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should strip content-length when overwriting', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.body = 'hello'
         this.body = fs.createReadStream('package.json')
         this.set('content-type', 'application/json; charset=utf-8')
@@ -781,7 +818,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should keep content-length if not overwritten', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.length = fs.readFileSync('package.json').length
         this.body = fs.createReadStream('package.json')
         this.set('content-type', 'application/json; charset=utf-8')
@@ -798,7 +836,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should keep content-length if overwritten with the same stream', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.length = fs.readFileSync('package.json').length
         var stream = fs.createReadStream('package.json')
         this.body = stream
@@ -817,7 +856,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should handle errors', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.set('content-type', 'application/json; charset=utf-8')
         this.body = fs.createReadStream('does not exist')
         this.on('end', function () {
@@ -833,7 +873,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should handle errors when no content status', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.status = 204
         this.body = fs.createReadStream('does not exist1')
       })
@@ -845,7 +886,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should handle all intermediate stream body errors', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.body = fs.createReadStream('does not exist2')
         this.body = fs.createReadStream('does not exist3')
         this.body = fs.createReadStream('does not exist4')
@@ -870,7 +912,8 @@ tman.suite('app.respond', function () {
         this.push(null)
       }
 
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.body = stream
       })
 
@@ -890,7 +933,8 @@ tman.suite('app.respond', function () {
         this.push('1')
       }
 
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.body = stream
       })
 
@@ -911,7 +955,8 @@ tman.suite('app.respond', function () {
         destroyed = true
         destroy.call(stream)
       }
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.body = stream
         this.body = fs.createReadStream('does not exist5')
         assert.ok(this.getStreamCleanHandler(stream))
@@ -929,7 +974,8 @@ tman.suite('app.respond', function () {
 
   tman.suite('when .body is an Object', function () {
     tman.it('should respond with json', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.body = {
           hello: 'world'
         }
@@ -944,7 +990,8 @@ tman.suite('app.respond', function () {
 
   tman.suite('when an error occurs', function () {
     tman.it('should emit "error" on the app', function (done) {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         throw new Error('boom')
       })
 
@@ -960,7 +1007,8 @@ tman.suite('app.respond', function () {
 
     tman.suite('with an .expose property', function () {
       tman.it('should expose the message', function () {
-        const app = toa(function () {
+        const app = new Toa()
+        app.use(function () {
           var err = new Error('sorry!')
           err.status = 403
           err.expose = true
@@ -979,7 +1027,8 @@ tman.suite('app.respond', function () {
 
     tman.suite('with a .status property', function () {
       tman.it('should respond with .status', function () {
-        const app = toa(function () {
+        const app = new Toa()
+        app.use(function () {
           var err = new Error('s3 explodes')
           err.status = 403
           throw err
@@ -992,7 +1041,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should respond with 500', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         throw new Error('boom!')
       })
 
@@ -1006,12 +1056,15 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should be catchable', function () {
-      const app = toa(function () {
+      const app = new Toa({
+        onerror: function (err) {
+          assert.strictEqual(err.message, 'boom!')
+          this.body = 'Got error'
+          return true
+        }
+      })
+      app.use(function () {
         this.body = 'Got something'
-      }, function (err) {
-        assert.strictEqual(err.message, 'boom!')
-        this.body = 'Got error'
-        return true
       })
 
       app.use(function (done) {
@@ -1024,7 +1077,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should retain "Accept" headers', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.set('Accept', 'text/plain')
         this.throw(400)
       })
@@ -1038,7 +1092,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should retain "Allow" headers', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.set('Allow', 'GET, HEAD')
         this.throw(405)
       })
@@ -1052,7 +1107,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should retain "Retry-After" headers', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.set('Retry-After', '120')
         this.throw(429)
       })
@@ -1066,7 +1122,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should retain "Warning" headers', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.set('Warning', '199 Miscellaneous warning')
         this.throw(400)
       })
@@ -1080,7 +1137,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should retain CORS headers', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.set('Access-Control-Allow-Credentials', 'true')
         this.set('Access-Control-Allow-Origin', '*')
         this.set('Access-Control-Allow-Methods', 'GET, POST, DELETE, HEAD, OPTIONS')
@@ -1101,7 +1159,8 @@ tman.suite('app.respond', function () {
 
   tman.suite('when status and body property', function () {
     tman.it('should 200', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.status = 304
         this.body = 'hello'
         this.status = 200
@@ -1114,7 +1173,8 @@ tman.suite('app.respond', function () {
     })
 
     tman.it('should 204', function () {
-      const app = toa(function () {
+      const app = new Toa()
+      app.use(function () {
         this.status = 200
         this.body = 'hello'
         this.set('content-type', 'text/plain; charset=utf8')
@@ -1132,15 +1192,15 @@ tman.suite('app.respond', function () {
 })
 
 tman.suite('app.context', function () {
-  const app1 = toa()
+  const app1 = new Toa()
   app1.context.msg = 'hello'
-  const app2 = toa()
+  const app2 = new Toa()
 
   tman.it('should merge properties', function () {
     app1.use(function (next) {
       assert.strictEqual(this.msg, 'hello')
       this.status = 204
-      return next()
+      next()
     })
 
     return request(app1.listen())
@@ -1152,7 +1212,7 @@ tman.suite('app.context', function () {
     app2.use(function (next) {
       assert.strictEqual(this.msg, undefined)
       this.status = 204
-      return next()
+      next()
     })
 
     return request(app2.listen())
@@ -1161,7 +1221,7 @@ tman.suite('app.context', function () {
   })
 
   tman.it('should throw error with non-object config', function () {
-    const app = toa()
+    const app = new Toa()
 
     assert.throws(function () {
       app.config = null
@@ -1170,7 +1230,8 @@ tman.suite('app.context', function () {
   })
 
   tman.it('should not affect the application config', function () {
-    const app = toa(function () {
+    const app = new Toa()
+    app.use(function () {
       assert.strictEqual(this.config.test, 'config')
       assert.strictEqual(this.config.poweredBy, 'x')
       this.config.poweredBy = 'test'
@@ -1191,9 +1252,9 @@ tman.suite('app.context', function () {
 })
 
 tman.suite('app.request', function () {
-  const app1 = toa()
+  const app1 = new Toa()
   app1.request.message = 'hello'
-  const app2 = toa()
+  const app2 = new Toa()
 
   tman.it('should merge properties', function () {
     app1.use(function (next) {
@@ -1221,9 +1282,9 @@ tman.suite('app.request', function () {
 })
 
 tman.suite('app.response', function () {
-  const app1 = toa()
+  const app1 = new Toa()
   app1.response.msg = 'hello'
-  const app2 = toa()
+  const app2 = new Toa()
 
   tman.it('should merge properties', function () {
     app1.use(function (next) {

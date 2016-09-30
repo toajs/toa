@@ -4,7 +4,7 @@ const tman = require('tman')
 const assert = require('assert')
 const context = require('../context')
 const request = require('supertest')
-const toa = require('../..')
+const Toa = require('../..')
 
 tman.suite('ctx.attachment([filename])', function () {
   tman.suite('when given a filename', function () {
@@ -33,7 +33,7 @@ tman.suite('ctx.attachment([filename])', function () {
     })
 
     tman.it('should work with http client', function () {
-      const app = toa()
+      const app = new Toa()
 
       app.use(function (next) {
         this.attachment('path/to/include-no-ascii-char-中文名-ok.json')
