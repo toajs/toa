@@ -4,7 +4,7 @@
   "authors": [
     "Yan Qing <admin@zensh.com>"
   ],
-  "version": "2.3.1",
+  "version": "2.4.0",
   "main": "lib/application.js",
   "typings": "index.d.ts",
   "license": "MIT",
@@ -48,21 +48,21 @@
   "devDependencies": {
     "babel-plugin-transform-async-to-generator": "^6.16.0",
     "babel-polyfill": "^6.16.0",
-    "babel-preset-es2015": "^6.16.0",
-    "babel-register": "^6.16.3",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-register": "^6.18.0",
     "ilog": "^1.0.3",
     "istanbul": "^0.4.5",
     "koa": "^1.2.4",
-    "standard": "^8.3.0",
-    "supertest": "^2.0.0",
+    "standard": "^8.5.0",
+    "supertest": "^2.0.1",
     "test-console": "^1.0.0",
     "through2": "^2.0.1",
-    "tman": "^1.6.0",
-    "ts-node": "^1.4.1",
-    "typescript": "^2.0.3",
-    "typings": "^1.4.0",
+    "tman": "^1.6.2",
+    "ts-node": "^1.6.1",
+    "typescript": "^2.0.6",
+    "typings": "^1.5.0",
     "vinyl": "^2.0.0",
-    "vinyl-fs": "^2.4.3"
+    "vinyl-fs": "^2.4.4"
   },
   "scripts": {
     "test": "standard && tman -R dot 'test/**/*.js'",

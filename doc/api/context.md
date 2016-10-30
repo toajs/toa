@@ -68,7 +68,7 @@ Use to stopping request process and respond immediately. **It should not run in 
 #### ctx.after(function * () {})
 #### ctx.after(async function () {})
 
-Add hooks dynamicly. Hooks will run after middlewares and mainFn, but before `respond`.
+Add hooks dynamicly. Hooks will be executed in LIFO order after middlewares, but before `respond`.
 
 #### ctx.req
 

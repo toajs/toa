@@ -14,10 +14,13 @@ tman.suite('context middleware after hooks', function () {
 
     app.use(function () {
       assert.strictEqual(++count, 1)
-      assert.strictEqual(this.after(function (done) {
-        assert.strictEqual(++count, 3)
+      this.after(function (done) {
+        assert.strictEqual(++count, 4)
+        assert.throws(() => {
+          this.after(function () {})
+        })
         return done()
-      }), 2)
+      })
     })
 
     app.use(function () {
@@ -27,9 +30,9 @@ tman.suite('context middleware after hooks', function () {
       this.on('end', function () {
         assert.strictEqual(++count, 5)
       })
-      assert.strictEqual(this.after(function () {
-        assert.strictEqual(++count, 4)
-      }), 3)
+      this.after(function () {
+        assert.strictEqual(++count, 3)
+      })
     })
 
     return request(app.listen())
@@ -48,7 +51,7 @@ tman.suite('context middleware after hooks', function () {
       this.after(function * () {
         assert.ok(this instanceof app.Context)
         yield thunk.delay(10)
-        assert.strictEqual(++count, 6)
+        assert.strictEqual(++count, 10)
       })
     })
 
@@ -58,7 +61,7 @@ tman.suite('context middleware after hooks', function () {
       this.after(function (done) {
         assert.ok(this instanceof app.Context)
         thunk.delay(10)(function () {
-          assert.strictEqual(++count, 7)
+          assert.strictEqual(++count, 9)
         })(done)
       })
     })
@@ -80,7 +83,7 @@ tman.suite('context middleware after hooks', function () {
       this.after(function () {
         assert.ok(this instanceof app.Context)
         return thunk.delay(10)(function () {
-          assert.strictEqual(++count, 9)
+          assert.strictEqual(++count, 7)
         })
       })
     })
@@ -91,7 +94,7 @@ tman.suite('context middleware after hooks', function () {
 
       this.after(function () {
         assert.ok(this instanceof app.Context)
-        assert.strictEqual(++count, 10)
+        assert.strictEqual(++count, 6)
       })
 
       this.on('end', function () {
@@ -115,7 +118,7 @@ tman.suite('context middleware after hooks', function () {
 
       this.onPreEnd = function (done) {
         assert.ok(this instanceof app.Context)
-        assert.strictEqual(++count, 3)
+        assert.strictEqual(++count, 4)
         done()
       }
       next()
@@ -131,7 +134,7 @@ tman.suite('context middleware after hooks', function () {
 
       this.onPreEnd = function () {
         assert.ok(this instanceof app.Context)
-        assert.strictEqual(++count, 4)
+        assert.strictEqual(++count, 3)
       }
     })
 

@@ -400,7 +400,7 @@ tman.suite('app.respond', function () {
         .expect(function (res) {
           assert.strictEqual(res.header['content-type'], 'text/plain; charset=utf-8')
           assert.strictEqual(res.header['content-length'], '5')
-          assert.strictEqual(res.text.length, 0)
+          assert.ok(!res.text)
         })
     })
 
@@ -418,7 +418,7 @@ tman.suite('app.respond', function () {
         .expect(function (res) {
           assert.strictEqual(res.header['content-type'], 'application/json; charset=utf-8')
           assert.strictEqual(res.header['content-length'], '17')
-          assert.strictEqual(res.text.length, 0)
+          assert.ok(!res.text)
         })
     })
 
@@ -434,7 +434,7 @@ tman.suite('app.respond', function () {
         .expect(function (res) {
           assert.strictEqual(res.header['content-type'], 'text/plain; charset=utf-8')
           assert.strictEqual(res.header['content-length'], '11')
-          assert.strictEqual(res.text.length, 0)
+          assert.ok(!res.text)
         })
     })
 
@@ -450,7 +450,7 @@ tman.suite('app.respond', function () {
         .expect(function (res) {
           assert.strictEqual(res.header['content-type'], 'application/octet-stream')
           assert.strictEqual(res.header['content-length'], '11')
-          assert.strictEqual(res.text.length, 0)
+          assert.ok(!res.text)
         })
     })
 

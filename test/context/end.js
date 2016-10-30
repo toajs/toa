@@ -90,7 +90,6 @@ tman.suite('context end', function () {
     app.use(function () {
       this.after(function () {
         called++
-        assert.strictEqual(this.after(function () {}), 0)
         this.end('end in after hooks')
       })
       this.end('end in body')

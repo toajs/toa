@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file starting fro
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 -----
+## [2.4.0] - 2016-10-30
+
+### Changed
+
+- Execute after hooks in LIFO order.
+- Updated dependencies.
+
+-----
 ## [2.3.1] - 2016-10-08
 
 ### Changed
