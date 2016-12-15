@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file starting fro
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 -----
+## [2.4.2] - 2016-12-15
+
+### Changed
+
+- Added test case.
+- Updated dependencies.
+
+-----
 ## [2.4.1] - 2016-11-20
 
 ### Changed

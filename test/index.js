@@ -12,6 +12,23 @@ const stderr = require('test-console').stderr
 const Toa = require('..')
 
 tman.suite('app', function () {
+  tman.it('should work', function () {
+    const app = new Toa()
+    app.use(function () {
+      assert.strictEqual(this.req, this.request.req)
+      assert.strictEqual(this.req, this.response.req)
+      assert.strictEqual(this.res, this.request.res)
+      assert.strictEqual(this.res, this.response.res)
+      assert.strictEqual(this.request, this.response.request)
+      assert.strictEqual(this.response, this.request.response)
+      this.body = 'ok'
+    })
+
+    return request(app.listen())
+      .get('/')
+      .expect(200)
+  })
+
   tman.it('should finished when socket errors', function (done) {
     const app = new Toa()
     app.use(function () {
@@ -68,14 +85,14 @@ tman.suite('app', function () {
   })
 
   tman.it('should throw errorHandle\'s error', function (done) {
-    const app = new Toa({
-      onerror: function (err) {
-        if (err) throw new Error('errorHandle error')
-      }
-    })
-    app.use(function () {
+    const app = new Toa(function () {
       this.throw(404)
+    }, function (err) {
+      if (err) throw new Error('errorHandle error')
     })
+    // app.use(function () {
+    //   this.throw(404)
+    // })
 
     let handleErr = null
 

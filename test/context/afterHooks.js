@@ -115,12 +115,14 @@ tman.suite('context middleware after hooks', function () {
 
     app.use(function (next) {
       assert.strictEqual(++count, 1)
+      assert.strictEqual(this.onPreEnd.length, 0)
 
       this.onPreEnd = function (done) {
         assert.ok(this instanceof app.Context)
         assert.strictEqual(++count, 4)
         done()
       }
+      assert.strictEqual(this.onPreEnd.length, 0)
       next()
     })
 
