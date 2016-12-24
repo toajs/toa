@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file starting fro
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 -----
+## [2.5.0] - 2016-12-24
+
+### Changed
+
+- Suppport "toThunk" object as middleware.
+- Set header 'x-content-type-options: nosniff' when error.
+- Updated dependencies.
+
+-----
 ## [2.4.2] - 2016-12-15
 
 ### Changed

@@ -67,6 +67,21 @@ tman.suite('app', function () {
       .expect('hello')
   })
 
+  tman.it('should have x-content-type-options header in error response', function () {
+    const app = new Toa()
+    app.use(function () {
+      this.throw(404)
+    })
+
+    return request(app.listen())
+      .get('/')
+      .expect(404)
+      .expect((res) => {
+        assert.strictEqual(res.header['x-content-type-options'], 'nosniff')
+        assert.strictEqual(res.header['content-type'], 'text/plain; charset=utf-8')
+      })
+  })
+
   tman.it('should work with error handle', function () {
     const app = new Toa({
       onerror: function (err) {
@@ -243,12 +258,14 @@ tman.suite('app', function () {
 })
 
 tman.suite('app.use(fn)', function () {
-  tman.it('should throw error with non-function middleware', function (done) {
+  tman.it('should throw error with invalid middleware', function () {
     const app = new Toa()
     assert.throws(function () {
       app.use({})
     })
-    done()
+    assert.throws(function () {
+      app.use(true)
+    })
   })
 
   tman.it('should run middleware befor body (will be deprecated)', function () {
@@ -278,6 +295,23 @@ tman.suite('app.use(fn)', function () {
         assert.deepEqual(res.body, [1, 2, 3, 4])
       })
   })
+
+  tman.it('should support toThunk object as middleware', function () {
+    const app = new Toa()
+    app.use({
+      toThunk: function () {
+        return function (done) {
+          this.body = 'toThunk method'
+          done()
+        }
+      }
+    })
+    return request(app.listen())
+      .get('/')
+      .expect(200)
+      .expect('toThunk method')
+  })
+
   tman.it('should support more middleware function styles', function () {
     let count = 0
 
