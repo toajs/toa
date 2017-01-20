@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file starting fro
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 -----
+## [2.5.1] - 2017-01-20
+
+### Changed
+
+- Don't unset `Vary` header when error.
+- Added `secure` options to cookies.
+- Updated dependencies.
+
+-----
 ## [2.5.0] - 2016-12-24
 
 ### Changed

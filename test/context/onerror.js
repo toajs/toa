@@ -23,7 +23,7 @@ tman.suite('catch error', function () {
       .expect('Content-Length', '4')
   })
 
-  tman.it('should unset all headers', function () {
+  tman.it('should unset all headers except ON_ERROR_HEADER_REG', function () {
     const app = new Toa()
 
     app.use(function (next) {
@@ -41,7 +41,7 @@ tman.suite('catch error', function () {
       .expect('Content-Type', 'text/plain; charset=utf-8')
       .expect('Content-Length', '4')
       .expect(function (res) {
-        assert.strictEqual(res.headers.vary, undefined)
+        assert.strictEqual(res.headers.vary, 'Accept-Encoding')
         assert.strictEqual(res.headers['x-csrf-token'], undefined)
       })
   })
