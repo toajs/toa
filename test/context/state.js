@@ -16,6 +16,6 @@ tman.suite('ctx.state', function () {
 
     return request(app.listen())
       .get('/')
-      .expect(404)
+      .expect(421)
   })
 })

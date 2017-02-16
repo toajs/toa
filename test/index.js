@@ -279,6 +279,11 @@ tman.suite('app.use(fn)', function () {
     })
     const calls = []
 
+    let err = null
+    app.onerror = (e) => {
+      err = e
+    }
+
     app.use(function (next) {
       calls.push(1)
       return next()
@@ -292,6 +297,7 @@ tman.suite('app.use(fn)', function () {
     return request(app.listen())
       .get('/')
       .expect(function (res) {
+        assert.strictEqual(err.message, '"mainFn" will be deprecated in next version, please move it to middleware')
         assert.deepEqual(res.body, [1, 2, 3, 4])
       })
   })
@@ -505,13 +511,13 @@ tman.suite('app.respond', function () {
         })
     })
 
-    tman.it('should respond with a 404 if no body was set', function () {
+    tman.it('should respond with a 421 if no body was set', function () {
       const app = new Toa()
       app.use(function () {})
 
       return request(app.listen())
         .head('/')
-        .expect(404)
+        .expect(421)
     })
 
     tman.it('should respond with a 200 if body = ""', function () {
@@ -557,12 +563,12 @@ tman.suite('app.respond', function () {
   })
 
   tman.suite('when no middleware and no body are present', function () {
-    tman.it('should 404', function () {
+    tman.it('should 421', function () {
       const app = new Toa()
 
       return request(app.listen())
         .get('/')
-        .expect(404)
+        .expect(421)
     })
   })
 
@@ -820,6 +826,7 @@ tman.suite('app.respond', function () {
     tman.it('should respond', function () {
       const app = new Toa()
       app.use(function () {
+        this.type = 'text'
         this.body = new Buffer('Hello')
       })
 

@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file starting fro
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 -----
+## [2.6.0] - 2017-02-16
+
+### Fixed
+
+- Fix malformed content-type header causing exception on charset get.
+- Fix tests for new version of http-errors.
+
+### Changed
+
+- Log error for deprecated "mainFn"
+- Change default status code to 421
+- Updated dependencies.
+
+-----
 ## [2.5.1] - 2017-01-20
 
 ### Changed

@@ -26,18 +26,6 @@ tman.suite('ctx.createError(err)', function () {
   })
 })
 
-tman.suite('ctx.createError(err, status)', function () {
-  tman.it('should create the error and set .status', function () {
-    let ctx = context()
-    let error = new Error('test')
-
-    let err = ctx.createError(error, 422)
-    assert.strictEqual(err.status, 422)
-    assert.strictEqual(err.message, 'test')
-    assert.strictEqual(err.expose, true)
-  })
-})
-
 tman.suite('ctx.createError(status, err)', function () {
   tman.it('should create the error and set .status', function () {
     let ctx = context()
@@ -46,17 +34,6 @@ tman.suite('ctx.createError(status, err)', function () {
     let err = ctx.createError(422, error)
     assert.strictEqual(err.status, 422)
     assert.strictEqual(err.message, 'test')
-    assert.strictEqual(err.expose, true)
-  })
-})
-
-tman.suite('ctx.createError(msg, status)', function () {
-  tman.it('should create an error', function () {
-    let ctx = context()
-
-    let err = ctx.createError('name required', 400)
-    assert.strictEqual(err.message, 'name required')
-    assert.strictEqual(err.status, 400)
     assert.strictEqual(err.expose, true)
   })
 })
@@ -81,24 +58,11 @@ tman.suite('ctx.createError(status)', function () {
     assert.strictEqual(err.status, 400)
     assert.strictEqual(err.expose, true)
   })
-
-  tman.suite('when not valid status', function () {
-    tman.it('should not expose', function () {
-      let ctx = context()
-
-      let error = new Error('some error')
-      error.status = -1
-      let err = ctx.createError(error)
-      assert.strictEqual(err.message, 'some error')
-      assert.strictEqual(err.expose, false)
-    })
-  })
 })
 
 tman.suite('ctx.createError(status, msg, props)', function () {
   tman.it('should mixin props', function () {
     let ctx = context()
-
     let err = ctx.createError(400, 'msg', {
       prop: true
     })

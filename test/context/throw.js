@@ -36,22 +36,6 @@ tman.suite('ctx.throw(err)', function () {
   })
 })
 
-tman.suite('ctx.throw(err, status)', function () {
-  tman.it('should throw the error and set .status', function (done) {
-    let ctx = context()
-    let error = new Error('test')
-
-    try {
-      ctx.throw(error, 422)
-    } catch (err) {
-      assert.strictEqual(err.status, 422)
-      assert.strictEqual(err.message, 'test')
-      assert.strictEqual(err.expose, true)
-      done()
-    }
-  })
-})
-
 tman.suite('ctx.throw(status, err)', function () {
   tman.it('should throw the error and set .status', function (done) {
     let ctx = context()
@@ -62,21 +46,6 @@ tman.suite('ctx.throw(status, err)', function () {
     } catch (err) {
       assert.strictEqual(err.status, 422)
       assert.strictEqual(err.message, 'test')
-      assert.strictEqual(err.expose, true)
-      done()
-    }
-  })
-})
-
-tman.suite('ctx.throw(msg, status)', function () {
-  tman.it('should throw an error', function (done) {
-    let ctx = context()
-
-    try {
-      ctx.throw('name required', 400)
-    } catch (err) {
-      assert.strictEqual(err.message, 'name required')
-      assert.strictEqual(err.status, 400)
       assert.strictEqual(err.expose, true)
       done()
     }
@@ -110,22 +79,6 @@ tman.suite('ctx.throw(status)', function () {
       assert.strictEqual(err.expose, true)
       done()
     }
-  })
-
-  tman.suite('when not valid status', function () {
-    tman.it('should not expose', function (done) {
-      let ctx = context()
-
-      try {
-        let err = new Error('some error')
-        err.status = -1
-        ctx.throw(err)
-      } catch (err) {
-        assert.strictEqual(err.message, 'some error')
-        assert.strictEqual(err.expose, false)
-        done()
-      }
-    })
   })
 })
 

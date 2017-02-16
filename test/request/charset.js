@@ -27,4 +27,10 @@ tman.suite('req.charset', function () {
       assert.strictEqual(req.charset, 'utf-8')
     })
   })
+
+  tman.it('should return "" if content-type is invalid', function () {
+    let req = request()
+    req.header['content-type'] = 'application/json; application/text; charset=utf-8'
+    assert.strictEqual(req.charset, '')
+  })
 })

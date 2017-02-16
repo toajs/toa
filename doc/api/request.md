@@ -173,7 +173,7 @@ If `app.subdomainOffset` is 3, this.subdomains is `["tobi"]`.
 
 #### request.is(types...)
 
-Check if the incoming request contains the "Content-Type" header field, and it contains any of the give mime `type`s. If there is no request body, `undefined` is returned. If there is no content type, or the match fails `false` is returned. Otherwise, it returns the matching content-type.
+Check if the incoming request contains the "Content-Type" header field, and it contains any of the give mime `type`s. If there is no request body, `null` is returned. If there is no content type, or the match fails `false` is returned. Otherwise, it returns the matching content-type.
 
 ```js
 // With Content-Type: text/html; charset=utf-8

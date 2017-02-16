@@ -77,10 +77,7 @@ tman.suite('context end', function () {
 
     return request(app.listen())
       .get('/')
-      .expect(418)
-      .expect(function (res) {
-        assert.strictEqual(res.res.statusMessage || res.res.text, 'nested thunks')
-      })
+      .expect(421)
   })
 
   tman.it('after hooks should run only once when ctx.end()', function () {
@@ -97,8 +94,7 @@ tman.suite('context end', function () {
 
     return request(app.listen())
       .get('/')
-      .expect(418)
-      .expect('end in body')
+      .expect(421)
       .expect(function (res) {
         assert.strictEqual(called, 1)
       })
