@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file starting fro
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 -----
+## [2.6.2] - 2017-03-19
+
+### Changed
+
+- Updated dependencies.
+- Improved response header method.
+
+-----
 ## [2.6.1] - 2017-02-26
 
 ### Changed
