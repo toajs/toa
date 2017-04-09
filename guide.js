@@ -15,7 +15,7 @@ vfs.src([
     guide += file.contents.toString() + '\n\n------\n\n'
     next()
   }, function (done) {
-    this.push(new Vinyl({path: __dirname, contents: new Buffer(guide)}))
+    this.push(new Vinyl({path: __dirname, contents: Buffer.from(guide)}))
     console.log(guide)
     done()
   }))

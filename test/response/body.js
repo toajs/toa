@@ -10,7 +10,7 @@ tman.suite('res.body=', function () {
     tman.it('should not override', function () {
       let res = response()
       res.type = 'png'
-      res.body = new Buffer('something')
+      res.body = Buffer.from('something')
       assert.strictEqual(res.header['content-type'], 'image/png')
     })
 
@@ -115,13 +115,13 @@ tman.suite('res.body=', function () {
   tman.suite('when a buffer is given', function () {
     tman.it('should default to an octet stream', function () {
       let res = response()
-      res.body = new Buffer('hey')
+      res.body = Buffer.from('hey')
       assert.strictEqual(res.header['content-type'], 'application/octet-stream')
     })
 
     tman.it('should set length', function () {
       let res = response()
-      res.body = new Buffer('Tobi')
+      res.body = Buffer.from('Tobi')
       assert.strictEqual(res.header['content-length'], '4')
     })
   })

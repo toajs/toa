@@ -36,11 +36,11 @@ tman.suite('res.length', function () {
         res.body = 'foo'
         assert.strictEqual(res.length, 3)
 
-        res.body = new Buffer('foo bar')
+        res.body = Buffer.from('foo bar')
         res.remove('Content-Length')
         assert.strictEqual(res.length, 7)
 
-        res.body = new Buffer('foo bar')
+        res.body = Buffer.from('foo bar')
         assert.strictEqual(res.length, 7)
 
         res.body = {

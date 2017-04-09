@@ -11,12 +11,6 @@ const request = require('supertest')
 const Toa = require('../..')
 const context = require('../context')
 
-if (!Stream.prototype.listenerCount) {
-  Stream.prototype.listenerCount = function (type) {
-    return require('events').EventEmitter.listenerCount(this, type)
-  }
-}
-
 tman.suite('catch stream error', function () {
   tman.it('should auto catch stream for body', function () {
     let ctx = context()
@@ -84,7 +78,7 @@ tman.suite('catch stream error', function () {
     app.use(function () {
       let body = new Stream.PassThrough()
       let timer = setInterval(function () {
-        body.write(new Buffer('...'))
+        body.write(Buffer.from('...'))
       }, 20)
       body.destroy = function () {
         destroyBody = true

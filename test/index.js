@@ -234,7 +234,7 @@ tman.suite('app', function () {
 
     let bufs = []
     let port = server.address().port
-    let buf = new Buffer('GET / HTTP/1.1\r\nHost: localhost:' +
+    let buf = Buffer.from('GET / HTTP/1.1\r\nHost: localhost:' +
       port + '\r\nConnection: keep-alive\r\n\r\n')
     let client = net.connect(server.address().port)
       .on('error', done)
@@ -498,7 +498,7 @@ tman.suite('app.respond', function () {
     tman.it('should keep buffer headers', function () {
       const app = new Toa()
       app.use(function () {
-        this.body = new Buffer('hello world')
+        this.body = Buffer.from('hello world')
       })
 
       return request(app.listen())
@@ -827,7 +827,7 @@ tman.suite('app.respond', function () {
       const app = new Toa()
       app.use(function () {
         this.type = 'text'
-        this.body = new Buffer('Hello')
+        this.body = Buffer.from('Hello')
       })
 
       return request(app.listen())
