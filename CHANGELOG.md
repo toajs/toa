@@ -5,30 +5,36 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 -----
 
+## [2.6.5] - 2017-05-05
+
+### Changed
+
+- Update node engines to `>= 4.5.0`.
+
 ## [2.6.4] - 2017-04-09
 
 ### Changed
 
-- Updated dependencies.
+- Update dependencies.
 
 ## [2.6.3] - 2017-03-30
 
 ### Changed
 
-- Updated dependencies.
+- Update dependencies.
 
 ## [2.6.2] - 2017-03-19
 
 ### Changed
 
-- Updated dependencies.
-- Improved response header method.
+- Update dependencies.
+- Improve response header method.
 
 ## [2.6.1] - 2017-02-26
 
 ### Changed
 
-- Updated dependencies.
+- Update dependencies.
 
 ## [2.6.0] - 2017-02-16
 
@@ -41,15 +47,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Log error for deprecated "mainFn"
 - Change default status code to 421
-- Updated dependencies.
+- Update dependencies.
 
 ## [2.5.1] - 2017-01-20
 
 ### Changed
 
 - Don't unset `Vary` header when error.
-- Added `secure` options to cookies.
-- Updated dependencies.
+- Add `secure` options to cookies.
+- Update dependencies.
 
 ## [2.5.0] - 2016-12-24
 
@@ -57,59 +63,59 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Suppport "toThunk" object as middleware.
 - Set header 'x-content-type-options: nosniff' when error.
-- Updated dependencies.
+- Update dependencies.
 
 ## [2.4.2] - 2016-12-15
 
 ### Changed
 
-- Added test case.
-- Updated dependencies.
+- Add test case.
+- Update dependencies.
 
 ## [2.4.1] - 2016-11-20
 
 ### Changed
 
-- Updated dependencies.
+- Update dependencies.
 
 ## [2.4.0] - 2016-10-30
 
 ### Changed
 
 - Execute after hooks in LIFO order.
-- Updated dependencies.
+- Update dependencies.
 
 ## [2.3.1] - 2016-10-08
 
 ### Changed
 
-- Updated dependencies.
-- Improved tests.
+- Update dependencies.
+- Improve tests.
 
 ## [2.3.0] - 2016-09-29
 
 ### Changed
 
 - Do not recommend `mainFn`. It will be deprecated in next version.
-- Improved code.
+- Improve code.
 
 ## [2.2.1] - 2016-09-25
 
 ### Changed
 
-- Updated dependencies.
+- Update dependencies.
 
 ## [2.2.0] - 2016-09-20
 
 ### Changed
 
-- Added TypeScript typings.
+- Add TypeScript typings.
 
 ## [2.1.0] - 2016-09-13
 
 ### Changed
 
-- Added `context.after(hook)`, instead of `context.onPreEnd` (this will be deprecated). After hooks should be consumed only once.
+- Add `context.after(hook)`, instead of `context.onPreEnd` (this will be deprecated). After hooks should be consumed only once.
 
 ## [2.0.1] - 2016-09-13
 
@@ -122,7 +128,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 - Rewrited with ES2015, Required Node.js>=v4.
-- Added `context.ended`, `context.finished`, `context.closed`.
+- Add `context.ended`, `context.finished`, `context.closed`.
 
 ## [1.8.13] - 2016-09-10
 
@@ -134,13 +140,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Updated dependencies.
+- Update dependencies.
 
 ## [1.8.11] - 2016-09-01
 
 ### Changed
 
-- Added `request.origin`, `context.origin`.
+- Add `request.origin`, `context.origin`.
 
 ### Fixed
 
@@ -166,33 +172,33 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Updated dependencies.
+- Update dependencies.
 - Cleared up code.
 
 ## [1.8.7] - 2016-08-20
 
 ### Changed
 
-- Updated dependencies.
+- Update dependencies.
 - Cleared up code.
 
 ## [1.8.6] - 2016-08-17
 
 ### Changed
 
-- Improved Context prototype.
+- Improve Context prototype.
 
 ## [1.8.5] - 2016-08-17
 
 ### Changed
 
-- Improved code.
+- Improve code.
 
 ## [1.8.4] - 2016-08-16
 
 ### Changed
 
-- Improved error message.
+- Improve error message.
 - Changed `describe` to `suite` in tests
 
 ## [1.8.3] - 2016-08-05
@@ -205,28 +211,28 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Improved code.
+- Improve code.
 - Fixed ctx.end().
 
 ## [1.8.1] - 2016-07-30
 
 ### Changed
 
-- Improved code.
-- Updated readme.
+- Improve code.
+- Update readme.
 
 ## [1.8.0] - 2016-07-30
 
 ### Changed
 
 - Supported more middleware function Style.
-- Added `async/await` example.
+- Add `async/await` example.
 
 ## [1.7.2] - 2016-07-27
 
 ### Changed
 
-- Improved code.
+- Improve code.
 
 ## [1.7.1] - 2016-07-21
 
@@ -238,14 +244,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Improved code, classify context, request and response.
+- Improve code, classify context, request and response.
 - Changed context "finished" event to "finishe" event and "close" event.
 
 ## [1.6.5] - 2016-07-21
 
 ### Changed
 
-- Improved code.
+- Improve code.
 
 ## [1.6.4] - 2016-07-19
 
@@ -275,7 +281,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Improved performance, add bench.
+- Improve performance, add bench.
 
 ## [1.5.2] - 2016-07-16
 
@@ -287,44 +293,44 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Updated dependencies.
+- Update dependencies.
 
 ## [1.5.0] - 2016-05-22
 
 ### Changed
 
-- Updated dependencies.
-- Improved error response headers.
+- Update dependencies.
+- Improve error response headers.
 
 ## [1.4.3] - 2016-05-15
 
 ### Changed
 
-- Updated dependencies.
+- Update dependencies.
 
 ## [1.4.2] - 2016-04-03
 
 ### Changed
 
-- Updated dependencies, use T-man to test.
+- Update dependencies, use T-man to test.
 
 ## [1.4.1] - 2016-03-13
 
 ### Changed
 
-- Updated dependencies.
+- Update dependencies.
 
 ## [1.4.0] - 2016-02-06
 
 ### Changed
 
-- Updated dependencies, improve code and file structure.
+- Update dependencies, improve code and file structure.
 
 ## [1.3.2] - 2016-01-15
 
 ### Changed
 
-- Updated dependencies, improve code.
+- Update dependencies, improve code.
 
 ## [1.3.1] - 2016-01-02
 
@@ -337,7 +343,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 - Changed `end` event, it is emited in `respond()` now.
-- Added `finished` event, which will be emited after a HTTP request closes, finishes, or errors.
+- Add `finished` event, which will be emited after a HTTP request closes, finishes, or errors.
 - Removed mainFn's argument `thunk`, it is instead by `ctx.thunk`.
 
 ## [1.2.1] - 2015-12-20
@@ -345,14 +351,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 - Retain CORS headers when throw error
-- Updated dependencies
+- Update dependencies
 
 ## [1.2.0] - 2015-11-28
 
 ### Changed
 
 - Do not send a content-type when the type is unknown (koa_#536)
-- Improved code
+- Improve code
 
 ### Fixed
 
@@ -369,30 +375,30 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Improved code
-- Updated dependencies, [thunks](https://github.com/thunks/thunks) updated to v4.x with a break changed
+- Improve code
+- Update dependencies, [thunks](https://github.com/thunks/thunks) update to v4.x with a break changed
 
 ## [1.0.1] - 2015-10-11
 
 ### Changed
 
-- Improved test
-- Updated dependencies
+- Improve test
+- Update dependencies
 
 ## [1.0.0] - 2015-08-23
 
 ### Changed
 
 - Removed `context.onerror` method
-- Updated dependencies
-- Updated documents
+- Update dependencies
+- Update documents
 
 ## [0.13.0] - 2015-08-04
 
 ### Changed
 
 - `onstop` handler will execute `context.onPreEnd` queue
-- Added `context.createError`
+- Add `context.createError`
 
 ## [0.12.3] - 2015-07-16
 
@@ -404,7 +410,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Updated dependencies
+- Update dependencies
 - Don't unset headers while context throw non-error object.
 
 ## [0.12.1] - 2015-06-15
@@ -418,9 +424,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 - Supported `onstop` options for Toa constructor, add `context.end()` to stop request process.
-- Added `app.toListener()`
+- Add `app.toListener()`
 - Toa constructor will not create server by default, server will be created in `app.listen()` if omit in constructor.
-- Improved test and documents
+- Improve test and documents
 
 ## [0.11.1] - 2015-06-01
 
@@ -440,4 +446,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Mounted `thunk` function to context.
 - Removed `app.onmessage`, it become to a module `toa-pm`.
-- Updated with `koa` v0.21.0.
+- Update with `koa` v0.21.0.

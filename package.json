@@ -4,7 +4,7 @@
   "authors": [
     "Yan Qing <admin@zensh.com>"
   ],
-  "version": "2.6.4",
+  "version": "2.6.5",
   "main": "lib/application.js",
   "typings": "index.d.ts",
   "license": "MIT",
@@ -14,7 +14,7 @@
   },
   "homepage": "https://github.com/toajs/toa",
   "engines": {
-    "node": ">= 4.0.0"
+    "node": ">= 4.5.0"
   },
   "keywords": [
     "web",
@@ -53,15 +53,15 @@
     "ilog": "^1.0.3",
     "istanbul": "^0.4.5",
     "koa": "^2.2.0",
-    "standard": "^10.0.1",
+    "standard": "^10.0.2",
     "supertest": "^3.0.0",
     "test-console": "^1.0.0",
     "through2": "^2.0.3",
-    "tman": "^1.6.6",
-    "ts-node": "^3.0.2",
-    "typescript": "^2.2.2",
-    "typings": "^2.1.0",
-    "vinyl": "^2.0.1",
+    "tman": "^1.6.7",
+    "ts-node": "^3.0.4",
+    "typescript": "^2.3.2",
+    "typings": "^2.1.1",
+    "vinyl": "^2.0.2",
     "vinyl-fs": "^2.4.4"
   },
   "scripts": {
