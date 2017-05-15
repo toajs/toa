@@ -4,7 +4,7 @@
   "authors": [
     "Yan Qing <admin@zensh.com>"
   ],
-  "version": "2.6.5",
+  "version": "2.6.6",
   "main": "lib/application.js",
   "typings": "index.d.ts",
   "license": "MIT",
@@ -70,11 +70,6 @@
     "test-typings": "tman -r ts-node/register test/typings.test.ts",
     "guide": "node guide.js",
     "bench": "cd bench && make"
-  },
-  "standard": {
-    "ignore": [
-      "*.es.js"
-    ]
   },
   "files": [
     "lib",

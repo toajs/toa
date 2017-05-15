@@ -5,6 +5,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 -----
 
+## [2.6.6] - 2017-05-15
+
+### Changed
+
+- Change Context's private properties.
+
 ## [2.6.5] - 2017-05-05
 
 ### Changed
