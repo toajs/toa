@@ -5,6 +5,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 -----
 
+## [2.6.7] - 2017-06-01
+
+### Changed
+
+- Test in Node.js v8.
+
 ## [2.6.6] - 2017-05-15
 
 ### Changed

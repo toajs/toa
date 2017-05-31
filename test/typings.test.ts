@@ -2,8 +2,6 @@
 
 // `tman -r ts-node/register test/typings.test.ts`
 
-/// <reference path='../typings/index.d.ts' />
-
 import * as http from 'http'
 import * as assert from 'assert'
 import { suite, it } from 'tman'

@@ -10,10 +10,10 @@ var n = parseInt(process.env.MW || '1', 10)
 process.stdout.write('  toa, ' + n + ' middleware:')
 
 while (n--) {
-  app.use(function * () {})
+  app.use(async function () {})
 }
 
-app.use(function * () {
+app.use(async function () {
   this.body = 'Hello World'
 })
 

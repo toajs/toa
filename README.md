@@ -32,7 +32,7 @@ app.use(function (next) {
 app.use(function * () {
   this.body += yield Promise.resolve('support generator function middleware!\n')
 })
-// support in Node.js v7
+// support in Node.js v8
 app.use(async function () {
   this.body += await Promise.resolve('support async/await function middleware!\n')
 })
