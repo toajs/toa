@@ -5,6 +5,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 -----
 
+## [2.6.8] - 2017-06-03
+
+### Changed
+
+- Use normal function to run middlewares instead of generator function.
+
 ## [2.6.7] - 2017-06-01
 
 ### Changed
