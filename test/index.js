@@ -100,14 +100,12 @@ tman.suite('app', function () {
   })
 
   tman.it('should throw errorHandle\'s error', function (done) {
-    const app = new Toa(function () {
-      this.throw(404)
-    }, function (err) {
+    const app = new Toa(function (err) {
       if (err) throw new Error('errorHandle error')
     })
-    // app.use(function () {
-    //   this.throw(404)
-    // })
+    app.use(function () {
+      this.throw(404)
+    })
 
     let handleErr = null
 
@@ -266,40 +264,6 @@ tman.suite('app.use(fn)', function () {
     assert.throws(function () {
       app.use(true)
     })
-  })
-
-  tman.it('should run middleware befor body (will be deprecated)', function () {
-    const app = Toa(function () {
-      calls.push(3)
-      return this.thunk(4)(function (err, res) {
-        if (err) return
-        calls.push(4)
-        this.body = calls
-      })
-    })
-    const calls = []
-
-    let err = null
-    app.onerror = (e) => {
-      err = e
-    }
-
-    app.use(function (next) {
-      calls.push(1)
-      return next()
-    })
-
-    app.use(function (next) {
-      calls.push(2)
-      return next()
-    })
-
-    return request(app.listen())
-      .get('/')
-      .expect(function (res) {
-        assert.strictEqual(err.message, '"mainFn" will be deprecated in next version, please move it to middleware')
-        assert.deepEqual(res.body, [1, 2, 3, 4])
-      })
   })
 
   tman.it('should support toThunk object as middleware', function () {

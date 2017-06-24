@@ -1,7 +1,8 @@
 ## Context
-> Similar to [Koa's Context](https://github.com/koajs/koa/blob/master/docs/api/context.md)
 
-### Difference from Koa:
+Similar to [Koa's Context](https://github.com/koajs/koa/blob/master/docs/api/context.md)
+
+### Difference from Koa
 
 - remove `ctx.app`
 - add `ctx.thunk` method, it is thunk function that bound a scope with `onerror`.
@@ -36,15 +37,19 @@ Many of the context's accessors and methods simply delegate to their `ctx.reques
 ### Events
 
 #### 'close'
+
 Emitted after a HTTP request closed, indicates that the socket has been closed, and `context.closed` will be `true`.
 
 #### 'end'
+
 Emitted after respond() was called, indicates that body was sent. and `context.ended` will be `true`
 
 #### 'finish'
+
 Emitted after a HTTP response finished. and `context.finished` will be `true`.
 
 #### 'error'
+
 A context always listen `'error'` event by `ctx.onerror`. `ctx.onerror` is a **immutable** error handle. So you can use `ctx.emit('error', error)` to deal with your exception or error.
 
 ### API
@@ -64,8 +69,11 @@ Use to stopping request process and respond immediately. **It should not run in 
 - `message` String, see: https://github.com/thunks/thunks
 
 #### ctx.after(function () {})
+
 #### ctx.after(function (callback) {})
+
 #### ctx.after(function * () {})
+
 #### ctx.after(async function () {})
 
 Add hooks dynamicly. Hooks will be executed in LIFO order after middlewares, but before `respond`.

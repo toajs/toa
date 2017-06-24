@@ -5,6 +5,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 -----
 
+## [3.0.0] - 2017-06-24
+
+### Changed
+
+- Remove lastHandler.
+- Remove ctx.onPreEnd.
+
+-----
+
 ## [2.6.8] - 2017-06-03
 
 ### Changed

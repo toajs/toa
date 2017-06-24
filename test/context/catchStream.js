@@ -56,7 +56,8 @@ tman.suite('catch stream error', function () {
   })
 
   tman.it('should respond 404', function () {
-    const app = Toa(function () {
+    const app = new Toa()
+    app.use(function () {
       this.type = 'text'
       this.body = fs.createReadStream(path.join(__dirname, 'none.js'), {
         encoding: 'utf8'

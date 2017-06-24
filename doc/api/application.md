@@ -1,5 +1,5 @@
-Toa
-====
+# Toa
+
 简洁而强大的 web 框架。
 
 ## Thanks to [Koa](https://github.com/koajs/koa) and it's authors
@@ -12,7 +12,7 @@ Toa
 - [Request 对象](#request)
 - [Response 对象](#response)
 
-## Toa
+## Toa 简介
 
 __Toa__ 修改自 __Koa__，基本架构原理与 __Koa__ 相似，`context`、`request`、`response` 三大基础对象几乎一样。
 
@@ -24,11 +24,10 @@ __Toa__ 与 __Koa__ 学习成本和编程体验是一致的，两者之间几乎
 
 ### 安装 Toa
 
-````
+```sh
 npm install toa
-````
+```
 
-------
 ## Application
 
 一个 Toa Application（以下简称 __app__）由一系列 __中间件__ 组成。__中间件__ 是指通过 `app.use` 加载的同步函数、thunk 函数、generator 函数或 async/await 函数。
@@ -42,6 +41,7 @@ Toa 只有一个极简的内核，提供快捷的 HTTP 操作和异步流程控�
 ```js
 const Toa = require('toa')
 const app = new Toa()
+
 app.use(function () {
   this.body = 'Hello World!\n-- toa'
 })
@@ -50,13 +50,19 @@ app.listen(3000)
 ```
 
 ### Class: Toa()
+
 ### Class: Toa(server)
+
 ### Class: Toa(options)
+
+### Class: Toa(onerror)
+
 ### Class: Toa(server, options)
 
 - `server`: {Object}, http server 或 https server 实例。
 - `options`: {Object} 类似 `thunks` 的 options，对于 server 的每一个 **client request**，toa app 均会用 `thunks` 生成一个的 `thunk`，挂载到 `context.thunk`，该 `thunk` 的作用域对该 **client request** 的整个生命周期生效。
   - `options.onerror`: {Function} 其 `this` 为 **client request** 的 `context` 对象。当 **client request** 处理流程出现异常时，会抛出到 `onerror`，原有处理流程会终止，`onerror` 运行完毕后再进入 toa 内置的异常处理流程，最后 `respond` 客户端。如果 `onerror` 返回 `true`，则会忽略该异常，异常不会进入内置异常处理流程，然后直接 `respond` 客户端。
+
 ```js
 // with full arguments
 const app = new Toa(server, {
@@ -69,9 +75,9 @@ const app = new Toa(server, {
 设置 cookie 签名密钥，参考 [Keygrip](https://github.com/expressjs/keygrip)。
 注意，签名密钥只在配置项 `signed` 参数为真时才会生效：
 
-````js
+```js
 this.cookies.set('name', 'test', {signed: true})
-````
+```
 
 #### app.config = config
 
@@ -82,6 +88,7 @@ app.config = config
 ```
 
 app.config 默认值：
+
 ```js
 {
   proxy: false, // 决定了哪些 `proxy header` 参数会被加到信任列表中
@@ -92,8 +99,11 @@ app.config 默认值：
 ```
 
 #### app.use(function () {})
+
 #### app.use(function (callback) {})
+
 #### app.use(function * () {})
+
 #### app.use(async function () {})
 
 加载中间件，返回 `app`，`fn` 必须是 `thunk` 函数或 `generator` 函数，函数中的 `this` 值为 `context`。
@@ -131,7 +141,6 @@ app.onerror = function (err) {
 }
 ```
 
-
 #### app.toListener()
 
 返回 app request listener。
@@ -141,12 +150,12 @@ const http = require('http')
 const toa = require('toa')
 
 const app = toa()
-
 const server = http.createServer(app.toListener())
 server.listen(3000)
 ```
 
 等效于：
+
 ```js
 const toa = require('toa')
 
@@ -155,7 +164,9 @@ app.listen(3000)
 ```
 
 #### app.listen(port, [hostname], [backlog], [callback])
+
 #### app.listen(path, [callback])
+
 #### app.listen(handle, [callback])
 
 返回 `server`，用法与 `httpServer.listen` 一致。

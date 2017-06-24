@@ -1,5 +1,6 @@
 ## Request
-> The same as [Koa's Request](https://github.com/koajs/koa/blob/master/docs/api/request.md)
+
+The same as [Koa's Request](https://github.com/koajs/koa/blob/master/docs/api/request.md)
 
 `Request` object is an abstraction on top of node's vanilla request object, providing additional functionality that is useful for every day HTTP server development.
 

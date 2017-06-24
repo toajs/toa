@@ -107,41 +107,4 @@ tman.suite('context middleware after hooks', function () {
       .get('/')
       .expect(200)
   })
-
-  tman.it('should be compatible with onPreEnd', function () {
-    let count = 0
-
-    const app = new Toa()
-
-    app.use(function (next) {
-      assert.strictEqual(++count, 1)
-      assert.strictEqual(this.onPreEnd.length, 0)
-
-      this.onPreEnd = function (done) {
-        assert.ok(this instanceof app.Context)
-        assert.strictEqual(++count, 4)
-        done()
-      }
-      assert.strictEqual(this.onPreEnd.length, 0)
-      next()
-    })
-
-    app.use(function () {
-      this.body = 'test'
-
-      assert.strictEqual(++count, 2)
-      this.on('end', function () {
-        assert.strictEqual(++count, 5)
-      })
-
-      this.onPreEnd = function () {
-        assert.ok(this instanceof app.Context)
-        assert.strictEqual(++count, 3)
-      }
-    })
-
-    return request(app.listen())
-      .get('/')
-      .expect(200)
-  })
 })

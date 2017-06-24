@@ -1,5 +1,5 @@
-Toa
-====
+# Toa
+
 简洁而强大的 web 框架。
 
 ## Thanks to [Koa](https://github.com/koajs/koa) and it's authors
@@ -12,7 +12,7 @@ Toa
 - [Request 对象](#request)
 - [Response 对象](#response)
 
-## Toa
+## Toa 简介
 
 __Toa__ 修改自 __Koa__，基本架构原理与 __Koa__ 相似，`context`、`request`、`response` 三大基础对象几乎一样。
 
@@ -24,11 +24,10 @@ __Toa__ 与 __Koa__ 学习成本和编程体验是一致的，两者之间几乎
 
 ### 安装 Toa
 
-````
+```sh
 npm install toa
-````
+```
 
-------
 ## Application
 
 一个 Toa Application（以下简称 __app__）由一系列 __中间件__ 组成。__中间件__ 是指通过 `app.use` 加载的同步函数、thunk 函数、generator 函数或 async/await 函数。
@@ -42,6 +41,7 @@ Toa 只有一个极简的内核，提供快捷的 HTTP 操作和异步流程控�
 ```js
 const Toa = require('toa')
 const app = new Toa()
+
 app.use(function () {
   this.body = 'Hello World!\n-- toa'
 })
@@ -50,13 +50,19 @@ app.listen(3000)
 ```
 
 ### Class: Toa()
+
 ### Class: Toa(server)
+
 ### Class: Toa(options)
+
+### Class: Toa(onerror)
+
 ### Class: Toa(server, options)
 
 - `server`: {Object}, http server 或 https server 实例。
 - `options`: {Object} 类似 `thunks` 的 options，对于 server 的每一个 **client request**，toa app 均会用 `thunks` 生成一个的 `thunk`，挂载到 `context.thunk`，该 `thunk` 的作用域对该 **client request** 的整个生命周期生效。
   - `options.onerror`: {Function} 其 `this` 为 **client request** 的 `context` 对象。当 **client request** 处理流程出现异常时，会抛出到 `onerror`，原有处理流程会终止，`onerror` 运行完毕后再进入 toa 内置的异常处理流程，最后 `respond` 客户端。如果 `onerror` 返回 `true`，则会忽略该异常，异常不会进入内置异常处理流程，然后直接 `respond` 客户端。
+
 ```js
 // with full arguments
 const app = new Toa(server, {
@@ -69,9 +75,9 @@ const app = new Toa(server, {
 设置 cookie 签名密钥，参考 [Keygrip](https://github.com/expressjs/keygrip)。
 注意，签名密钥只在配置项 `signed` 参数为真时才会生效：
 
-````js
+```js
 this.cookies.set('name', 'test', {signed: true})
-````
+```
 
 #### app.config = config
 
@@ -82,6 +88,7 @@ app.config = config
 ```
 
 app.config 默认值：
+
 ```js
 {
   proxy: false, // 决定了哪些 `proxy header` 参数会被加到信任列表中
@@ -92,8 +99,11 @@ app.config 默认值：
 ```
 
 #### app.use(function () {})
+
 #### app.use(function (callback) {})
+
 #### app.use(function * () {})
+
 #### app.use(async function () {})
 
 加载中间件，返回 `app`，`fn` 必须是 `thunk` 函数或 `generator` 函数，函数中的 `this` 值为 `context`。
@@ -131,7 +141,6 @@ app.onerror = function (err) {
 }
 ```
 
-
 #### app.toListener()
 
 返回 app request listener。
@@ -141,12 +150,12 @@ const http = require('http')
 const toa = require('toa')
 
 const app = toa()
-
 const server = http.createServer(app.toListener())
 server.listen(3000)
 ```
 
 等效于：
+
 ```js
 const toa = require('toa')
 
@@ -155,7 +164,9 @@ app.listen(3000)
 ```
 
 #### app.listen(port, [hostname], [backlog], [callback])
+
 #### app.listen(path, [callback])
+
 #### app.listen(handle, [callback])
 
 返回 `server`，用法与 `httpServer.listen` 一致。
@@ -169,9 +180,10 @@ app.listen(3000)
 ------
 
 ## Context
-> Similar to [Koa's Context](https://github.com/koajs/koa/blob/master/docs/api/context.md)
 
-### Difference from Koa:
+Similar to [Koa's Context](https://github.com/koajs/koa/blob/master/docs/api/context.md)
+
+### Difference from Koa
 
 - remove `ctx.app`
 - add `ctx.thunk` method, it is thunk function that bound a scope with `onerror`.
@@ -206,15 +218,19 @@ Many of the context's accessors and methods simply delegate to their `ctx.reques
 ### Events
 
 #### 'close'
+
 Emitted after a HTTP request closed, indicates that the socket has been closed, and `context.closed` will be `true`.
 
 #### 'end'
+
 Emitted after respond() was called, indicates that body was sent. and `context.ended` will be `true`
 
 #### 'finish'
+
 Emitted after a HTTP response finished. and `context.finished` will be `true`.
 
 #### 'error'
+
 A context always listen `'error'` event by `ctx.onerror`. `ctx.onerror` is a **immutable** error handle. So you can use `ctx.emit('error', error)` to deal with your exception or error.
 
 ### API
@@ -234,8 +250,11 @@ Use to stopping request process and respond immediately. **It should not run in 
 - `message` String, see: https://github.com/thunks/thunks
 
 #### ctx.after(function () {})
+
 #### ctx.after(function (callback) {})
+
 #### ctx.after(function * () {})
+
 #### ctx.after(async function () {})
 
 Add hooks dynamicly. Hooks will be executed in LIFO order after middlewares, but before `respond`.
@@ -412,7 +431,8 @@ The following accessors and alias [Response](response.md) equivalents:
 ------
 
 ## Request
-> The same as [Koa's Request](https://github.com/koajs/koa/blob/master/docs/api/request.md)
+
+The same as [Koa's Request](https://github.com/koajs/koa/blob/master/docs/api/request.md)
 
 `Request` object is an abstraction on top of node's vanilla request object, providing additional functionality that is useful for every day HTTP server development.
 
@@ -755,7 +775,8 @@ Return request header.
 ------
 
 ## Response
-> The same as [Koa's Response](https://github.com/koajs/koa/blob/master/docs/api/response.md)
+
+The same as [Koa's Response](https://github.com/koajs/koa/blob/master/docs/api/response.md)
 
 `Response` object is an abstraction on top of node's vanilla response object, providing additional functionality that is useful for every day HTTP server development.
 
@@ -781,62 +802,62 @@ Get response status. By default, `response.status` is not set unlike node's `res
 
 Set response status via numeric code:
 
-  - 100 "continue"
-  - 101 "switching protocols"
-  - 102 "processing"
-  - 200 "ok"
-  - 201 "created"
-  - 202 "accepted"
-  - 203 "non-authoritative information"
-  - 204 "no content"
-  - 205 "reset content"
-  - 206 "partial content"
-  - 207 "multi-status"
-  - 300 "multiple choices"
-  - 301 "moved permanently"
-  - 302 "moved temporarily"
-  - 303 "see other"
-  - 304 "not modified"
-  - 305 "use proxy"
-  - 307 "temporary redirect"
-  - 400 "bad request"
-  - 401 "unauthorized"
-  - 402 "payment required"
-  - 403 "forbidden"
-  - 404 "not found"
-  - 405 "method not allowed"
-  - 406 "not acceptable"
-  - 407 "proxy authentication required"
-  - 408 "request time-out"
-  - 409 "conflict"
-  - 410 "gone"
-  - 411 "length required"
-  - 412 "precondition failed"
-  - 413 "request entity too large"
-  - 414 "request-uri too large"
-  - 415 "unsupported media type"
-  - 416 "requested range not satisfiable"
-  - 417 "expectation failed"
-  - 418 "i'm a teapot"
-  - 422 "unprocessable entity"
-  - 423 "locked"
-  - 424 "failed dependency"
-  - 425 "unordered collection"
-  - 426 "upgrade required"
-  - 428 "precondition required"
-  - 429 "too many requests"
-  - 431 "request header fields too large"
-  - 500 "internal server error"
-  - 501 "not implemented"
-  - 502 "bad gateway"
-  - 503 "service unavailable"
-  - 504 "gateway time-out"
-  - 505 "http version not supported"
-  - 506 "variant also negotiates"
-  - 507 "insufficient storage"
-  - 509 "bandwidth limit exceeded"
-  - 510 "not extended"
-  - 511 "network authentication required"
+- 100 "continue"
+- 101 "switching protocols"
+- 102 "processing"
+- 200 "ok"
+- 201 "created"
+- 202 "accepted"
+- 203 "non-authoritative information"
+- 204 "no content"
+- 205 "reset content"
+- 206 "partial content"
+- 207 "multi-status"
+- 300 "multiple choices"
+- 301 "moved permanently"
+- 302 "moved temporarily"
+- 303 "see other"
+- 304 "not modified"
+- 305 "use proxy"
+- 307 "temporary redirect"
+- 400 "bad request"
+- 401 "unauthorized"
+- 402 "payment required"
+- 403 "forbidden"
+- 404 "not found"
+- 405 "method not allowed"
+- 406 "not acceptable"
+- 407 "proxy authentication required"
+- 408 "request time-out"
+- 409 "conflict"
+- 410 "gone"
+- 411 "length required"
+- 412 "precondition failed"
+- 413 "request entity too large"
+- 414 "request-uri too large"
+- 415 "unsupported media type"
+- 416 "requested range not satisfiable"
+- 417 "expectation failed"
+- 418 "i'm a teapot"
+- 422 "unprocessable entity"
+- 423 "locked"
+- 424 "failed dependency"
+- 425 "unordered collection"
+- 426 "upgrade required"
+- 428 "precondition required"
+- 429 "too many requests"
+- 431 "request header fields too large"
+- 500 "internal server error"
+- 501 "not implemented"
+- 502 "bad gateway"
+- 503 "service unavailable"
+- 504 "gateway time-out"
+- 505 "http version not supported"
+- 506 "variant also negotiates"
+- 507 "insufficient storage"
+- 509 "bandwidth limit exceeded"
+- 510 "not extended"
+- 511 "network authentication required"
 
 __NOTE__: don't worry too much about memorizing these strings,
 if you have a typo an error will be thrown, displaying this list
@@ -866,11 +887,11 @@ Get response body.
 
 Set response body to one of the following:
 
-  - `string` written
-  - `Buffer` written
-  - `Stream` piped
-  - `Object` json-stringified
-  - `null` no content response
+- `string` written
+- `Buffer` written
+- `Stream` piped
+- `Object` json-stringified
+- `null` no content response
 
 If `response.status` has not been set, Toa will automatically set the status to `200` or `204`.
 
