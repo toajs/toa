@@ -3,8 +3,8 @@
 //
 // **License:** MIT
 
-// `/path-to-node-v7/node --harmony example/async_await.es.js`
-
+// Node.js 8: node async_await.js
+// Visit: http://127.0.0.1:3000/
 const ilog = require('ilog')
 const Toa = require('..')
 

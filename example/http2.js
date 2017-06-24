@@ -5,10 +5,10 @@
 
 // run: node https.js
 // Visit: https://127.0.0.1:3000/
-const https = require('https')
+const http2 = require('http2')
 const fs = require('fs')
 const Toa = require('..')
-const server = https.createServer({
+const server = http2.createServer({
   key: fs.readFileSync('./localhost.key'),
   cert: fs.readFileSync('./localhost.crt')
 })

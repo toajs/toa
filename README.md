@@ -1,5 +1,5 @@
-Toa
-====
+# Toa
+
 简洁而强大的 web 框架。
 
 ![Toa](https://raw.githubusercontent.com/toajs/toa/master/toa.png)
@@ -67,11 +67,31 @@ app.use(async function () {
 app.listen(3000, () => console.log('App start at 3000'))
 ```
 
+## With HTTP/2
+
+```js
+// Visit: https://127.0.0.1:3000/
+const http2 = require('http2')
+const fs = require('fs')
+const Toa = require('toa')
+const server = http2.createServer({
+  key: fs.readFileSync('./localhost.key'),
+  cert: fs.readFileSync('./localhost.crt')
+})
+
+const app = new Toa(server)
+app.use(function () {
+  this.body = 'Hello World!\n-- toa'
+})
+
+app.listen(3000, () => console.log('https://127.0.0.1:3000/'))
+```
+
 ## Install
 
-````
+```sh
 npm install toa
-````
+```
 
 ## Toa 简介
 
@@ -92,12 +112,14 @@ npm install toa
 ![Toa Process](https://raw.githubusercontent.com/toajs/toa/master/doc/process_toa.png)
 
 ## 功能模块
+
 与 Koa 一样， Toa 也没有绑定多余的功能，而仅仅提供了一个轻量优雅的函数库，异步控制处理器和强大的扩展能力。
 
 使用者可以根据自己的需求选择独立的功能模块或中间件，或自己实现相关功能模块。以下是 Toajs 提供的基础性的功能模块。它们已能满足大多数的应用需求。
 
 - [toa-pm](https://github.com/toajs/toa-pm) Process events manager for toa.
 - [toa-ejs](https://github.com/toajs/toa-ejs) Ejs render module for toa.
+- [toa-cors](https://github.com/toajs/toa-cors) CORS middleware for Toa.
 - [toa-mejs](https://github.com/toajs/toa-mejs) Mejs render module for toa.
 - [toa-i18n](https://github.com/toajs/toa-i18n) I18n middleware for toa.
 - [toa-body](https://github.com/toajs/toa-body) Request body parser for toa.
@@ -118,9 +140,13 @@ npm install toa
 ## API
 
 ### [使用手册](https://github.com/toajs/toa/blob/master/doc/guide.md)
+
 ### [Application](https://github.com/toajs/toa/blob/master/doc/api/application.md)
+
 ### [Context](https://github.com/toajs/toa/blob/master/doc/api/context.md)
+
 ### [Request](https://github.com/toajs/toa/blob/master/doc/api/request.md)
+
 ### [Response](https://github.com/toajs/toa/blob/master/doc/api/response.md)
 
 ## [Change Log](https://github.com/toajs/toa/blob/master/CHANGELOG.md)
