@@ -26,6 +26,7 @@ tman.suite('app', function () {
 
     return request(app.listen())
       .get('/')
+      .expect('Server', 'Toa/' + Toa.VERSION)
       .expect(200)
   })
 
@@ -1248,7 +1249,7 @@ tman.suite('app.context', function () {
     assert.throws(function () {
       app.config = null
     })
-    assert.strictEqual(app.config.poweredBy, 'Toa')
+    assert.strictEqual(app.config.poweredBy, '')
   })
 
   tman.it('should not affect the application config', function () {

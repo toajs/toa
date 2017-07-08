@@ -5,6 +5,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 -----
 
+## [3.0.1] - 2017-07-08
+
+### Changed
+
+- Add "server" header to response.
+- Remove default "x-powered-by" header.
+
+-----
+
 ## [3.0.0] - 2017-06-24
 
 ### Changed
