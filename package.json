@@ -46,7 +46,7 @@
     "vary": "~1.1.1"
   },
   "devDependencies": {
-    "@types/node": "^8.0.9",
+    "@types/node": "^8.0.12",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-polyfill": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
@@ -59,7 +59,7 @@
     "supertest": "^3.0.0",
     "test-console": "^1.0.0",
     "through2": "^2.0.3",
-    "tman": "^1.6.9",
+    "tman": "^1.7.1",
     "ts-node": "^3.2.0",
     "typescript": "^2.4.1",
     "typings": "^2.1.1",

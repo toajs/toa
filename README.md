@@ -126,7 +126,7 @@ npm install toa
 - [toa-token](https://github.com/toajs/toa-token) Token based authentication for toa.
 - [toa-router](https://github.com/toajs/toa-router) A trie router for toa.
 - [toa-static](https://github.com/toajs/toa-static) A static server module for toa.
-- [toa-morgan](https://github.com/toajs/toa-morgan) HTTP request logger middleware for Toa.
+- [toa-logging](https://github.com/toajs/toa-logging) HTTP request logger middleware for Toa.
 - [toa-favicon](https://github.com/toajs/toa-favicon) Favicon middleware for toa.
 - [toa-session](https://github.com/toajs/toa-session) Session middleware for toa.
 - [toa-compress](https://github.com/toajs/toa-compress) Compress responses middleware for toa.
