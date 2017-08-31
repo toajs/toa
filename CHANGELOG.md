@@ -5,6 +5,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 -----
 
+## [3.0.5] - 2017-08-31
+
+### Changed
+
+- Update dependencies.
+
+-----
+
 ## [3.0.4] - 2017-08-24
 
 ### Changed
