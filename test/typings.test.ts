@@ -7,8 +7,8 @@ import * as assert from 'assert'
 import { suite, it } from 'tman'
 import { EventEmitter } from 'events'
 
-import * as Toa from '../'
-import { Toa as Toa1, NAME } from '../'
+import * as Toa from '..'
+import { Toa as Toa1, NAME } from '..'
 
 const supertest = require('supertest')
 
