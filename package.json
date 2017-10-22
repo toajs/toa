@@ -47,7 +47,6 @@
   },
   "devDependencies": {
     "@types/node": "^8.0.46",
-    "http2": "^3.3.7",
     "ilog": "^1.2.0",
     "istanbul": "^0.4.5",
     "koa": "^2.3.0",

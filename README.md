@@ -74,7 +74,7 @@ app.listen(3000, () => console.log('App start at 3000'))
 const http2 = require('http2')
 const fs = require('fs')
 const Toa = require('toa')
-const server = http2.createServer({
+const server = http2.createSecureServer({
   key: fs.readFileSync('./localhost.key'),
   cert: fs.readFileSync('./localhost.crt')
 })
