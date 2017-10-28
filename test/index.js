@@ -140,29 +140,6 @@ tman.suite('app', function () {
       .expect('hello')
   })
 
-  tman.it('error should have headerSent when occured after send', function (done) {
-    const app = new Toa()
-    app.use(function () {
-      this.body = 'hello'
-      this.thunk.delay.call(this, 100)(function () {
-        this.throw(500)
-      })
-    })
-
-    app.onerror = function (err) {
-      assert.strictEqual(err.status, 500)
-      assert.strictEqual(err.headerSent, true)
-      assert.strictEqual(err.context.request instanceof Object, true)
-      assert.strictEqual(err.context.response instanceof Object, true)
-      done()
-    }
-
-    return request(app.listen())
-      .get('/')
-      .expect(200)
-      .end(function () {})
-  })
-
   tman.it('should respond non-error by onResError', function () {
     const app = new Toa()
     app.use(function () {

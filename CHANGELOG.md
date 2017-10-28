@@ -5,6 +5,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 -----
 
+## [3.1.0] - 2017-10-28
+
+### Changed
+
+- Remove internal error listener.
+
+-----
+
 ## [3.0.8] - 2017-10-21
 
 ### Changed

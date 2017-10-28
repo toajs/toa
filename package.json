@@ -4,7 +4,7 @@
   "authors": [
     "Yan Qing <admin@zensh.com>"
   ],
-  "version": "3.0.8",
+  "version": "3.1.0",
   "main": "lib/application.js",
   "typings": "index.d.ts",
   "license": "MIT",
@@ -46,7 +46,7 @@
     "vary": "~1.1.2"
   },
   "devDependencies": {
-    "@types/node": "^8.0.46",
+    "@types/node": "^8.0.47",
     "ilog": "^1.2.0",
     "istanbul": "^0.4.5",
     "koa": "^2.3.0",

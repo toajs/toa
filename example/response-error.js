@@ -6,9 +6,8 @@
 const Toa = require('..')
 const app = new Toa()
 
-app.use(function (done) {
+app.use(function () {
   this.throw(401, new Error('Unauthorized'))
-  done()
 })
 
 app.use(function () {
