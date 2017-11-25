@@ -4,7 +4,7 @@
   "authors": [
     "Yan Qing <admin@zensh.com>"
   ],
-  "version": "3.1.0",
+  "version": "3.1.1",
   "main": "lib/application.js",
   "typings": "index.d.ts",
   "license": "MIT",
@@ -46,17 +46,17 @@
     "vary": "~1.1.2"
   },
   "devDependencies": {
-    "@types/node": "^8.0.47",
+    "@types/node": "^8.0.53",
     "ilog": "^1.2.0",
     "istanbul": "^0.4.5",
-    "koa": "^2.3.0",
+    "koa": "^2.4.1",
     "standard": "^10.0.3",
     "supertest": "^3.0.0",
-    "test-console": "^1.0.0",
+    "test-console": "^1.1.0",
     "through2": "^2.0.3",
     "tman": "^1.7.3",
     "ts-node": "^3.3.0",
-    "typescript": "^2.5.3",
+    "typescript": "^2.6.1",
     "typings": "^2.1.1",
     "vinyl": "^2.1.0",
     "vinyl-fs": "^2.4.4"

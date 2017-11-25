@@ -5,6 +5,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 -----
 
+## [3.1.1] - 2017-11-25
+
+### Changed
+
+- Improve context.end.
+
 ## [3.1.0] - 2017-10-28
 
 ### Changed

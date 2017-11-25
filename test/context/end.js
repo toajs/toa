@@ -77,7 +77,7 @@ tman.suite('context end', function () {
 
     return request(app.listen())
       .get('/')
-      .expect(421)
+      .expect(200)
   })
 
   tman.it('after hooks should run only once when ctx.end()', function () {
@@ -94,7 +94,7 @@ tman.suite('context end', function () {
 
     return request(app.listen())
       .get('/')
-      .expect(421)
+      .expect(200)
       .expect(function (res) {
         assert.strictEqual(called, 1)
       })
