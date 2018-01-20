@@ -19,8 +19,7 @@ tman.suite('catch error', function () {
     return request(app.listen())
       .get('/')
       .expect(418)
-      .expect('Content-Type', 'text/plain; charset=utf-8')
-      .expect('Content-Length', '4')
+      .expect('Content-Type', 'application/json; charset=utf-8')
   })
 
   tman.it('should unset all headers except ON_ERROR_HEADER_REG', function () {
@@ -38,8 +37,7 @@ tman.suite('catch error', function () {
     return request(app.listen())
       .get('/')
       .expect(418)
-      .expect('Content-Type', 'text/plain; charset=utf-8')
-      .expect('Content-Length', '4')
+      .expect('Content-Type', 'application/json; charset=utf-8')
       .expect(function (res) {
         assert.strictEqual(res.headers.vary, 'Accept-Encoding')
         assert.strictEqual(res.headers['x-csrf-token'], undefined)
@@ -63,8 +61,8 @@ tman.suite('catch error', function () {
         return request(app.listen())
           .get('/')
           .expect(500)
-          .expect('Content-Type', 'text/plain; charset=utf-8')
-          .expect('Internal Server Error')
+          .expect('Content-Type', 'application/json; charset=utf-8')
+          .expect({error: 'Error', message: 'Internal Server Error'})
       })
     })
 
@@ -84,8 +82,8 @@ tman.suite('catch error', function () {
         return request(app.listen())
           .get('/')
           .expect(500)
-          .expect('Content-Type', 'text/plain; charset=utf-8')
-          .expect('Internal Server Error')
+          .expect('Content-Type', 'application/json; charset=utf-8')
+          .expect({error: 'Error', message: 'Internal Server Error'})
       })
     })
   })

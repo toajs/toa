@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file starting fro
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 -----
+## [3.2.0] - 2018-01-20
+
+### Changed
+
+- Change error response to application/json as default.
+
 ## [3.1.2] - 2018-01-13
 
 ### Changed
@@ -22,8 +28,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove internal error listener.
 
------
-
 ## [3.0.8] - 2017-10-21
 
 ### Changed
@@ -31,15 +35,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Update dependencies.
 - Improve code.
 
------
-
 ## [3.0.7] - 2017-09-23
 
 ### Changed
 
 - Update dependencies.
-
------
 
 ## [3.0.6] - 2017-09-16
 
@@ -47,15 +47,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Update dependencies.
 
------
-
 ## [3.0.5] - 2017-08-31
 
 ### Changed
 
 - Update dependencies.
-
------
 
 ## [3.0.4] - 2017-08-24
 
@@ -63,23 +59,17 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Update dependencies.
 
------
-
 ## [3.0.3] - 2017-08-14
 
 ### Changed
 
 - Update dependencies.
 
------
-
 ## [3.0.2] - 2017-07-26
 
 ### Changed
 
 - Update dependencies.
-
------
 
 ## [3.0.1] - 2017-07-08
 
@@ -88,16 +78,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add "server" header to response.
 - Remove default "x-powered-by" header.
 
------
-
 ## [3.0.0] - 2017-06-24
 
 ### Changed
 
 - Remove lastHandler.
 - Remove ctx.onPreEnd.
-
------
 
 ## [2.6.8] - 2017-06-03
 

@@ -79,7 +79,7 @@ tman.suite('app', function () {
       .expect(404)
       .expect((res) => {
         assert.strictEqual(res.header['x-content-type-options'], 'nosniff')
-        assert.strictEqual(res.header['content-type'], 'text/plain; charset=utf-8')
+        assert.strictEqual(res.header['content-type'], 'application/json; charset=utf-8')
       })
   })
 
@@ -868,7 +868,7 @@ tman.suite('app.respond', function () {
       app.onerror = function () {}
       return request(app.listen())
         .get('/')
-        .expect('content-type', 'text/plain; charset=utf-8')
+        .expect('content-type', 'application/json; charset=utf-8')
         .expect(404)
     })
 
@@ -897,7 +897,7 @@ tman.suite('app.respond', function () {
 
       return request(app.listen())
         .get('/')
-        .expect('content-type', 'text/plain; charset=utf-8')
+        .expect('content-type', 'application/json; charset=utf-8')
         .expect(404)
     })
 
@@ -984,7 +984,7 @@ tman.suite('app.respond', function () {
       return request(app.listen())
         .get('/')
         .expect('content-type', 'application/json; charset=utf-8')
-        .expect('{"hello":"world"}')
+        .expect({hello: 'world'})
     })
   })
 
@@ -1021,7 +1021,8 @@ tman.suite('app.respond', function () {
 
         return request(app.listen())
           .get('/')
-          .expect(403, 'sorry!')
+          .expect('content-type', 'application/json; charset=utf-8')
+          .expect(403, {error: 'Error', message: 'sorry!'})
       })
     })
 
@@ -1036,7 +1037,8 @@ tman.suite('app.respond', function () {
 
         return request(app.listen())
           .get('/')
-          .expect(403, 'Forbidden')
+          .expect('content-type', 'application/json; charset=utf-8')
+          .expect(403, {error: 'Error', message: 'Forbidden'})
       })
     })
 
@@ -1052,7 +1054,8 @@ tman.suite('app.respond', function () {
 
       return request(app.listen())
         .get('/')
-        .expect(500, 'Internal Server Error')
+        .expect('content-type', 'application/json; charset=utf-8')
+        .expect(500, {error: 'Error', message: 'Internal Server Error'})
     })
 
     tman.it('should be catchable', function () {
