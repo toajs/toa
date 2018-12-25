@@ -10,7 +10,7 @@ tman.suite('ctx.acceptsLanguages(langs)', function () {
       tman.it('should return accepted types', function () {
         let ctx = context()
         ctx.req.headers['accept-language'] = 'en;q=0.8, es, pt'
-        assert.deepEqual(ctx.acceptsLanguages(), ['es', 'pt', 'en'])
+        assert.deepStrictEqual(ctx.acceptsLanguages(), ['es', 'pt', 'en'])
       })
     })
   })

@@ -9,6 +9,6 @@ tman.suite('ctx.inspect()', function () {
     let ctx = context()
     let toJSON = ctx.toJSON(ctx)
 
-    assert.deepEqual(toJSON, ctx.inspect())
+    assert.deepStrictEqual(toJSON, ctx.inspect())
   })
 })

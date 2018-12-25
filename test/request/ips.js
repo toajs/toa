@@ -11,7 +11,7 @@ tman.suite('req.ips', function () {
         let req = request()
         req.ctx.config.proxy = false
         req.header['x-forwarded-for'] = '127.0.0.1,127.0.0.2'
-        assert.deepEqual(req.ips, [])
+        assert.deepStrictEqual(req.ips, [])
       })
     })
 
@@ -20,7 +20,7 @@ tman.suite('req.ips', function () {
         let req = request()
         req.ctx.config.proxy = true
         req.header['x-forwarded-for'] = '127.0.0.1,127.0.0.2'
-        assert.deepEqual(req.ips, ['127.0.0.1', '127.0.0.2'])
+        assert.deepStrictEqual(req.ips, ['127.0.0.1', '127.0.0.2'])
       })
     })
   })

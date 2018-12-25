@@ -163,7 +163,7 @@ tman.suite('app', function () {
   tman.it('should respond non-error-400', function () {
     const app = new Toa({
       onerror: function (err) {
-        return {status: err.status, name: err.name, message: 'Invalid params'}
+        return { status: err.status, name: err.name, message: 'Invalid params' }
       }
     })
 
@@ -184,7 +184,7 @@ tman.suite('app', function () {
   tman.it('should work with options', function () {
     const app = new Toa({
       onerror: function (err) {
-        return {status: err.status, message: 'some error'}
+        return { status: err.status, message: 'some error' }
       }
     })
     app.use(function () {
@@ -194,7 +194,7 @@ tman.suite('app', function () {
     return request(app.listen())
       .get('/')
       .expect(404)
-      .expect({status: 404, message: 'some error'})
+      .expect({ status: 404, message: 'some error' })
   })
 
   tman.it('should work with pipeling request', function (done) {
@@ -312,7 +312,7 @@ tman.suite('app.use(fn)', function () {
       assert.ok(this instanceof app.Context)
       assert.strictEqual(++count, 9)
       return function (done) {
-        this.body = {count: ++count}
+        this.body = { count: ++count }
         done()
       }
     })
@@ -320,7 +320,7 @@ tman.suite('app.use(fn)', function () {
     return request(app.listen())
       .get('/')
       .expect(200)
-      .expect({count: 10})
+      .expect({ count: 10 })
   })
 })
 
@@ -335,7 +335,7 @@ tman.suite('app.onerror(err)', function () {
       app.onerror(err)
     })
 
-    assert.deepEqual(output, [])
+    assert.deepStrictEqual(output, [])
   })
 
   tman.it('should log the error to stderr', function () {
@@ -348,7 +348,7 @@ tman.suite('app.onerror(err)', function () {
       app.onerror(err)
     })
 
-    assert.deepEqual(output, ['  Foo\n'])
+    assert.deepStrictEqual(output, ['  Foo\n'])
   })
 
   tman.it('should transform non-error to error object', function () {
@@ -795,7 +795,7 @@ tman.suite('app.respond', function () {
         .expect(function (res) {
           var pkg = require('../package')
           assert.strictEqual(res.header['content-length'], undefined)
-          assert.deepEqual(res.body, pkg)
+          assert.deepStrictEqual(res.body, pkg)
         })
     })
 
@@ -813,7 +813,7 @@ tman.suite('app.respond', function () {
         .expect(function (res) {
           var pkg = require('../package')
           assert.strictEqual(res.header['content-length'], undefined)
-          assert.deepEqual(res.body, pkg)
+          assert.deepStrictEqual(res.body, pkg)
         })
     })
 
@@ -831,7 +831,7 @@ tman.suite('app.respond', function () {
         .expect(function (res) {
           var pkg = require('../package')
           assert.strictEqual(res.header['content-length'] > 0, true)
-          assert.deepEqual(res.body, pkg)
+          assert.deepStrictEqual(res.body, pkg)
         })
     })
 
@@ -851,7 +851,7 @@ tman.suite('app.respond', function () {
         .expect(function (res) {
           var pkg = require('../package')
           assert.strictEqual(res.header['content-length'] > 0, true)
-          assert.deepEqual(res.body, pkg)
+          assert.deepStrictEqual(res.body, pkg)
         })
     })
 
@@ -984,7 +984,7 @@ tman.suite('app.respond', function () {
       return request(app.listen())
         .get('/')
         .expect('content-type', 'application/json; charset=utf-8')
-        .expect({hello: 'world'})
+        .expect({ hello: 'world' })
     })
   })
 
@@ -1022,7 +1022,7 @@ tman.suite('app.respond', function () {
         return request(app.listen())
           .get('/')
           .expect('content-type', 'application/json; charset=utf-8')
-          .expect(403, {error: 'Error', message: 'sorry!'})
+          .expect(403, { error: 'Error', message: 'sorry!' })
       })
     })
 
@@ -1038,7 +1038,7 @@ tman.suite('app.respond', function () {
         return request(app.listen())
           .get('/')
           .expect('content-type', 'application/json; charset=utf-8')
-          .expect(403, {error: 'Error', message: 'Forbidden'})
+          .expect(403, { error: 'Error', message: 'Forbidden' })
       })
     })
 
@@ -1055,7 +1055,7 @@ tman.suite('app.respond', function () {
       return request(app.listen())
         .get('/')
         .expect('content-type', 'application/json; charset=utf-8')
-        .expect(500, {error: 'Error', message: 'Internal Server Error'})
+        .expect(500, { error: 'Error', message: 'Internal Server Error' })
     })
 
     tman.it('should be catchable', function () {

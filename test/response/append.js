@@ -10,17 +10,17 @@ tman.suite('ctx.append(name, val)', function () {
 
     ctx.append('x-foo', 'bar1')
     ctx.append('x-foo', 'bar2')
-    assert.deepEqual(ctx.response.header['x-foo'], ['bar1', 'bar2'])
+    assert.deepStrictEqual(ctx.response.header['x-foo'], ['bar1', 'bar2'])
   })
 
   tman.it('should accept array of values', function () {
     let ctx = context()
 
     ctx.append('Set-Cookie', ['foo=bar', 'fizz=buzz'])
-    assert.deepEqual(ctx.response.header['set-cookie'], ['foo=bar', 'fizz=buzz'])
+    assert.deepStrictEqual(ctx.response.header['set-cookie'], ['foo=bar', 'fizz=buzz'])
 
     ctx.append('Set-Cookie', ['name=zhang', 'age=30'])
-    assert.deepEqual(ctx.response.header['set-cookie'], ['foo=bar', 'fizz=buzz', 'name=zhang', 'age=30'])
+    assert.deepStrictEqual(ctx.response.header['set-cookie'], ['foo=bar', 'fizz=buzz', 'name=zhang', 'age=30'])
   })
 
   tman.it('should get reset by res.set(field, val)', function () {
@@ -37,6 +37,6 @@ tman.suite('ctx.append(name, val)', function () {
 
     ctx.set('Link', '<http://localhost/>')
     ctx.append('Link', '<http://localhost:80/>')
-    assert.deepEqual(ctx.response.header.link, ['<http://localhost/>', '<http://localhost:80/>'])
+    assert.deepStrictEqual(ctx.response.header.link, ['<http://localhost/>', '<http://localhost:80/>'])
   })
 })

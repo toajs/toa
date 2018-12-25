@@ -18,7 +18,7 @@ tman.suite('res.inspect()', function () {
     let res = response()
     res.body = 'hello'
 
-    assert.deepEqual(res.inspect(), {
+    assert.deepStrictEqual(res.inspect(), {
       body: 'hello',
       status: 200,
       message: 'OK',

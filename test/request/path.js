@@ -24,7 +24,7 @@ tman.suite('ctx.path=', function () {
   })
 
   tman.it('should change .url but not .originalUrl', function () {
-    let ctx = context({url: '/login'})
+    let ctx = context({ url: '/login' })
     ctx.path = '/logout'
     assert.strictEqual(ctx.url, '/logout')
     assert.strictEqual(ctx.originalUrl, '/login')
@@ -32,7 +32,7 @@ tman.suite('ctx.path=', function () {
   })
 
   tman.it('should not affect parseurl', function () {
-    let ctx = context({url: '/login?foo=bar'})
+    let ctx = context({ url: '/login?foo=bar' })
     ctx.path = '/login'
     let url = parseurl(ctx.req)
     assert.strictEqual(url.path, '/login?foo=bar')

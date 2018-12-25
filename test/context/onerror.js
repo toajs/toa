@@ -62,7 +62,7 @@ tman.suite('catch error', function () {
           .get('/')
           .expect(500)
           .expect('Content-Type', 'application/json; charset=utf-8')
-          .expect({error: 'Error', message: 'Internal Server Error'})
+          .expect({ error: 'Error', message: 'Internal Server Error' })
       })
     })
 
@@ -83,7 +83,7 @@ tman.suite('catch error', function () {
           .get('/')
           .expect(500)
           .expect('Content-Type', 'application/json; charset=utf-8')
-          .expect({error: 'Error', message: 'Internal Server Error'})
+          .expect({ error: 'Error', message: 'Internal Server Error' })
       })
     })
   })

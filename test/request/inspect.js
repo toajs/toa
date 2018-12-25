@@ -20,7 +20,7 @@ tman.suite('req.inspect()', function () {
     req.url = 'example.com'
     req.header.host = 'example.com'
 
-    assert.deepEqual(req.inspect(), {
+    assert.deepStrictEqual(req.inspect(), {
       method: 'GET',
       url: 'example.com',
       header: {

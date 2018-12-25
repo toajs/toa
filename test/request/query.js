@@ -10,12 +10,12 @@ tman.suite('ctx.query', function () {
       let ctx = context({
         url: '/'
       })
-      assert.deepEqual(ctx.query, {})
+      assert.deepStrictEqual(Object.assign({}, ctx.query), {})
     })
   })
 
   tman.it('should return the same object each time it\'s accessed', function () {
-    let ctx = context({url: '/'})
+    let ctx = context({ url: '/' })
     ctx.query.a = '2'
     assert.strictEqual(ctx.query.a, '2')
   })

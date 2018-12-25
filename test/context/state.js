@@ -10,7 +10,7 @@ tman.suite('ctx.state', function () {
     const app = new Toa()
 
     app.use(function (next) {
-      assert.deepEqual(this.state, {})
+      assert.deepStrictEqual(this.state, {})
       return next()
     })
 

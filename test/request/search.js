@@ -21,7 +21,7 @@ tman.suite('ctx.search=', function () {
     ctx.search = '?page=2&color=blue'
     assert.strictEqual(ctx.url, '/store/shoes?page=2&color=blue')
     assert.strictEqual(ctx.querystring, 'page=2&color=blue')
-    assert.deepEqual(ctx.query, {
+    assert.deepStrictEqual(Object.assign({}, ctx.query), {
       page: '2',
       color: 'blue'
     })

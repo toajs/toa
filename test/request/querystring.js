@@ -22,7 +22,7 @@ tman.suite('ctx.querystring=', function () {
     ctx.querystring = 'page=2&color=blue'
     assert.strictEqual(ctx.url, '/store/shoes?page=2&color=blue')
     assert.strictEqual(ctx.search, '?page=2&color=blue')
-    assert.deepEqual(ctx.query, {
+    assert.deepStrictEqual(Object.assign({}, ctx.query), {
       page: '2',
       color: 'blue'
     })
@@ -39,7 +39,7 @@ tman.suite('ctx.querystring=', function () {
   })
 
   tman.it('should not affect parseurl', function () {
-    let ctx = context({url: '/login?foo=bar'})
+    let ctx = context({ url: '/login?foo=bar' })
     ctx.querystring = 'foo=bar'
     let url = parseurl(ctx.req)
     assert.strictEqual(url.path, '/login?foo=bar')

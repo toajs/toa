@@ -9,6 +9,6 @@ tman.suite('ctx.remove(name)', function () {
     let ctx = context()
     ctx.set('x-foo', 'bar')
     ctx.remove('x-foo')
-    assert.deepEqual(ctx.response.header, {})
+    assert.deepStrictEqual(ctx.response.header, {})
   })
 })

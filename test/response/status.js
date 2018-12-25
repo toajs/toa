@@ -27,7 +27,7 @@ tman.suite('res.status=', function () {
       tman.it('should throw', function () {
         assert.throws(function () {
           response().status = 999
-        }, 'invalid status code: 999')
+        })
       })
     })
 
@@ -54,7 +54,7 @@ tman.suite('res.status=', function () {
     tman.it('should throw', function () {
       assert.throws(function () {
         response().status = 'forbidden'
-      }, 'status code must be a number')
+      })
     })
   })
 

@@ -18,7 +18,7 @@ tman.suite('ctx.toJSON()', function () {
     let req = obj.request
     let res = obj.response
 
-    assert.deepEqual(req, {
+    assert.deepStrictEqual(req, {
       method: 'POST',
       url: '/items',
       header: {
@@ -26,7 +26,7 @@ tman.suite('ctx.toJSON()', function () {
       }
     })
 
-    assert.deepEqual(res, {
+    assert.deepStrictEqual(res, {
       status: 200,
       message: 'OK',
       header: {

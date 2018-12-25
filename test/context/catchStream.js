@@ -110,7 +110,7 @@ tman.suite('catch stream error', function () {
     let address = remote.server.address()
 
     let socket = null
-    let agent = new http.Agent({keepAlive: true, maxSockets: 1})
+    let agent = new http.Agent({ keepAlive: true, maxSockets: 1 })
     const app = new Toa()
     app.use(function () {
       return requestRemote.call(this)(function (_, res) {
@@ -139,7 +139,7 @@ tman.suite('catch stream error', function () {
 
     function requestRemote () {
       return thunk.call(this, function (callback) {
-        let req = http.request({port: address.port, agent: agent}, function (res) {
+        let req = http.request({ port: address.port, agent: agent }, function (res) {
           res.on('error', callback)
           res.on('data', function () {})
           res.on('end', function () {

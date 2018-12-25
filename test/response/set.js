@@ -20,7 +20,7 @@ tman.suite('ctx.set(name, val)', function () {
   tman.it('should set a field value of array', function () {
     let ctx = context()
     ctx.set('x-foo', ['foo', 'bar'])
-    assert.deepEqual(ctx.response.header['x-foo'], ['foo', 'bar'])
+    assert.deepStrictEqual(ctx.response.header['x-foo'], ['foo', 'bar'])
   })
 })
 

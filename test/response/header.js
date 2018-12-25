@@ -8,7 +8,7 @@ tman.suite('res.header', function () {
   tman.it('should return the response header object', function () {
     let res = response()
     res.set('X-Foo', 'bar')
-    assert.deepEqual(res.header, {
+    assert.deepStrictEqual(res.header, {
       'x-foo': 'bar'
     })
   })
@@ -17,7 +17,7 @@ tman.suite('res.header', function () {
     tman.it('should return empty object', function () {
       let res = response()
       res.res._headers = null
-      assert.deepEqual(res.header, {})
+      assert.deepStrictEqual(res.header, {})
     })
   })
 })
