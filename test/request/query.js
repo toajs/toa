@@ -7,7 +7,7 @@ const context = require('../context')
 tman.suite('ctx.query', function () {
   tman.suite('when missing', function () {
     tman.it('should return an empty object', function () {
-      let ctx = context({
+      const ctx = context({
         url: '/'
       })
       assert.deepStrictEqual(Object.assign({}, ctx.query), {})
@@ -15,13 +15,13 @@ tman.suite('ctx.query', function () {
   })
 
   tman.it('should return the same object each time it\'s accessed', function () {
-    let ctx = context({ url: '/' })
+    const ctx = context({ url: '/' })
     ctx.query.a = '2'
     assert.strictEqual(ctx.query.a, '2')
   })
 
   tman.it('should return a parsed query-string', function () {
-    let ctx = context({
+    const ctx = context({
       url: '/?page=2'
     })
     assert.strictEqual(ctx.query.page, '2')
@@ -30,7 +30,7 @@ tman.suite('ctx.query', function () {
 
 tman.suite('ctx.query=', function () {
   tman.it('should stringify and replace the querystring and search', function () {
-    let ctx = context({
+    const ctx = context({
       url: '/store/shoes'
     })
     ctx.query = {
@@ -43,7 +43,7 @@ tman.suite('ctx.query=', function () {
   })
 
   tman.it('should change .url but not .originalUrl', function () {
-    let ctx = context({
+    const ctx = context({
       url: '/store/shoes'
     })
     ctx.query = {

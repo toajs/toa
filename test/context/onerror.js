@@ -51,7 +51,7 @@ tman.suite('catch error', function () {
 
         app.use(function (next) {
           this.body = 'something else'
-          let err = new Error('some error')
+          const err = new Error('some error')
           err.status = 'notnumber'
           throw err
         })
@@ -72,7 +72,7 @@ tman.suite('catch error', function () {
 
         app.use(function (next) {
           this.body = 'something else'
-          let err = new Error('some error')
+          const err = new Error('some error')
           err.status = 9999
           throw err
         })

@@ -11,7 +11,7 @@ tman.suite('res.status=', function () {
   tman.suite('when a status code', function () {
     tman.suite('and valid', function () {
       tman.it('should set the status', function () {
-        let res = response()
+        const res = response()
         res.status = 403
         assert.strictEqual(res.status, 403)
       })
@@ -37,7 +37,7 @@ tman.suite('res.status=', function () {
       })
 
       tman.it('should set the status', function () {
-        let res = response()
+        const res = response()
         res.status = 700
         assert.strictEqual(res.status, 700)
       })

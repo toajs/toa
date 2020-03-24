@@ -8,7 +8,7 @@ const context = require('../context')
 
 tman.suite('ctx.throw(msg)', function () {
   tman.it('should set .status to 500', function (done) {
-    let ctx = context()
+    const ctx = context()
 
     try {
       ctx.throw('boom')
@@ -22,8 +22,8 @@ tman.suite('ctx.throw(msg)', function () {
 
 tman.suite('ctx.throw(err)', function () {
   tman.it('should set .status to 500', function (done) {
-    let ctx = context()
-    let err = new Error('test')
+    const ctx = context()
+    const err = new Error('test')
 
     try {
       ctx.throw(err)
@@ -38,8 +38,8 @@ tman.suite('ctx.throw(err)', function () {
 
 tman.suite('ctx.throw(status, err)', function () {
   tman.it('should throw the error and set .status', function (done) {
-    let ctx = context()
-    let error = new Error('test')
+    const ctx = context()
+    const error = new Error('test')
 
     try {
       ctx.throw(422, error)
@@ -54,7 +54,7 @@ tman.suite('ctx.throw(status, err)', function () {
 
 tman.suite('ctx.throw(status, msg)', function () {
   tman.it('should throw an error', function (done) {
-    let ctx = context()
+    const ctx = context()
 
     try {
       ctx.throw(400, 'name required')
@@ -69,7 +69,7 @@ tman.suite('ctx.throw(status, msg)', function () {
 
 tman.suite('ctx.throw(status)', function () {
   tman.it('should throw an error', function (done) {
-    let ctx = context()
+    const ctx = context()
 
     try {
       ctx.throw(400)
@@ -84,7 +84,7 @@ tman.suite('ctx.throw(status)', function () {
 
 tman.suite('ctx.throw(status, msg, props)', function () {
   tman.it('should mixin props', function (done) {
-    let ctx = context()
+    const ctx = context()
 
     try {
       ctx.throw(400, 'msg', {
@@ -101,7 +101,7 @@ tman.suite('ctx.throw(status, msg, props)', function () {
 
   tman.suite('when props include status', function () {
     tman.it('should be ignored', function (done) {
-      let ctx = context()
+      const ctx = context()
 
       try {
         ctx.throw(400, 'msg', {
@@ -121,7 +121,7 @@ tman.suite('ctx.throw(status, msg, props)', function () {
 
 tman.suite('ctx.throw(msg, props)', function () {
   tman.it('should mixin props', function (done) {
-    let ctx = context()
+    const ctx = context()
 
     try {
       ctx.throw('msg', {
@@ -139,7 +139,7 @@ tman.suite('ctx.throw(msg, props)', function () {
 
 tman.suite('ctx.throw(status, props)', function () {
   tman.it('should mixin props', function (done) {
-    let ctx = context()
+    const ctx = context()
 
     try {
       ctx.throw(400, {
@@ -157,7 +157,7 @@ tman.suite('ctx.throw(status, props)', function () {
 
 tman.suite('ctx.throw(err, props)', function () {
   tman.it('should mixin props', function (done) {
-    let ctx = context()
+    const ctx = context()
 
     try {
       ctx.throw(new Error('test'), {
@@ -179,10 +179,10 @@ tman.suite('ctx.throw with custom ctx.createError', function () {
     app.use(function () {
       this.throw(500)
     })
-    let _createError = app.context.createError
+    const _createError = app.context.createError
 
     app.context.createError = function () {
-      let err = _createError.apply(null, arguments)
+      const err = _createError.apply(null, arguments)
       err.url = this.originalUrl
       return err
     }

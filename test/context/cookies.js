@@ -64,7 +64,7 @@ tman.suite('ctx.cookies.set()', function () {
         .get('/')
         .expect(204)
         .expect(function (res) {
-          let cookies = res.headers['set-cookie']
+          const cookies = res.headers['set-cookie']
 
           assert.strictEqual(cookies.some(function (cookie) {
             return /^name=/.test(cookie)

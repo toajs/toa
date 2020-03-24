@@ -9,8 +9,8 @@ const context = require('../context')
 
 tman.suite('ctx.href', function () {
   tman.it('should return the full request url', function () {
-    let socket = new Stream.Duplex()
-    let req = {
+    const socket = new Stream.Duplex()
+    const req = {
       url: '/users/1?next=dashboard',
       headers: {
         host: 'localhost'
@@ -18,7 +18,7 @@ tman.suite('ctx.href', function () {
       socket: socket,
       __proto__: Stream.Readable.prototype
     }
-    let ctx = context(req)
+    const ctx = context(req)
     assert.strictEqual(ctx.href, 'http://localhost/users/1?next=dashboard')
     // change it also work
     ctx.url = '/foo/users/1?next=/dashboard'
@@ -38,7 +38,7 @@ tman.suite('ctx.href', function () {
   })
 
   tman.it('should work with `GET http://example.com/foo`', function () {
-    let ctx = context()
+    const ctx = context()
     ctx.originalUrl = ctx.request.originalUrl = ctx.req.url = 'http://example.com/foo'
     assert.strictEqual(ctx.request.href, 'http://example.com/foo')
     assert.strictEqual(ctx.href, 'http://example.com/foo')

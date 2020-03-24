@@ -6,7 +6,7 @@ const context = require('../context')
 
 tman.suite('ctx.assert(value, status)', function () {
   tman.it('should throw an error', function () {
-    let ctx = context()
+    const ctx = context()
 
     try {
       ctx.assert(false, 404)

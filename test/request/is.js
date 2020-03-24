@@ -6,7 +6,7 @@ const assert = require('assert')
 
 tman.suite('ctx.is(type)', function () {
   tman.it('should ignore params', function () {
-    let ctx = context()
+    const ctx = context()
     ctx.header['content-type'] = 'text/html; charset=utf-8'
     ctx.header['transfer-encoding'] = 'chunked'
 
@@ -15,7 +15,7 @@ tman.suite('ctx.is(type)', function () {
 
   tman.suite('when no body is given', function () {
     tman.it('should return null', function () {
-      let ctx = context()
+      const ctx = context()
 
       assert.strictEqual(ctx.is() == null, true)
       assert.strictEqual(ctx.is('image/*') == null, true)
@@ -25,7 +25,7 @@ tman.suite('ctx.is(type)', function () {
 
   tman.suite('when no content type is given', function () {
     tman.it('should return false', function () {
-      let ctx = context()
+      const ctx = context()
       ctx.header['transfer-encoding'] = 'chunked'
 
       assert.strictEqual(ctx.is(), false)
@@ -36,7 +36,7 @@ tman.suite('ctx.is(type)', function () {
 
   tman.suite('give no types', function () {
     tman.it('should return the mime type', function () {
-      let ctx = context()
+      const ctx = context()
       ctx.header['content-type'] = 'image/png'
       ctx.header['transfer-encoding'] = 'chunked'
 
@@ -46,7 +46,7 @@ tman.suite('ctx.is(type)', function () {
 
   tman.suite('given one type', function () {
     tman.it('should return the type or false', function () {
-      let ctx = context()
+      const ctx = context()
       ctx.header['content-type'] = 'image/png'
       ctx.header['transfer-encoding'] = 'chunked'
 
@@ -66,7 +66,7 @@ tman.suite('ctx.is(type)', function () {
 
   tman.suite('given multiple types', function () {
     tman.it('should return the first match or false', function () {
-      let ctx = context()
+      const ctx = context()
       ctx.header['content-type'] = 'image/png'
       ctx.header['transfer-encoding'] = 'chunked'
 
@@ -91,7 +91,7 @@ tman.suite('ctx.is(type)', function () {
 
   tman.suite('when Content-Type: application/x-www-form-urlencoded', function () {
     tman.it('should match "urlencoded"', function () {
-      let ctx = context()
+      const ctx = context()
       ctx.header['content-type'] = 'application/x-www-form-urlencoded'
       ctx.header['transfer-encoding'] = 'chunked'
 

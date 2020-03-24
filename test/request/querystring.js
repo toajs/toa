@@ -7,7 +7,7 @@ const parseurl = require('parseurl')
 
 tman.suite('ctx.querystring=', function () {
   tman.it('should replace the querystring', function () {
-    let ctx = context({
+    const ctx = context({
       url: '/store/shoes'
     })
     ctx.querystring = 'page=2&color=blue'
@@ -16,7 +16,7 @@ tman.suite('ctx.querystring=', function () {
   })
 
   tman.it('should update ctx.search and ctx.query', function () {
-    let ctx = context({
+    const ctx = context({
       url: '/store/shoes'
     })
     ctx.querystring = 'page=2&color=blue'
@@ -29,7 +29,7 @@ tman.suite('ctx.querystring=', function () {
   })
 
   tman.it('should change .url but not .originalUrl', function () {
-    let ctx = context({
+    const ctx = context({
       url: '/store/shoes'
     })
     ctx.querystring = 'page=2&color=blue'
@@ -39,9 +39,9 @@ tman.suite('ctx.querystring=', function () {
   })
 
   tman.it('should not affect parseurl', function () {
-    let ctx = context({ url: '/login?foo=bar' })
+    const ctx = context({ url: '/login?foo=bar' })
     ctx.querystring = 'foo=bar'
-    let url = parseurl(ctx.req)
+    const url = parseurl(ctx.req)
     assert.strictEqual(url.path, '/login?foo=bar')
   })
 })

@@ -9,16 +9,16 @@ const Toa = require('../..')
 tman.suite('ctx.attachment([filename])', function () {
   tman.suite('when given a filename', function () {
     tman.it('should set the filename param', function () {
-      let ctx = context()
+      const ctx = context()
       ctx.attachment('path/to/tobi.png')
-      let str = 'attachment; filename="tobi.png"'
+      const str = 'attachment; filename="tobi.png"'
       assert.strictEqual(ctx.response.header['content-disposition'], str)
     })
   })
 
   tman.suite('when omitting filename', function () {
     tman.it('should not set filename param', function () {
-      let ctx = context()
+      const ctx = context()
       ctx.attachment()
       assert.strictEqual(ctx.response.header['content-disposition'], 'attachment')
     })
@@ -26,9 +26,9 @@ tman.suite('ctx.attachment([filename])', function () {
 
   tman.suite('when given a no-ascii filename', function () {
     tman.it('should set the encodeURI filename param', function () {
-      let ctx = context()
+      const ctx = context()
       ctx.attachment('path/to/include-no-ascii-char-中文名-ok.png')
-      let str = 'attachment; filename="include-no-ascii-char-???-ok.png"; filename*=UTF-8\'\'include-no-ascii-char-%E4%B8%AD%E6%96%87%E5%90%8D-ok.png'
+      const str = 'attachment; filename="include-no-ascii-char-???-ok.png"; filename*=UTF-8\'\'include-no-ascii-char-%E4%B8%AD%E6%96%87%E5%90%8D-ok.png'
       assert.strictEqual(ctx.response.header['content-disposition'], str)
     })
 

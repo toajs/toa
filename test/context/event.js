@@ -290,7 +290,6 @@ tman.suite('context events', function () {
       this.on('finish', function () {
         assert.strictEqual(this.ended, true)
         assert.strictEqual(this.finished, true)
-        assert.strictEqual(this.closed, false)
       })
 
       var ctx = this

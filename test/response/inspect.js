@@ -7,7 +7,7 @@ const response = require('../context').response
 tman.suite('res.inspect()', function () {
   tman.suite('with no response.res present', function () {
     tman.it('should return null', function () {
-      let res = response()
+      const res = response()
       res.body = 'hello'
       delete res.res
       assert.strictEqual(res.inspect() === null, true)
@@ -15,7 +15,7 @@ tman.suite('res.inspect()', function () {
   })
 
   tman.it('should return a json representation', function () {
-    let res = response()
+    const res = response()
     res.body = 'hello'
 
     assert.deepStrictEqual(res.inspect(), {

@@ -4,7 +4,7 @@ const Stream = require('stream')
 const toa = require('..')
 
 exports = module.exports = function (req, res) {
-  let socket = new Stream.Duplex()
+  const socket = new Stream.Duplex()
   req = merge({
     headers: {},
     socket: socket,
@@ -24,7 +24,7 @@ exports = module.exports = function (req, res) {
   res.removeHeader = function (k, v) {
     delete res._headers[k.toLowerCase()]
   }
-  let app = toa()
+  const app = toa()
   return new app.Context(req, res)
 }
 

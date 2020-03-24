@@ -144,7 +144,7 @@ tman.suite('app', function () {
     const app = new Toa()
     app.use(function () {
       this.body = 123
-      let obj = {
+      const obj = {
         message: 'some message',
         status: 206
       }
@@ -208,18 +208,18 @@ tman.suite('app', function () {
       assert.strictEqual(socket.listenerCount('error'), 1)
     }).listen()
 
-    let bufs = []
-    let port = server.address().port
-    let buf = Buffer.from('GET / HTTP/1.1\r\nHost: localhost:' +
+    const bufs = []
+    const port = server.address().port
+    const buf = Buffer.from('GET / HTTP/1.1\r\nHost: localhost:' +
       port + '\r\nConnection: keep-alive\r\n\r\n')
-    let client = net.connect(server.address().port)
+    const client = net.connect(server.address().port)
       .on('error', done)
       .on('data', function (buf) {
         bufs.push(buf)
       })
       .on('close', function () {
         assert.strictEqual(count, 5)
-        let res = Buffer.concat(bufs).toString()
+        const res = Buffer.concat(bufs).toString()
         assert.strictEqual(res.match(/HTTP\/1\.1 200 OK/g).length, 5)
         assert.strictEqual(res[res.length - 1], '5')
         done()
@@ -327,11 +327,11 @@ tman.suite('app.use(fn)', function () {
 tman.suite('app.onerror(err)', function () {
   tman.it('should do nothing if status is 404', function () {
     const app = new Toa()
-    let err = new Error()
+    const err = new Error()
 
     err.status = 404
 
-    let output = stderr.inspectSync(function () {
+    const output = stderr.inspectSync(function () {
       app.onerror(err)
     })
 
@@ -341,10 +341,10 @@ tman.suite('app.onerror(err)', function () {
   tman.it('should log the error to stderr', function () {
     const app = new Toa()
 
-    let err = new Error()
+    const err = new Error()
     err.stack = 'Foo'
 
-    let output = stderr.inspectSync(function () {
+    const output = stderr.inspectSync(function () {
       app.onerror(err)
     })
 
@@ -354,8 +354,8 @@ tman.suite('app.onerror(err)', function () {
   tman.it('should transform non-error to error object', function () {
     const app = new Toa()
 
-    let err = 'Foo'
-    let output = stderr.inspectSync(function () {
+    const err = 'Foo'
+    const output = stderr.inspectSync(function () {
       app.onerror(err)
     })
 
@@ -371,7 +371,7 @@ tman.suite('app.respond', function () {
         this.body = 'Hello'
         this.respond = false
 
-        let res = this.res
+        const res = this.res
         res.statusCode = 200
         setImmediate(function () {
           res.setHeader('content-type', 'text/plain')
@@ -1090,7 +1090,7 @@ tman.suite('app.respond', function () {
         .get('/')
         .expect(400)
         .expect(function (res) {
-          assert.strictEqual(res.headers['accept'], 'text/plain')
+          assert.strictEqual(res.headers.accept, 'text/plain')
         })
     })
 
@@ -1105,7 +1105,7 @@ tman.suite('app.respond', function () {
         .get('/')
         .expect(405)
         .expect(function (res) {
-          assert.strictEqual(res.headers['allow'], 'GET, HEAD')
+          assert.strictEqual(res.headers.allow, 'GET, HEAD')
         })
     })
 
@@ -1135,7 +1135,7 @@ tman.suite('app.respond', function () {
         .get('/')
         .expect(400)
         .expect(function (res) {
-          assert.strictEqual(res.headers['warning'], '199 Miscellaneous warning')
+          assert.strictEqual(res.headers.warning, '199 Miscellaneous warning')
         })
     })
 

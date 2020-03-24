@@ -6,7 +6,7 @@ const context = require('../context')
 
 tman.suite('ctx.toJSON()', function () {
   tman.it('should return a json representation', function () {
-    let ctx = context()
+    const ctx = context()
 
     ctx.req.method = 'POST'
     ctx.req.url = '/items'
@@ -14,9 +14,9 @@ tman.suite('ctx.toJSON()', function () {
     ctx.status = 200
     ctx.body = '<p>Hey</p>'
 
-    let obj = JSON.parse(JSON.stringify(ctx))
-    let req = obj.request
-    let res = obj.response
+    const obj = JSON.parse(JSON.stringify(ctx))
+    const req = obj.request
+    const res = obj.response
 
     assert.deepStrictEqual(req, {
       method: 'POST',

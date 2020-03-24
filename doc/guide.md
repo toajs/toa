@@ -94,7 +94,8 @@ app.config 默认值：
   proxy: false, // 决定了哪些 `proxy header` 参数会被加到信任列表中
   env: process.env.NODE_ENV || 'development', // node 执行环境
   subdomainOffset: 2,
-  poweredBy: 'Toa'
+  poweredBy: 'Toa',
+  secureCookie: null
 }
 ```
 
